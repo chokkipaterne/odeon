@@ -9,7 +9,7 @@ HomePage.
 ![Create Project](/assets/create_project.png)
 Create Project.
 
-![List Projects](/assets/home.png)
+![List Projects](/assets/projects.png)
 List Projects.
 
 ![View Project](/assets/view_project.png)
