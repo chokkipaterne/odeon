@@ -1,0 +1,122 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Data Issues - ODEON" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/issues.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <script src="{% static 'js/issues.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-content">
+    <form method="GET" action="{% url 'frontend:issues' %}" id="search-form">
+      <div class="searchdiv">
+        <div class="row">
+          <div class="col m6 l4 s12 keywords">
+            <label>{% trans "Keywords" %}</label>
+              <input placeholder='{% trans "Search comment, name, file title, file description" %}' value="{{search}}" id="search" name="search" type="text" class="browser-default special-input tooltippedf" data-position="top" data-tooltip='{% trans "Keywords" %}'>
+              <button type="submit" class="mt-2 modal-loadproj waves-effect waves-green btn indigo darken-1 lower" style="float: right !important;"><i class="material-icons">search</i></button>
+          </div>
+          <div class="col m6 l4 s12">
+            <label>{% trans "Country" %}</label>
+            <select class="browser-default tooltippedf" name="country" id="country" data-position="top" data-tooltip='{% trans "Country" %}'>
+              <option value=''>{% trans "All" %}</option>
+              {% for ct in request.session.used_countries %}
+                {% if ct == country %}
+                <option value='{{ct}}' selected='selected'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                {% else %}
+                <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col m6 l4 s12" style="position: relative;height: 47px;">
+            <label>{% trans "State/City" %}</label>
+            <input placeholder='{% trans "State/City" %}' id="state" name="state" value="{{state}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "State" %}'>
+          </div>
+          <div class="clear show-on-large hide-on-med-only"></div>
+          <div class="clear hide-on-med-and-up show-on-small"><br/></div>
+          <div class="col m6 l4 s12 schmore {% if not datefrom and not dateto %} hide {% endif %}">
+            <label>{% trans "Created Date From" %}</label>
+            <input placeholder='{% trans "Created Date From" %}' id="datefrom" name="datefrom" value="{{datefrom}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "Created Date From" %}'>
+          </div>
+          <div class="col m6 l4 s12 schmore {% if not datefrom and not dateto %} hide {% endif %}">
+            <label>{% trans "Created Date To" %}</label>
+            <input placeholder='{% trans "Created Date To" %}' id="dateto" name="dateto" value="{{dateto}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "Created Date To" %}'>
+          </div>
+          <div class="col m12 l12 s12 text-right">
+            <span onclick="showmore()" class="text-indigo schless {% if datefrom or dateto %} hide {% endif %}">{% trans "More options" %}</span>
+            <span onclick="showless()" class="text-indigo schmore {% if not datefrom and not dateto %} hide {% endif %}">{% trans "Less options" %}</span>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col m12 l12 s12">
+          <div class="row">
+              <div class="col m12 l12 s12"><h5 style="margin-top:0px; margin-bottom: 1rem;">
+                {{nbissues}}{% trans " data issues found." %}
+              </h5></div>
+          </div>
+          {% if issues %}
+          <div class="row">
+            {% for feed in issues %}
+            <div class="col s12 m6 l4">
+              <div class="card horizontal">
+                <div class="card-content">
+                  <span class="title ptitle">{{feed.username}}</span><small> ({%get_utype feed.user_type %})</small> <span>•</span> {{ feed.created_at|formatdate }} <span>•</span> <a href="{% url 'frontend:explore_data' project_code=feed.project.dash_code code=feed.file.code %}?goto=fd{{feed.id}}">{% trans "View" %}</a>
+                  <p style="margin-top: 10px;" class="sm-marg" id="feed{{key}}">{{feed.comment|truncatechars:100|desfhtml}}</p>
+                  {% if feed.attach %}
+                  <a href="/files/{{feed.attach}}" target="_blank">{% trans "Attachment" %}</a>
+                  {% endif %}
+                  {% if feed.file.more_details.title %}
+                  <p>{% trans "Related File: " %}<a href="{% url 'frontend:explore_data' project_code=feed.project.dash_code code=feed.file.code %}">{{ feed.file.more_details.title|truncatechars:100 }}</a></p>
+                  {% else %}
+                  <p><a href="{% url 'frontend:explore_data' project_code=feed.project.dash_code code=feed.file.code %}">{% trans "No title" %}</a></p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+          {% else %}
+          <div>
+            <p class="center">{% trans "There are no issues matching your request. Please modify your request." %}</p>
+          </div>
+          {% endif %}
+          <div class="clear"></div>
+          <div class="center">
+          {% if issues.has_other_pages %}
+            <ul class="pagination">
+          	{% if issues.has_previous %}
+          	  <li><a href="?search={{ search }}&datefrom={{datefrom}}&dateto={{dateto}}&country={{ country }}&state={{ state }}&page={{ issues.previous_page_number }}">&laquo;</a></li>
+          	{% else %}
+          	  <li class="disabled"><span>&laquo;</span></li>
+          	{% endif %}
+          	{% for i in pages %}
+          	  {% if issues.number == i %}
+          		<li class="active"><span>{{ i }}</span></li>
+          	  {% else %}
+          		<li><a href="?search={{ search }}&datefrom={{datefrom}}&dateto={{dateto}}&country={{ country }}&state={{ state }}&page={{ i }}">{{ i }}</a></li>
+          	  {% endif %}
+          	{% endfor %}
+          	{% if issues.has_next %}
+          	  <li><a href="?search={{ search }}&datefrom={{datefrom}}&dateto={{dateto}}&country={{ country }}&state={{ state }}&page={{ issues.next_page_number }}">&raquo;</a></li>
+          	{% else %}
+          	  <li class="disabled"><span>&raquo;</span></li>
+          	{% endif %}
+            </ul>
+          {% endif %}
+          </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+{% endblock %}

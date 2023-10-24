@@ -1,0 +1,49 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Login" %} - {% trans "ODEON" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/account.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+
+
+{% block content %}
+<div class="container mt-content">
+  <div class="row">
+    <div class="col col-special s12 m12 l12">
+      <h5 class="center indigo-text darken-4">{% trans "Login" %}</h5>
+      <div class="account-data">
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{request.GET.next}}">
+                {% endif %}
+                <div class="center">
+                  <div class="clear"></div>
+                  <button class="btn waves-effect waves-light indigo darken-1 sm-rounded"
+                  data-position="top" data-tooltip='{% trans "Login" %}'
+                   type="submit" name="action">{% trans "Login" %}
+                    <i class="material-icons right">send</i>
+                  </button>
+                </div>
+            </form>
+            <p class="center">
+              {% trans "If you don't have an account" %}, <a href="{% url 'frontend:register' %}"><strong>{% trans "sign up" %}</strong></a> {% trans "instead" %}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+<!--
+Next, forms have various attributes that we can use:
+as_p - paragraph tags
+as_table - as a table
+as_ul - as an unordered list
+-->

@@ -1,0 +1,53 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "About" %} - {% trans "ODEON" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/about.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# JQUERY FILE UPLOAD SCRIPTS #}
+  <script src="{% static 'typing/typing.js' %}?v={%settings_value 'VERSION'%}"></script>
+  <script src="{% static 'js/about.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-content">
+  <div class="row">
+    <div class="col col-special s12 m12 l12">
+      <h5 class="center indigo-text darken-4 no-mb" id="text-top">{% trans "About ODEON" %}</h5>
+      <p class="headline container center">
+        <a href="javascript:void(0)" class="typewrite" data-period="100" data-type='[ "{% trans "Colloborative platform between OGD stakeholders." %}", "{% trans "Centralized repository for OGD initiatives." %}", "{% trans "Facilitate rapid prototyping of projects using OGD." %}" ]'>
+          <span class="wrap"></span>
+        </a>
+      </p>
+      <div class="init-project row">
+        <div class="col col-special s12 m9 l8">
+          <p>
+            {% blocktrans %}
+            ODEON is a centralized repository whose objective is to facilitate communication betweeen
+            Open Government Data (OGD) stakeholders: citizens, developers and publishers.<br/><br/>
+            <b>As citizen</b>, you can suggest a project idea for developers and also follow the progress of the project development if needed.<br/>
+            <b>As developer</b>, you can discover the projects that citizens are interested in and also get feedback from users during the development progress.
+            In addition, you can request datasets from publishers and also report issues found in datasets used in your projects. You can also submit your reuses of OGD.<br/>
+            <b>As publisher</b>, you can discover the projects that used your published datasets. You can also find out about requested data and reported issues with your published datasets.
+            {% endblocktrans %}
+          </p>
+        </div>
+        <div class="col col-special s12 m3 l4 hide-on-small-only">
+          <img src="{% static 'images/collaborate.png' %}" style="max-width:99% !important;" title='{% trans "Architecture of ODEON. From data collection until dashbord creation." %}'/>
+          <div class="clear"></div><br/>
+        </div>
+        <div class="col col-special s12 m12 l12">
+          {% include 'includes/guide.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

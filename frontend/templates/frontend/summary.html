@@ -1,0 +1,119 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Summary Report - ODEON" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/summary.css' %}?v={%settings_value 'VERSION'%}">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <script src="{% static 'js/summary.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-content">
+    <form method="GET" action="{% url 'frontend:summary' %}" id="search-form">
+      <div class="searchdiv">
+        <div class="row">
+        <div class="col m6 l3 s12">
+          <label>{% trans "From" %}</label>
+          <input placeholder='{% trans "From" %}' id="datefrom" name="datefrom" value="{{datefrom}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "Report Date From" %}'>
+        </div>
+        <div class="col m6 l3 s12">
+          <label>{% trans "To" %}</label>
+          <input placeholder='{% trans "To" %}' id="dateto" name="dateto" value="{{dateto}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "Report Date To" %}'>
+        </div>
+          <div class="col m6 l3 s12">
+            <label>{% trans "Country" %}</label>
+            <select class="browser-default tooltippedf" name="country" id="country" data-position="top" data-tooltip='{% trans "Country" %}'>
+              <option value=''>{% trans "All" %}</option>
+              {% for ct in request.session.used_countries %}
+                {% if ct == country %}
+                <option value='{{ct}}' selected='selected'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                {% else %}
+                <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col m6 l3 s12" style="position: relative;height: 47px;">
+            <label>{% trans "State/City" %}</label>
+            <input placeholder='{% trans "State/City" %}' id="state" name="state" value="{{state}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "State" %}'>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col m12 l12 s12">
+          <div class="row">
+            <div class="col s12 m12 stat">
+              <h5 class="sm-marg center">{% trans "Summary Report of Projects and Data" %}</h5><br/>
+            </div>
+            <div class="col s12 m6 l3 stat">
+              <div class="card-panel">
+                <span>{% trans "Total Projects" %}</span><br/>
+                <h5 class="valuestat">{{tot_proj}}</h5>
+                <div class="card-action right">
+                  <a target="_blank" href="{% url 'frontend:projects' %}?datefrom={{datefrom}}&dateto={{dateto}}&country={{ country }}&state={{ state }}">{% trans "More Details" %}</a>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l3 stat">
+              <div class="card-panel">
+                <span>{% trans "Total Suggested Projects" %}</span><br/>
+                <h5 class="valuestat">{{tot_proj_suggested}}</h5>
+                <div class="card-action right">
+                  <a target="_blank" href="{% url 'frontend:projects' %}?type=proposed&sort=nblikes&datefrom={{datefrom}}&dateto={{dateto}}&country={{ country }}&state={{ state }}">{% trans "More Details" %}</a>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l3 stat">
+              <div class="card-panel">
+                <span>{% trans "Total Requested Data" %}</span><br/>
+                <h5 class="valuestat">{{tot_data_requested}}</h5>
+                <div class="card-action right">
+                  <a target="_blank" href="{% url 'frontend:datasets' %}?type=requested&datefrom={{datefrom}}&dateto={{dateto}}&country={{ country }}&state={{ state }}">{% trans "More Details" %}</a>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l3 stat">
+              <div class="card-panel">
+                <span>{% trans "Total Data Issues" %}</span><br/>
+                <h5 class="valuestat">{{tot_issues}}</h5>
+                <div class="card-action right">
+                  <a target="_blank" href="{% url 'frontend:issues' %}?datefrom={{datefrom}}&dateto={{dateto}}&country={{ country }}&state={{ state }}">{% trans "More Details" %}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m12 stat">
+              <div class="card-panel">
+                <h6 class="valuestat center">{% trans "Total Projects vs. Total Suggested Projects by Project Theme" %}</h6><br/>
+                {{plot_theme_proj|safe}}
+              </diV>
+            </diV>
+            <div class="col s12 m8 stat">
+              <div class="card-panel">
+                <h6 class="valuestat center">{% trans "Total Projects vs. Total Suggested Projects by Project Status" %}</h6><br/>
+                {{plot_stat_proj|safe}}
+              </diV>
+            </diV>
+            <div class="col s12 m4 stat">
+              <div class="card-panel">
+                <h6 class="valuestat center">{% trans "Total Requested Data by Project Theme" %}</h6><br/>
+                {{plot_dt_req|safe}}
+              </diV>
+            </diV>
+          </diV>
+          <div class="clear"></div>
+    </div>
+  </div>
+  </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,465 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-01 13:31+0200\n"
+"PO-Revision-Date: 2021-01-07 12:35+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#: .\assets\js\app.js:193
+msgid "It seems that you already like this project."
+msgstr ""
+
+#: .\assets\js\app.js:195
+msgid "It seems that you already like this dataset."
+msgstr ""
+
+#: .\assets\js\app.js:232 .\assets\js\app.js:244
+msgid "Hi, you might be interested in the following project: "
+msgstr ""
+
+#: .\assets\js\app.js:246
+msgid "Hi, you might be interested in the following dataset: "
+msgstr ""
+
+#: .\assets\js\app.js:303 .\assets\js\dashboard.js:112
+#: .\assets\js\explore-data.js:31 .\assets\js\get-started.js:155
+#: .\assets\js\get-started.js:184 .\assets\js\get-started.js:336
+#: .\assets\js\get-started.js:404 .\assets\js\get-started.js:446
+#: .\assets\js\get-started.js:519 .\assets\js\get-started.js:582
+#: .\assets\js\get-started.js:646 .\assets\js\get-started.js:709
+#: .\assets\js\get-started.js:815 .\assets\js\get-started.js:901
+#: .\assets\js\get-started.js:934 .\assets\js\get-started.js:983
+#: .\assets\js\get-started.js:1044 .\assets\js\utils-visualization-guide.js:432
+#: .\assets\js\visualization-guide.js:610
+#: .\assets\js\visualization-guide.js:659
+#: .\assets\js\visualization-guide.js:780
+#: .\assets\js\visualization-guide.js:818
+#: .\assets\js\visualization-guide.js:844
+#: .\assets\js\visualization-guide.js:923
+msgid "Something went wrong"
+msgstr "Quelque chose s'est mal passé"
+
+#: .\assets\js\app.js:337 .\assets\js\get-started.js:871
+msgid "Please check your inputs"
+msgstr "Veuillez vérifier vos entrées"
+
+#: .\assets\js\detail-project.js:56
+msgid "Refine needs for project"
+msgstr ""
+
+#: .\assets\js\detail-project.js:62
+msgid "Inform users of the progress of the project's development"
+msgstr ""
+
+#: .\assets\js\detail-project.js:66
+msgid "Add comment to improve the developed project"
+msgstr ""
+
+#: .\assets\js\get-started.js:100 .\assets\js\get-started.js:1147
+msgid "Get started by choosing your transformation"
+msgstr ""
+
+#: .\assets\js\get-started.js:115 .\assets\js\get-started.js:122
+msgid "Add Data to Project"
+msgstr ""
+
+#: .\assets\js\get-started.js:147
+msgid "Total datasets: 0"
+msgstr ""
+
+#: .\assets\js\get-started.js:160
+msgid "Please fill all fields"
+msgstr ""
+
+#: .\assets\js\get-started.js:205 .\assets\js\get-started.js:212
+msgid "Total datasets: "
+msgstr ""
+
+#: .\assets\js\get-started.js:265
+msgid "Records Count: "
+msgstr ""
+
+#: .\assets\js\get-started.js:270
+msgid "Modified: "
+msgstr ""
+
+#: .\assets\js\get-started.js:274
+#, fuzzy
+#| msgid "Select All"
+msgid "Select"
+msgstr "Sélectionner tout"
+
+#: .\assets\js\get-started.js:275 .\assets\js\get-started.js:324
+#: .\assets\js\get-started.js:507 .\assets\js\get-started.js:570
+#: .\assets\js\get-started.js:634 .\assets\js\get-started.js:697
+#: .\assets\js\get-started.js:803 .\assets\js\get-started.js:853
+#: .\assets\js\get-started.js:1094
+msgid "Explore"
+msgstr "Explorer"
+
+#: .\assets\js\get-started.js:287
+msgid "Load more"
+msgstr ""
+
+#: .\assets\js\get-started.js:317 .\assets\js\get-started.js:500
+#: .\assets\js\get-started.js:563 .\assets\js\get-started.js:627
+#: .\assets\js\get-started.js:689 .\assets\js\get-started.js:795
+#: .\assets\js\get-started.js:845 .\assets\js\get-started.js:1087
+#, fuzzy
+#| msgid "Data Visualization"
+msgid "(Data Quality: "
+msgstr "Visualisation des données"
+
+#: .\assets\js\get-started.js:323 .\assets\js\get-started.js:506
+#: .\assets\js\get-started.js:569 .\assets\js\get-started.js:633
+#: .\assets\js\get-started.js:696 .\assets\js\get-started.js:802
+#: .\assets\js\get-started.js:852 .\assets\js\get-started.js:1093
+msgid "Delete Data"
+msgstr "Supprimer des données"
+
+#: .\assets\js\get-started.js:323 .\assets\js\get-started.js:506
+#: .\assets\js\get-started.js:569 .\assets\js\get-started.js:633
+#: .\assets\js\get-started.js:696 .\assets\js\get-started.js:802
+#: .\assets\js\get-started.js:852 .\assets\js\get-started.js:1093
+msgid "Delete"
+msgstr "Supprimer"
+
+#: .\assets\js\get-started.js:324 .\assets\js\get-started.js:507
+#: .\assets\js\get-started.js:570 .\assets\js\get-started.js:634
+#: .\assets\js\get-started.js:697 .\assets\js\get-started.js:803
+#: .\assets\js\get-started.js:853 .\assets\js\get-started.js:1094
+msgid "Explore Data"
+msgstr "Explorer les données"
+
+#: .\assets\js\get-started.js:325 .\assets\js\get-started.js:508
+#: .\assets\js\get-started.js:571 .\assets\js\get-started.js:635
+#: .\assets\js\get-started.js:698 .\assets\js\get-started.js:804
+#: .\assets\js\get-started.js:854 .\assets\js\get-started.js:1095
+msgid "Edit Data Information"
+msgstr ""
+
+#: .\assets\js\get-started.js:325 .\assets\js\get-started.js:508
+#: .\assets\js\get-started.js:571 .\assets\js\get-started.js:635
+#: .\assets\js\get-started.js:698 .\assets\js\get-started.js:804
+#: .\assets\js\get-started.js:854 .\assets\js\get-started.js:1095
+msgid "Edit"
+msgstr ""
+
+#: .\assets\js\get-started.js:344 .\assets\js\get-started.js:346
+#: .\assets\js\get-started.js:359
+#, fuzzy
+#| msgid "Delete Data"
+msgid "Select Data"
+msgstr "Supprimer des données"
+
+#: .\assets\js\get-started.js:472 .\assets\js\get-started.js:536
+#: .\assets\js\get-started.js:600 .\assets\js\get-started.js:662
+msgid "Please fill all fileds."
+msgstr ""
+
+#: .\assets\js\get-started.js:476
+msgid "You should choose the same number of columns in both side."
+msgstr ""
+
+#: .\assets\js\get-started.js:479
+msgid "Please choose different datasets."
+msgstr ""
+
+#: .\assets\js\get-started.js:967
+msgid "Select Column"
+msgstr "Sélectionnez une colonne"
+
+#: .\assets\js\get-started.js:974
+msgid "(Only the first 50 rows & 10 first columns)"
+msgstr "(uniquement les 50 premières lignes et les 10 premières colonnes)"
+
+#: .\assets\js\get-started.js:1019
+msgid "Fields marked with * are mandatory."
+msgstr ""
+
+#: .\assets\js\get-started.js:1113
+msgid "Please first upload data"
+msgstr "Veuillez d'abord télécharger les données"
+
+#: .\assets\js\utils-visualization-guide.js:157
+msgid "You can't use this attribute as filter"
+msgstr "Vous ne pouvez pas utiliser cet attribut comme filtre"
+
+#: .\assets\js\utils-visualization-guide.js:163
+msgid "This datatype isn't suitable for this visualization mark"
+msgstr "Ce type de données n'est pas adapté à cette marque de visualisation"
+
+#: .\assets\js\utils-visualization-guide.js:167
+#, fuzzy
+#| msgid ""
+#| "This visualization mark is best suitable to nominal, temporal, numerical, "
+#| "latitude and shape data"
+msgid ""
+"This visualization mark is best suitable to nominal, temporal, numerical, "
+"latitude, geo point and geo shape data"
+msgstr ""
+"Cette marque de visualisation est la mieux adaptée aux données nominales, "
+"temporelles, numériques, de latitude et de forme"
+
+#: .\assets\js\utils-visualization-guide.js:172
+msgid ""
+"This visualization mark is best suitable to numerical and longitude data"
+msgstr ""
+"Cette marque de visualisation est la mieux adaptée aux données numériques et "
+"de longitude"
+
+#: .\assets\js\utils-visualization-guide.js:177
+msgid "This visualization mark is best suitable to nominal data"
+msgstr ""
+"Cette marque de visualisation est la mieux adaptée aux données nominales"
+
+#: .\assets\js\utils-visualization-guide.js:182
+msgid "This visualization mark is best suitable to numerical data"
+msgstr ""
+"Cette marque de visualisation est la mieux adaptée aux données numériques"
+
+#: .\assets\js\utils-visualization-guide.js:187
+msgid "This visualization mark is best suitable to nominal and temporal data"
+msgstr ""
+"Cette marque de visualisation est la mieux adaptée aux données nominales et "
+"temporelles"
+
+#: .\assets\js\utils-visualization-guide.js:213
+#: .\assets\js\utils-visualization-guide.js:1257
+#: .\assets\js\utils-visualization-guide.js:1376
+#: .\assets\js\utils-visualization-guide.js:1477
+#: .\assets\js\visualization-guide.js:1017
+msgid "Drag to remove element or click on the element to setup some options"
+msgstr ""
+"Faites glisser pour supprimer l'élément ou cliquez sur l'élément pour "
+"configurer certaines options"
+
+#: .\assets\js\utils-visualization-guide.js:241
+msgid "You can only assign maximum"
+msgstr ""
+
+#: .\assets\js\utils-visualization-guide.js:241
+msgid "attribute to this visualisation mark"
+msgstr ""
+
+#: .\assets\js\utils-visualization-guide.js:289
+#: .\assets\js\utils-visualization-guide.js:290
+#: .\assets\js\utils-visualization-guide.js:482
+#: .\assets\js\utils-visualization-guide.js:509
+#: .\assets\js\utils-visualization-guide.js:510
+#: .\assets\js\utils-visualization-guide.js:617
+#: .\assets\js\utils-visualization-guide.js:618
+#: .\assets\js\utils-visualization-guide.js:634
+#: .\assets\js\utils-visualization-guide.js:659
+#: .\assets\js\utils-visualization-guide.js:660
+msgid "Value"
+msgstr "Valeur"
+
+#: .\assets\js\utils-visualization-guide.js:328
+#: .\assets\js\utils-visualization-guide.js:357
+msgid "No setup available for that element"
+msgstr "Aucune configuration disponible pour cet élément"
+
+#: .\assets\js\utils-visualization-guide.js:388
+msgid "Select All"
+msgstr "Sélectionner tout"
+
+#: .\assets\js\utils-visualization-guide.js:411
+#: .\assets\js\utils-visualization-guide.js:422
+#: .\assets\js\utils-visualization-guide.js:434
+#: .\assets\js\utils-visualization-guide.js:525
+#: .\assets\js\utils-visualization-guide.js:532
+#: .\assets\js\utils-visualization-guide.js:538
+msgid "Setup Filter: "
+msgstr "Configurer le filtre : "
+
+#: .\assets\js\utils-visualization-guide.js:592
+msgid "Setup Attribute: "
+msgstr "Attribut de configuration : "
+
+#: .\assets\js\utils-visualization-guide.js:700
+msgid "Zoom visulization"
+msgstr "Agrandir la visulisation"
+
+#: .\assets\js\utils-visualization-guide.js:755
+msgid "<b>Initial Viz</b><br/>"
+msgstr "<b>Initiale Viz</b><br/>"
+
+#: .\assets\js\utils-visualization-guide.js:1191
+#: .\assets\js\utils-visualization-guide.js:1404
+#: .\assets\js\utils-visualization-guide.js:1830
+msgid "Create Visualization"
+msgstr "Créer une visualisation"
+
+#: .\assets\js\utils-visualization-guide.js:1296
+msgid "Save as New"
+msgstr "Enregistrer comme nouveau"
+
+#: .\assets\js\utils-visualization-guide.js:1297
+msgid "Click on 'Save as New' when you are done with the above settings"
+msgstr ""
+"Cliquez sur \"Enregistrer comme nouveau\" lorsque vous avez terminé les "
+"paramètres ci-dessus"
+
+#: .\assets\js\utils-visualization-guide.js:1298
+msgid "Edit Visualization"
+msgstr "Modifier la visualisation"
+
+#: .\assets\js\utils-visualization-guide.js:1499
+#: .\assets\js\utils-visualization-guide.js:1540
+#: .\assets\js\utils-visualization-guide.js:1577
+msgid "Sum of weights must be equal to 100"
+msgstr "La somme des poids doit être égale à 100"
+
+#: .\assets\js\utils-visualization-guide.js:1501
+#: .\assets\js\utils-visualization-guide.js:1542
+#: .\assets\js\utils-visualization-guide.js:1579
+msgid "Threshold must be less or equal to 10"
+msgstr "Le seuil doit être inférieur ou égal à 10"
+
+#: .\assets\js\utils-visualization-guide.js:1650
+#: .\assets\js\utils-visualization-guide.js:1687
+msgid ""
+"Help us provide you better visualization by rating these visualizations.<br/"
+">Nb Visualizations: "
+msgstr ""
+"Aidez-nous à vous fournir une meilleure visualisation en notant ces "
+"visualisations.<br/>Nb Visualisations : "
+
+#: .\assets\js\utils-visualization-guide.js:1683
+msgid ""
+"Help us provide you better visualization by rating these visualizations.<br/"
+">Nb Distribution Visualizations: "
+msgstr ""
+"Aidez-nous à vous fournir une meilleure visualisation en notant ces "
+"visualisations.<br/>Nb Distribution Visualizations : "
+
+#: .\assets\js\utils-visualization-guide.js:1685
+msgid ""
+"Help us provide you better visualization by rating these visualizations.<br/"
+">Nb Analysis Visualizations: "
+msgstr ""
+"Aidez-nous à vous fournir une meilleure visualisation en notant ces "
+"visualisations.<br/>Nb Analysis Visualizations : "
+
+#: .\assets\js\utils-visualization-guide.js:1724
+#: .\assets\js\utils-visualization-guide.js:1742
+msgid "Please select at least one visualization type"
+msgstr "Veuillez sélectionner au moins un type de visualisation"
+
+#: .\assets\js\utils-visualization-guide.js:1793
+msgid "Please assign rate"
+msgstr "Veuillez attribuer un score"
+
+#: .\assets\js\utils-visualization-guide.js:1878
+#: .\assets\js\utils-visualization-guide.js:1890
+msgid "Data Content"
+msgstr "Contenu des données"
+
+#: .\assets\js\visualization-guide.js:4
+msgid "Select objective"
+msgstr "Sélectionner l'objectif"
+
+#: .\assets\js\visualization-guide.js:7
+msgid "Select attributes"
+msgstr "Sélectionner les attributs"
+
+#: .\assets\js\visualization-guide.js:328
+#: .\assets\js\visualization-guide.js:330
+#: .\assets\js\visualization-guide.js:341
+msgid " and "
+msgstr " et "
+
+#: .\assets\js\visualization-guide.js:343
+msgid "chosen values"
+msgstr "les valeurs choisies"
+
+#: .\assets\js\visualization-guide.js:394
+msgid "Idioms"
+msgstr "Idiomes"
+
+#: .\assets\js\visualization-guide.js:457
+#: .\assets\js\visualization-guide.js:472
+#: .\assets\js\visualization-guide.js:490
+#: .\assets\js\visualization-guide.js:884
+msgid "You can only choose dimensions & measures from same file"
+msgstr "Vous ne pouvez choisir que les dimensions et mesures du même fichier"
+
+#: .\assets\js\visualization-guide.js:477
+msgid "You must select at least one attribute"
+msgstr "Vous devez sélectionner au moins un attribut"
+
+#: .\assets\js\visualization-guide.js:559
+#, fuzzy
+#| msgid ""
+#| "Help us provide you better visualization by rating these visualizations."
+#| "<br/>Nb Visualizations: "
+msgid ""
+"Help us provide you better visualization by rating these visualizations."
+msgstr ""
+"Aidez-nous à vous fournir une meilleure visualisation en notant ces "
+"visualisations.<br/>Nb Visualisations : "
+
+#: .\assets\js\visualization-guide.js:579
+#: .\assets\js\visualization-guide.js:582
+msgid "Unable to find some visualization recommendations"
+msgstr "Impossible de trouver quelques recommandations de visualisation"
+
+#: .\assets\js\visualization-guide.js:599
+#: .\assets\js\visualization-guide.js:603
+#: .\assets\js\visualization-guide.js:605
+msgid "Unable to display the plot"
+msgstr "Impossible d'afficher la visualisation"
+
+#: .\assets\js\visualization-guide.js:608
+msgid "Unable to find some visualization recommendataions"
+msgstr "Impossible de trouver des recommandations de visualisation"
+
+#: .\assets\js\visualization-guide.js:646
+msgid "Load Data"
+msgstr "Charger les données"
+
+#: .\assets\js\visualization-guide.js:754
+msgid "Please assign score for at least one visualization"
+msgstr "Veuillez attribuer un score pour au moins une visualisation"
+
+#: .\assets\js\visualization-guide.js:772
+msgid "Save score successfully"
+msgstr "Sauvegarde du score avec succès"
+
+#: .\assets\js\visualization-guide.js:810
+msgid "Add to dashboard successfully"
+msgstr "Ajout au tableau de bord avec succès"
+
+#: .\assets\js\visualization-guide.js:836
+msgid "Deletion successful"
+msgstr "Suppression réussie"
+
+#: .\assets\js\visualization-guide.js:914
+msgid "Save dashboard settings successfully"
+msgstr "Enregistrer les paramètres du tableau de bord avec succès"
+
+#~ msgid "Upload/Load Data"
+#~ msgstr "Télécharger/charger des données"
+
+#~ msgid "Nb Visualizations: "
+#~ msgstr "Nb Visualisations : "
+
+#~ msgid "Nb Distribution Visualizations: "
+#~ msgstr "Nb Visualisations de distribution : "
+
+#~ msgid "Nb Analysis Visualizations: "
+#~ msgstr "Nb Visualisations d'analyse : "

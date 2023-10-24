@@ -1,0 +1,85 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "ODEON" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <script src="{% static 'js/index.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+  <!-- particles.js container -->
+  <!--<div id="particles-js"></div>-->
+  <div class="content-top">
+    <div class="row">
+      <div class="col col-special s12 m7 l8 center">
+        <div class="bg-overlay">
+          <h4 class="center white-text darken-4">{% blocktrans %}Create an interactive dashboard in few steps{% endblocktrans %}</h4>
+          <p class="bigger"><b>
+            <br/>{% blocktrans %}
+            Whether you have a basic or advanced knowledge in data visualization,
+ creating your <b class='indigo-text'>dashboard</b> through attractive, interactive charts/maps is now <b class='indigo-text'>simpler than ever</b>.
+            {% endblocktrans %}</b>
+          </p>
+          {% if user.is_authenticated %}
+          <br/><a id="intermediate" class="btn waves-effect waves-light indigo darken-1 btn-large sm-rounded" href="{% url 'frontend:get_started' %}">{% trans 'Get Started' %}</a>
+          {% else %}
+          <h6><br/><b>{% blocktrans %}Let's get started.<br/>How confident are you in data visualization ?{% endblocktrans %}</b></h6>
+          <a id="non_expert" class="btn waves-effect waves-light green darken-1 btn-large sm-rounded" href="{% url 'frontend:get_started_type' code='non-expert' %}">{% trans "Not confident" %}
+          </a>
+          <a id="intermediate" class="btn waves-effect waves-light indigo darken-1 btn-large sm-rounded" href="{% url 'frontend:get_started_type' code='intermediate' %}">{% trans "Less confident" %}
+          </a>
+          <a class="btn waves-effect waves-light red darken-1 btn-large sm-rounded"  href="{% url 'frontend:get_started_type' code='expert' %}">{% trans "Confident" %}
+          </a>
+          {% endif %}
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div class="col col-special s12 m5 l4">
+        <div class="card card-special">
+          <div class="card-content">
+            <h5 class="center indigo-text darken-4">{% trans "Feedback" %}</h5>
+            <p class="center"><i>{% trans "Feel free to leave your comments. That will help us to improve the system." %}</i></p>
+            <br/>
+            <form method="POST" id="contact-form">
+                {% csrf_token %}
+                <div class="row no-mb">
+                  <div class="input-field sm-mb col s12">
+                    <input placeholder='{% trans "Full Name" %}' id="full_name" name="full_name" type="text" class="validate rounded-input input-pad">
+                    <label for="full_name">{% trans "Full Name" %}</label>
+                  </div>
+                </div>
+                <div class="row no-mb">
+                  <div class="input-field sm-mb col s12">
+                    <input placeholder='{% trans "Email" %}' id="email" type="text" name="email" class="validate rounded-input input-pad">
+                    <label for="email">{% trans "Email" %}</label>
+                  </div>
+                </div>
+                <div class="row no-mb">
+                  <div class="input-field sm-mb col s12">
+                    <textarea placeholder='{% trans "Message" %}' id="message" name="message" class="materialize-textarea special-textarea rounded-input"></textarea>
+                    <label for="message">{% trans "Message *" %}</label>
+                  </div>
+                </div>
+                <div class="row no-mb center">
+                  <div class="clear"></div>
+                  <button class="btn waves-effect waves-light indigo darken-1sm-rounded"
+                   type="submit" name="action">{% trans "Submit" %}
+                    <i class="material-icons right">send</i>
+                  </button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

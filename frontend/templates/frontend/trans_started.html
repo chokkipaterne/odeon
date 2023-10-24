@@ -1,0 +1,91 @@
+{% extends 'trans_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Transparency Project" %} - ODETRANS
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/trans-started.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# JQUERY FILE UPLOAD SCRIPTS #}
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  {# PHOTOS PAGE SCRIPTS #}
+  <script src="{% static 'js/trans-started.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-content">
+  <div class="row">
+    <div class="col col-special s12 m12 l12">
+      <div class="init-project center row">
+        <div class="center">
+          <h5 class="sm-marg" style="font-size:1.4rem;">{% trans 'Setup your project' %}</h5><br/>
+          <p class="sm-marg" style="color:red; float:right;">{% trans "All fields marked with * are required" %}</p>
+          <form method="POST" id="formproj">
+            {% csrf_token %}
+            <input id="code" type="hidden" name="code" value="{{code}}"/>
+            <div class="row">
+              <div class="clear"></div>
+              <div class="col l6 m6 s12 fproj">
+                <label>{% trans "Country*" %}</label>
+                <select class="browser-default" name="country" id="country" required>
+                  <option value=''>{% trans "Select the country of the project" %}</option>
+                  {% for ct in request.session.countries %}
+                    {% if ct == country %}
+                    <option value='{{ct}}' selected='selected'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                    {% else %}
+                    <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col l6 m6 s12 fproj" style="position: relative;height: 55px;">
+                <label>{% trans "State/City" %}</label>
+                <input placeholder='{% trans "Enter the state/city of the project" %}' id="trans_state" name="trans_state" value="{{trans_state}}" type="text" class="browser-default special-input autocomplete">
+              </div>
+              <div style="clear: both;"></div>
+              <div class="col l12 m12 s12">
+                <p style="text-align:left !important" class="nobt-marg fproj"><label>{% trans "Project Settings*" %}</label></p>
+                <div>
+                  <table style="border: 0px" class='svdt'>
+                    <tr>
+                      <td><label><span>{% trans "Topic" %}</span></label></td>
+                      <td><label><span>{% trans "Associated Project" %}</span></label></td>
+                    </tr>
+                    {% for key, theme in request.session.list_transthemes.items %}
+                    <tr>
+                        <td><label><span>{{theme.name}}</span></label></td>
+                        <td>
+                          <select class="settopic" name="settopic{{key}}" id="settopic{{key}}" multiple="multiple">
+                            <!--<option value=''>{% trans "Select the associated project" %}</option>-->
+                            {% for key2, proj in request.session.trans_projects.items %}
+                              {% with valproj=transproject_settings|get_from_dict:key %}
+                              {% if proj.dash_code in valproj %}
+                              <option value='{{proj.dash_code}}' selected='selected'>[{{proj.dash_code}}] {{proj.title}}</option>
+                              {% else %}
+                              <option value='{{proj.dash_code}}'>[{{proj.dash_code}}] {{proj.title}}</option>
+                              {% endif %}
+                              {% endwith %}
+                            {% endfor %}
+                          </select>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+              </div>
+              <div class="col l5 m5 s12 fproj"><br/>
+                <label class="tooltipped" data-position="top" data-tooltip='{% trans "Enable it to make your project public (other users can access it)." %}'><input type='checkbox' id='shared' name='shared' {%if shared %} checked {% endif %}/><span style="font-size:0.85rem;">{% trans "Share with all users?" %}</span></label>
+              </div>
+            </div>
+            <button class="btn waves-effect waves-light rounded lower green" type="submit" name="action">{% if code %}{% trans "Save Changes" %}{% else %}{% trans "Create New Project" %}{% endif %}</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

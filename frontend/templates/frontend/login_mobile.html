@@ -1,0 +1,76 @@
+{% extends 'mobile_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Login" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/account.css' %}?v={%settings_value 'VERSION'%}">
+  {% if not is_mobile %}
+  <style type="text/css">
+    main, footer, .bdrad{
+    	max-width: 800px !important;
+    }
+    .modal{
+    	max-width: 370px !important;
+    }
+  </style>
+  {% endif %}
+  <style type="text/css">
+    input, select{
+      height: 35px !important;
+      font-size: 0.85rem !important;
+    }
+    label{
+      font-size: 0.85rem !important;
+    }
+  </style>
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <!--<script src="{% static 'js/projects.js' %}?v={%settings_value 'VERSION'%}"></script>-->
+{% endblock %}
+
+{% block content %}
+<div class="z-depth-2 p5 bdrad" style="background: white !important;">
+  <div class="bdinside">
+    <div class="row sm-marg">
+      <div class="col s9">
+        <h5 class="sm-marg"><b>{% trans "Login" %}</b></h5>
+      </div>
+      <div class="col s3">
+        <h5 class="sm-marg"><a class='dropdown-trigger right' href='javascript:void(0)' onclick="showModalAbout();"><i class="material-icons right" style="color: #3F51B5">help</i></a></h5>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clear"><br/></div>
+
+<div class="container mt-content">
+  <div class="row">
+    <div class="col s12">
+      <form method="POST">
+          {% csrf_token %}
+          {{form.as_p}}
+          {% if request.GET.next %}
+          <input type="hidden" name="next" value="{{request.GET.next}}">
+          {% endif %}
+          <div class="center">
+            <div class="clear"></div>
+            <button class="btn waves-effect waves-light indigo darken-1 sm-rounded"
+            data-position="top" data-tooltip='{% trans "Login" %}'
+             type="submit" name="action">{% trans "Login" %}
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+      </form>
+      <p class="center">
+        {% trans "If you don't have an account" %}, <a href="{% url 'frontend:register_mobile' %}"><strong>{% trans "sign up" %}</strong></a> {% trans "instead" %}
+      </p>
+    </div>
+  </div>
+  <br/>
+</div>
+{% endblock %}

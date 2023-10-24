@@ -1,0 +1,127 @@
+{% extends 'trans_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "StoryOGD" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <script src="{% static 'typing/typing.js' %}?v={%settings_value 'VERSION'%}"></script>
+  <script src="{% static 'js/home-trans.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+  <!-- particles.js container -->
+  <!--<div id="particles-js"></div>-->
+  <div class="content-top" style="background-color: white !important;">
+    <div class="site-header center" style="background-image: url(/static/images/ogdproto_bg.png)">
+      <h1 class="headline container center">{% trans "Get quick insights into the open data published on the portal in your region." %}<br/><small>StoryOGD: From Conventional OGD Portals to Storytelling Portals</small></h1><br/>
+      <h6 class="container center">
+        <a href="javascript:void(0)" class="typewrite white-text" data-period="2000" data-type='["{% trans "Summarize open data for better understanding by citizens." %}", "{% trans "Facilitate the creation of a user-friendly portal." %}" ]'>
+          <span class="wrap"></span>
+        </a>
+      </h6>
+      <div class="container">
+        <div class="search-box-w-buttons">
+          <div class="searchdiv" style="padding-top:0px !important;">
+            <p>{% trans "Select your region to view insights." %}</p>
+            <form method="POST" action="{% url 'frontend:view_trans_init' %}" id="search-form">
+              {% csrf_token %}
+              <div class="row" style="margin-bottom: 10px;">
+                <div class="col l5 m12 s12">
+                  <select class="browser-default tooltipped" name="country" id="country" data-position="top" data-tooltip='{% trans "Country" %}'>
+                    <option value=''>{% trans "Country" %}</option>
+                    {% for ct in request.session.used_transcountries %}
+                    <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col l7 m12 s12">
+                  <input placeholder='{% trans "State/City" %}' id="schstate"  name="state" type="text" value="" class="browser-default handle-input autocomplete tooltipped" data-position="top" data-tooltip='{% trans "State/City" %}'>
+                  <button type="submit" class="mt-2 sub-search waves-effect waves-green btn black darken-1 lower rounded" style="float: right !important;">{% trans "EXPLORE" %}</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="index-spacer" style="background: #eee !important;">
+      <div class="about" id="about">
+        <div class="row">
+          <div class="col s12">
+            <h5 class="center black-text darken-4 no-marg">{% trans "Main Features of StoryOGD" %}</h5>
+            <p class="center">{% trans "Here are the main features of Open Data Explorer that can help you to create your project idea using OGD." %}<br/><br/></p>
+          </div>
+          <div>
+            <div class="col s12 m6 l6">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light black" href="javascript:void(0)" style="cursor:auto;"><i class="material-icons">add</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "Benefits for Citizens" %}</span>
+                  <p>{% trans "Provide a user-friendly interface to better understand open data on portals." %}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l6">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light black" href="javascript:void(0)" style="cursor:auto;"><i class="material-icons">view_day</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "Benefits for Open Data Practitioners" %}</span>
+                  <p>{% trans "Provide them with a tool to easily convert any conventional portal into storytelling portal that citizens can easily understand." %}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="index-spacer contactdiv">
+      <div class="row">
+        <div class="col s12">
+          <h5 class="center black-text darken-4 no-marg">{% trans "Contact Us" %}</h5>
+          <p class="center">{% trans "Do not hesitate to contact us if you have any suggestions to improve the system or if you have any questions." %}<br/><br/></p>
+        </div>
+      </div>
+      <form method="POST" id="contact-form">
+          {% csrf_token %}
+          <div class="row no-mb">
+            <div class="input-field sm-mb col m6 l6 s12">
+              <input placeholder='{% trans "Full Name" %}' id="full_name" name="full_name" type="text" class="validate rounded-input input-pad" required>
+              <label for="full_name">{% trans "Full Name*" %}</label>
+            </div>
+            <div class="input-field sm-mb col m6 l6 s12">
+              <input placeholder='{% trans "Email" %}' id="email" type="text" name="email" class="validate rounded-input input-pad" required>
+              <label for="email">{% trans "Email*" %}</label>
+            </div>
+          </div>
+          <div class="row no-mb">
+            <div class="input-field sm-mb col s12">
+              <textarea placeholder='{% trans "Message" %}' id="message" name="message" class="materialize-textarea special-textarea rounded-input" required></textarea>
+              <label for="message">{% trans "Message*" %}</label>
+            </div>
+          </div>
+          <div class="row no-mb center">
+            <div class="clear"></div>
+            <button class="btn waves-effect waves-light black darken-1sm-rounded"
+             type="submit" name="action">{% trans "Submit" %}
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+          <br/>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

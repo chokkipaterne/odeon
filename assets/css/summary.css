@@ -1,0 +1,207 @@
+/* ---- base ---- */
+.rounded-input {
+	border: 1px solid #9e9e9e !important;
+	border-radius: 20px 0px 20px 0px !important;
+	margin-top: 5px !important;
+}
+.sm-rounded{
+	border-radius: 20px 0px 20px 0px !important;
+}
+
+
+.input-pad{
+	padding-left: 5px !important;
+	padding-right: 5px !important;
+	width: calc(100% - 10px) !important;
+}
+/*.content-top{
+	padding-top: 4rem;
+}*/
+.card-special{
+  border-radius: 20px !important;
+}
+.bigger{
+  font-size: 110% !important;
+}
+
+@media(min-width: 600px) {
+  .index-spacer{
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+  }
+}
+
+@media(max-width: 600px) {
+  .index-spacer{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+.proj-title{
+	color: blue !important;
+	text-transform: none !important;
+	font-size: 10pt !important;
+	display: block !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+}
+
+.proj-cont{
+	padding: 10px 10px !important;
+	height: 130px !important;
+	overflow-y: hidden !important;
+	font-size: 10.5pt !important;
+}
+
+.pagination {
+  display: inline-block;
+  text-align: center;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  margin: 0 4px;
+	border-radius: 7px !important;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}
+.pagination span {
+  color: black;
+  float: left;
+  padding: 4px 10px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  margin: 0 4px;
+	border-radius: 7px !important;
+}
+
+.pagination li.active span {
+  background-color: blue;
+  color: white;
+  border: 1px solid blue;
+}
+.pagination li.active{
+	background-color: transparent !important;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+.contactdiv{
+	max-width: 800px;
+	margin: 0 auto !important;
+}
+
+.site-header {
+    min-height: 350px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #113355;
+    color: #ffffff;
+}
+.headline{
+	font-size: 1.5rem !important;
+}
+textarea{
+	height: 7rem !important;
+}
+.searchdiv{
+	max-width: 500px;
+	margin: 0 auto !important;
+	padding-top: 30px;
+	padding-bottom: 20px;
+}
+.searchdiv input{
+	min-width: 100% !important;
+	border: 1px solid #dddddd;
+}
+.collection .collection-item.avatar {
+    min-height: 60px !important;
+}
+
+.collection .collection-item.avatar span {
+		padding-top: 20px !important;
+}
+.collection .collection-item.active {
+    background-color: #ddd;
+}
+.collection li.collection-item{
+	color: #1A237E !important;
+	cursor: pointer;
+}
+.card.horizontal .card-image img{
+	max-width: 100px !important;
+	object-fit: contain;
+	height: 100px !important;
+	margin-bottom: 10px !important;
+}
+.card .card-content {
+    padding: 10px;
+}
+.card .card-action {
+    padding: 10px;
+}
+.mt-content{
+	margin-top: 0px !important;
+}
+.card.horizontal{
+	min-height: 165px !important;
+}
+
+.searchdiv input, .searchdiv select, .searchdiv button{
+	border-radius: 0px !important;
+	height: 43px !important;
+}
+.searchdiv select{
+	background: white !important;
+}
+.keywords button{
+	margin-top:-43px !important;
+	margin-bottom: 0px !important;
+}
+.searchdiv{
+	max-width: 1200px !important;
+}
+.searchdiv .col{
+	margin-bottom: 7px !important;
+}
+.text-right{
+	text-align: right !important;
+}
+.text-indigo{
+	color: #3949AB !important;
+	cursor: pointer;
+}
+.pjstatus{
+	padding: 10px 10px;
+	border-radius: 50% !important;
+	background: #3949AB !important;
+	color: white !important;
+	margin: 0 auto !important;
+	margin-top: 10px !important;
+}
+.datepicker-modal .btn-flat{
+	border: 0px solid transparent !important;
+}
+.valuestat{
+	margin-bottom: 0px !important;
+}
+label{
+	color: black !important;
+}

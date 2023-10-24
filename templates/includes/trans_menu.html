@@ -1,0 +1,103 @@
+{% load static %}
+{% load i18n %}
+<nav>
+  <div class="nav-wrapper black white-text">
+    <a href="/home-trans" class="brand-logo left show-on-medium-and-up hide-on-small-only">{% trans 'StoryOGD' %} <!--<small style="font-size:10pt !important;">V2</small>--></a>
+    <a href="/home-trans" class="brand-logo left show-on-small hide-on-med-and-up">{% trans 'StoryOGD' %} <!--<small style="font-size:10pt !important;">V2</small>--></a>
+    <ul class="right">
+      <li class="spinner-loading">
+        <img src="{% static "images/loader.gif" %}"/>
+      </li>
+      <li class="show-on-large hide-on-med-and-down">
+        <a href="/home-proto">{% trans 'Back to ODE' %}</a>
+      </li>
+      <li class="show-on-large hide-on-med-and-down">
+        <a href="/home-trans">{% trans 'Home' %}</a>
+      </li>
+      <li class="show-on-large hide-on-med-and-down">
+        <a href="{% url 'frontend:trans_started' %}">{% trans 'Start Creating' %}</a>
+      </li>
+      <li style="max-width: 50px;" class="hide">
+        <a class="dropdown-trigger" href="#" data-target="dropdown-languages">
+            <i class="material-icons right">language</i>
+        </a>
+      </li>
+      <li class="show-on-med-and-down hide-on-large">
+        <a href="#" data-target="slide-out" class="sidenav-trigger" style="margin: 0 3px !important;padding: 0 10px !important;"><i class="material-icons">menu</i></a>
+      </li>
+
+    </ul>
+  </div>
+  <div class="progress se-pre-con">
+    <div class="indeterminate"></div>
+  </div>
+</nav>
+
+<ul id="slide-out" class="sidenav">
+  <li>
+    <a href="/home-proto">{% trans 'Back to ODE' %}</a>
+  </li>
+  <li>
+    <a href="/home-trans">{% trans 'Home' %}</a>
+  </li>
+  <li>
+    <a href="{% url 'frontend:trans_started' %}">{% trans 'Start Creating' %}</a>
+  </li>
+</ul>
+<!--Share-->
+<div id="modalShare" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h5 id="modalheader-share">{% trans "Share" %}</h5>
+    <div id="share"><br/>
+      <form id="share-form" action="{% url 'frontend:share_project' %}" method="post">
+        {% csrf_token %}
+        <div class="input-field col s12">
+          <input placeholder='{% trans "Emails (separated by ,)" %}' id="emails" name="emails" type="text" class="validate" value="">
+          <label for="emails">{% trans "Emails (separated by ,)" %}</label>
+        </div><br/>
+        <div class="input-field col s12">
+          <input type="hidden" id="weblink" value="{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{object.get_absolute_url}}/dashboard/"/>
+          <input type="hidden" id="initweblink" value="{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{object.get_absolute_url}}"/>
+          <input type="hidden" id="webpath" value="{{ request.get_full_path }}" />
+          <textarea placeholder='{% trans "Message" %}' id="message" name="body" class="materialize-textarea" style="min-height: 100px;"></textarea>
+          <label for="message">{% trans "Message" %}</label>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+    <a href="javascript:void(0)" class="modal-share waves-effect waves-green btn blue darken-1 lower rounded">{% trans "Share" %}</a>
+  </div>
+</div>
+
+
+<!-- -->
+<!--form to search states based on country-->
+<form id="state-form" action="{% url 'frontend:get_transstates' %}" method="POST" style="display: none;">
+  {% csrf_token %}
+  <input type="hidden" name="sch_country" id="sch_country" value="">
+</form>
+<!--end form to search states based on country-->
+<ul id="dropdown-languages" class="dropdown-content">
+  {% get_current_language as LANGUAGE_CODE %}
+  {% get_available_languages as languages %}
+  {% for lang_code, lang_name in languages %}
+    {% language lang_code %}
+      <li>
+        <a class="dropdown-item preview-item lang-item" data-code="{{ lang_code }}" href="#">{{ lang_name }}</a>
+      </li>
+    {% endlanguage %}
+  {% endfor %}
+  <form id="language-form" action="{% url 'frontend:set_language' %}" method="POST" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <input type="hidden" name="locale" value="{{ LANGUAGE_CODE }}"  id="id_locale">
+  </form>
+</ul>
+<!-- handle go to specific section -->
+{% if goto %}
+<input type="hidden" name="goto" id="goto" value="{{goto}}"/>
+{% else %}
+<input type="hidden" name="goto" id="goto" value="{{request.GET.goto}}"/>
+{% endif %}

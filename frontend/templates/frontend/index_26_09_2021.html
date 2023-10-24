@@ -1,0 +1,472 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "ODEON" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <script src="{% static 'js/index.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+  <!-- particles.js container -->
+  <!--<div id="particles-js"></div>-->
+  <div class="content-top" style="background-color: white !important;">
+    <div class="site-header center" style="background-image: url(/static/images/central-repository-dark.jpg)">
+      <h1 class="headline container center">{% trans "Centralized repository for open government data initiatives" %}</h1>
+      <div class="container">
+        <div class="search-box-w-buttons">
+          <div class="searchdiv">
+            <form method="GET" action="{% url 'frontend:projects' %}" id="search-form">
+              <div class="row" style="margin-bottom: 10px;">
+                <div class="col l4 m12 s12">
+                  <select class="browser-default tooltipped" name="country" id="country" data-position="top" data-tooltip='{% trans "Country" %}'>
+                    <option value=''>{% trans "Country" %}</option>
+                    {% for ct in request.session.used_countries %}
+                    <option value='{{ct}}'>{{ct}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col l4 m12 s12" style="position: relative;height: 47px;">
+                  <input placeholder='{% trans "State/City" %}' id="schstate"  name="state" type="text" value="" class="browser-default handle-input autocomplete tooltipped" data-position="top" data-tooltip='{% trans "State/City" %}'>
+                </div>
+                <div class="col l4 m12 s12">
+                  <input placeholder='{% trans "Search project by code, title, description" %}' id="search" name="search" type="text" class="browser-default special-input autocomplete tooltipped" data-position="top" data-tooltip='{% trans "Keywords" %}'>
+                  <button type="submit" class="mt-2 sub-search waves-effect waves-green btn indigo darken-1 lower rounded" style="float: right !important;"><i class="material-icons">search</i></button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="search-buttons">
+            <a class="btn waves-effect waves-light indigo darken-1" href="{% url 'frontend:projects' %}">{% trans "View All Projects" %}
+            <i class="material-icons left">visibility</i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="topics-section">
+      <div class="container">
+        <div class="topics-row">
+          {% for key, theme in request.session.list_themes.items %}
+            <div class="topic-container">
+              <a class="ga-topic-selector" href="{% url 'frontend:projects' %}?topic={{theme.name}}">
+              <div class="topic-link-container">
+                <div class="topic-link">
+                  <img class="hover-on" src="{{theme.image}}">
+                  <h5 class="topic-title">{{theme.name}}</h5>
+                </div>
+              </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div>
+    </div>
+    <div class="index-spacer" style="background: #eee !important;">
+      <div class="about" id="about">
+        <div class="row">
+          <div class="col s12">
+            <h5 class="center indigo-text darken-4 no-marg">{% trans "About ODEON" %}</h5>
+            <p>
+              {% blocktrans %}
+              ODEON is a centralized repository whose objective is to facilitate communication betweeen
+              Open Government Data (OGD) stakeholders: citizens, developers and publishers.<br/><br/>
+              <b>As citizen</b>, you can suggest a project idea for developers and also follow the progress of the project development if needed.<br/>
+              <b>As developer</b>, you can discover the projects that citizens are interested in and also get feedback from users during the development progress.
+              In addition, you can request datasets from publishers and also report issues found in datasets used in your projects.<br/>
+              <b>As publisher</b>, you can discover the projects that used our datasets. You can also find out about requested data and reported issues with our datasets.
+              {% endblocktrans %}
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <h5 class="center indigo-text darken-4 no-marg">{% trans "Choose your user type" %}</h5>
+            <p class="center">{% trans "Please select the user type that suits you best to see the related features." %}<br/><br/></p>
+          </div>
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s4"><a class="indigo-text darken-4 active" href="#citizens">Citizens</a></li>
+              <li class="tab col s4"><a class="indigo-text darken-4" href="#developers">Developers</a></li>
+              <li class="tab col s4"><a class="indigo-text darken-4" href="#publishers">Publishers</a></li>
+            </ul>
+          </div>
+          <div id="citizens">
+            <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:projects' %}"><i class="material-icons">visibility</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "Explore OGD reuses" %}</span>
+                  <p>{% trans "Discover all the applications/services that have been developed using the OGD." %}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:projects' %}"><i class="material-icons">visibility</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "Explore requested projects" %}</span>
+                  <p>{% trans "Discover all the applications/services that are suggested by users." %}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:get_started_type' code='proposed' %}?user_type=citizen"><i class="material-icons">add</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "Suggest a project" %}</span>
+                  <p>{% trans "Have an idea? if so drop it here and the community will work on that as soon as possible." %}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:get_started_type' code='external' %}"><i class="material-icons">add</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "Register an OGD reuse" %}</span>
+                  <p>{% trans "Register an existing application or service developed using OGD in the system." %}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="developers">
+            <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:projects' %}"><i class="material-icons">visibility</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "Explore requested projects" %}</span>
+                  <p>{% trans "Discover all the applications/services that are suggested by users." %}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:projects' %}"><i class="material-icons">visibility</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "Explore OGD reuses" %}</span>
+                  <p>{% trans "Discover all the applications/services that have been developed using the OGD." %}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:get_started_type' code='external' %}"><i class="material-icons">add</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "Register an OGD reuse" %}</span>
+                  <p>{% trans "Register an existing application or service developed using OGD in the system." %}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:get_started_type' code='proposed' %}?user_type=developer"><i class="material-icons">add</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "Suggest a project" %}</span>
+                  <p>{% trans "Have an idea and want to check if it is relevant for citizens? if so drop it here and the community will give you their feedback." %}</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div id="publishers">
+            <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:projects' %}"><i class="material-icons">visibility</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "Explore OGD reuses" %}</span>
+                  <p>{% trans "Discover all the applications/services that have been developed using the OGD." %}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:projects' %}"><i class="material-icons">visibility</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "Explore requested projects" %}</span>
+                  <p>{% trans "Discover all the applications/services that are suggested by users." %}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l6" style="cursor: pointer" onclick="gotosection('reqdata');">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="javascript:void(0)" onclick="gotosection('reqdata')"><i class="material-icons">visibility</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "View requested data" %}</span>
+                  <p>{% trans "View all the requested data by developers and respond to them." %}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m6 l6" style="cursor: pointer" onclick="gotosection('dtissue');">
+              <div class="card">
+                <div class="card-image">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="javascript:void(0)" onclick="gotosection('dtissue')"><i class="material-icons">visibility</i></a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title">{% trans "View data issues" %}</span>
+                  <p>{% trans "View and respond to all issues related to a specific dataset." %}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<div class="index-spacer" style="background: #fff !important;">
+      <div class="about">
+        <div class="row">
+          <h5 class="center indigo-text darken-4 no-marg">{% trans "Requested Data & Data Issues" %}</h5>
+          <p class="center">{% trans "Search by country and city to see the requested data and reported data issues in your area." %}<br/><br/></p>
+          <div class="col s12 m6">
+            <div class="card" id="reqdata">
+              <div class="card-content">
+                <span class="card-title center">{% trans "Requested Data" %}</span>
+                <div class="search-box-w-buttons">
+                  <div class="searchdiv" style="padding-top: 0px !important;">
+                    <form method="GET" id="search-req-form">
+                      <input type="hidden" name="goto" value="reqdata"/>
+                      <div class="row" style="margin-bottom: 10px;">
+                        <div class="col l6 m12 s12">
+                          <select class="browser-default" name="reqcountry" id="reqcountry">
+                            <option value=''>{% trans "Select the country of the data" %}</option>
+                            {% for ct in request.session.used_countries %}
+                            {% if ct == reqcountry %}
+                            <option value='{{ct}}' selected='selected'>{{ct}}</option>
+                            {% else %}
+                            <option value='{{ct}}'>{{ct}}</option>
+                            {% endif %}
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="col l6 m12 s12" style="position: relative;height: 47px;">
+                          <input placeholder='{% trans "Enter the state/city of the data" %}' id="reqstate" name="reqstate" value="{{reqstate}}" type="text" class="browser-default handle-input autocomplete">
+                        </div>
+                        <div class="col l12 m12 s12">
+                          <input placeholder='{% trans "Search title, description, contact" %}' id="reqsearch" name="reqsearch" type="text" value="{{reqsearch}}" class="browser-default special-input autocomplete">
+                          <button type="submit" class="mt-2 sub-search waves-effect waves-green btn indigo darken-1 lower rounded" style="float: right !important;"><i class="material-icons">search</i></button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="results">
+                  {%if nbreqdatas > 0 %}
+                  <div class="row feed">
+                      <div class="col s12">
+                        <ul class="collection">
+                          {% for reqdata in reqdatas %}
+                            <li class="collection-item feedli" style="text-align: left !important;">
+                              {% if reqdata.more_details.title %}
+                              <p><a target="_blank" href="{% url 'frontend:explore_data' project_code='none' code=reqdata.code %}">{{ reqdata.more_details.title|truncatechars:80 }}</a> (<span class="material-icons" style="font-size: 1rem;color:#1A237E;" onclick="savelink()">thumb_up</span>: {{reqdata.nb_likes}})</p>
+                              {% else %}
+                              <p><a target="_blank" href="{% url 'frontend:explore_data' project_code='none' code=reqdata.code %}">{% trans "No title" %}</a> (<span class="material-icons" style="font-size: 1rem;color:#1A237E;" onclick="savelink()">thumb_up</span>: {{reqdata.nb_likes}})</p>
+                              {% endif %}
+                              {% if reqdata.more_details.description %}
+                              <p>{{ reqdata.more_details.description|truncatechars:120 }}</p>
+                              {% else %}
+                              <p>{% trans "No description" %}</p>
+                              {% endif %}
+                              {% if reqdata.more_details.contact %}
+                              <p>{% trans "Contact: " %}{{ reqdata.more_details.contact }}</p>
+                              {% endif %}
+                            </li>
+                          {% endfor %}
+                        </ul>
+                        <div class="clear"></div>
+                        <div class="center">
+                      	{% if reqdatas.has_other_pages %}
+                      	  <ul class="pagination">
+                      		{% if reqdatas.has_previous %}
+                      		  <li><a href="?reqsearch={{ reqsearch }}&reqcountry={{ reqcountry }}&reqstate={{ reqstate }}&goto=reqdata&reqpage={{ reqdatas.previous_page_number }}">&laquo;</a></li>
+                      		{% else %}
+                      		  <li class="disabled"><span>&laquo;</span></li>
+                      		{% endif %}
+                      		{% for i in reqdatas.paginator.page_range %}
+                      		  {% if reqdatas.number == i %}
+                      			<li class="active"><span>{{ i }}</span></li>
+                      		  {% else %}
+                      			<li><a href="?reqsearch={{ reqsearch }}&reqcountry={{ reqcountry }}&reqstate={{ reqstate }}&goto=reqdata&reqpage={{ i }}">{{ i }}</a></li>
+                      		  {% endif %}
+                      		{% endfor %}
+                      		{% if reqdatas.has_next %}
+                      		  <li><a href="?reqsearch={{ reqsearch }}&reqcountry={{ reqcountry }}&reqstate={{ reqstate }}&goto=reqdata&reqpage={{ reqdatas.next_page_number }}">&raquo;</a></li>
+                      		{% else %}
+                      		  <li class="disabled"><span>&raquo;</span></li>
+                      		{% endif %}
+                      	  </ul>
+                      	{% endif %}
+                        </div>
+                      </div>
+                    </div>
+                    {% else %}
+                    <div class="row feed">
+                        <div class="col s12 center">
+                          <p>{% trans "No request data." %}</p>
+                        </div>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 m6">
+            <div class="card" id="dtissue">
+              <div class="card-content">
+                <span class="card-title center">{% trans "Data Issues" %}</span>
+                <div class="search-box-w-buttons">
+                  <div class="searchdiv" style="padding-top: 0px !important;">
+                    <form method="GET" id="search-data-form">
+                      <input type="hidden" name="goto" value="dtissue"/>
+                      <div class="row" style="margin-bottom: 10px;">
+                        <div class="col l6 m12 s12">
+                          <select class="browser-default" name="dtcountry" id="dtcountry">
+                            <option value=''>{% trans "Select the country of the data" %}</option>
+                            {% for ct in request.session.used_countries %}
+                            {% if ct == dtcountry %}
+                            <option value='{{ct}}' selected='selected'>{{ct}}</option>
+                            {% else %}
+                            <option value='{{ct}}'>{{ct}}</option>
+                            {% endif %}
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="col l6 m12 s12" style="position: relative;height: 47px;">
+                          <input placeholder='{% trans "Enter the state/city of the data" %}' id="dtstate"  name="dtstate" type="text" value="{{dtstate}}" class="browser-default handle-input autocomplete">
+                        </div>
+                        <div class="col l12 m12 s12">
+                          <input placeholder='{% trans "Search comment, name, file title, file description" %}'  id="dtsearch" name="dtsearch" type="text" value="{{dtsearch}}" class="browser-default special-input autocomplete">
+                          <button type="submit" class="mt-2 sub-search waves-effect waves-green btn indigo darken-1 lower rounded" style="float: right !important;"><i class="material-icons">search</i></button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="results">
+                  {%if nbdtissues > 0 %}
+                  <div class="row feed">
+                      <div class="col s12">
+                        <ul class="collection">
+                          {% for feed in dtissues %}
+                            <li class="collection-item feedli" style="text-align: left !important;">
+                              {% if feed.file.more_details.title %}
+                              <p>{% trans "Related File: " %}<a target="_blank" href="{% url 'frontend:explore_data' project_code=feed.project.dash_code code=feed.file.code %}">{{ feed.file.more_details.title|truncatechars:100 }}</a></p>
+                              {% else %}
+                              <p><a target="_blank" href="{% url 'frontend:explore_data' project_code=feed.project.dash_code code=feed.file.code %}">{% trans "No title" %}</a></p>
+                              {% endif %}
+                              <span class="title ptitle">{{feed.username}}</span> <span>•</span> {{ feed.created_at }} <span>•</span> <a href="{% url 'frontend:explore_data' project_code=feed.project.dash_code code=feed.file.code %}?goto=fd{{feed.id}}">{% trans "View" %}</a>
+                              <p style="margin-top: 10px;" class="sm-marg" id="feed{{key}}">{{feed.comment|truncatechars:100}}</p>
+                              {% if feed.attach %}
+                              <a href="/files/{{feed.attach}}" target="_blank">{% trans "Attachment" %}</a>
+                              {% endif %}
+                            </li>
+                          {% endfor %}
+                        </ul>
+                        <div class="clear"></div>
+                        <div class="center">
+                      	{% if dtissues.has_other_pages %}
+                      	  <ul class="pagination">
+                      		{% if dtissues.has_previous %}
+                      		  <li><a href="?dtsearch={{ dtsearch }}&dtcountry={{ dtcountry }}&dtstate={{ dtstate }}&goto=dtissue&dtpage={{ dtissues.previous_page_number }}">&laquo;</a></li>
+                      		{% else %}
+                      		  <li class="disabled"><span>&laquo;</span></li>
+                      		{% endif %}
+                      		{% for i in dtissues.paginator.page_range %}
+                      		  {% if dtissues.number == i %}
+                      			<li class="active"><span>{{ i }}</span></li>
+                      		  {% else %}
+                      			<li><a href="?dtsearch={{ dtsearch }}&dtcountry={{ dtcountry }}&dtstate={{ dtstate }}&goto=dtissue&dtpage={{ i }}">{{ i }}</a></li>
+                      		  {% endif %}
+                      		{% endfor %}
+                      		{% if dtissues.has_next %}
+                      		  <li><a href="?dtsearch={{ dtsearch }}&dtcountry={{ dtcountry }}&dtstate={{ dtstate }}&goto=dtissue&dtpage={{ dtissues.next_page_number }}">&raquo;</a></li>
+                      		{% else %}
+                      		  <li class="disabled"><span>&raquo;</span></li>
+                      		{% endif %}
+                      	  </ul>
+                      	{% endif %}
+                        </div>
+                      </div>
+                    </div>
+                    {% else %}
+                    <div class="row feed">
+                        <div class="col s12 center">
+                          <p>{% trans "No data issue." %}</p>
+                        </div>
+                    </div>
+                  {% endif %}
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+    <div class="index-spacer contactdiv">
+      <div class="row">
+        <div class="col s12">
+          <h5 class="center indigo-text darken-4 no-marg">{% trans "Contact Us" %}</h5>
+          <p class="center">{% trans "Do not hesitate to contact us if you have any suggestions to improve the system or if you have any questions." %}<br/><br/></p>
+        </div>
+      </div>
+      <form method="POST" id="contact-form">
+          {% csrf_token %}
+          <div class="row no-mb">
+            <div class="input-field sm-mb col m6 l6 s12">
+              <input placeholder='{% trans "Full Name" %}' id="full_name" name="full_name" type="text" class="validate rounded-input input-pad" required>
+              <label for="full_name">{% trans "Full Name*" %}</label>
+            </div>
+            <div class="input-field sm-mb col m6 l6 s12">
+              <input placeholder='{% trans "Email" %}' id="email" type="text" name="email" class="validate rounded-input input-pad" required>
+              <label for="email">{% trans "Email*" %}</label>
+            </div>
+          </div>
+          <div class="row no-mb">
+            <div class="input-field sm-mb col s12">
+              <textarea placeholder='{% trans "Message" %}' id="message" name="message" class="materialize-textarea special-textarea rounded-input" required></textarea>
+              <label for="message">{% trans "Message*" %}</label>
+            </div>
+          </div>
+          <div class="row no-mb center">
+            <div class="clear"></div>
+            <button class="btn waves-effect waves-light green darken-1sm-rounded"
+             type="submit" name="action">{% trans "Submit" %}
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+          <br/>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

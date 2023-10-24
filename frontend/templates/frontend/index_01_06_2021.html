@@ -1,0 +1,155 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "ODEON" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <script src="{% static 'js/index.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+  <!-- particles.js container -->
+  <!--<div id="particles-js"></div>-->
+  <div class="content-top" style="background-color: white !important; padding-top: 50px;">
+    <div class="row index-spacer">
+      <div class="col col-special s12 m6 l6">
+        <div>
+          <h4 class="left black-text darken-4" style="text-align:left !important;">{% blocktrans %}Easily create a dashboard using Open Government Data<br/>{% endblocktrans %}</h4>
+          <p style="font-size:12pt;">{% blocktrans %}Create your dashbord from scratch or from an existent dashboard in few steps without programming knowledge. Let's get started.<br/>{% endblocktrans %}</p>
+          {% if user.is_authenticated %}
+          <a id="intermediate" class="btn waves-effect waves-light indigo darken-1" href="{% url 'frontend:get_started' %}">{% trans 'Get Started' %}</a>
+          {% else %}
+          <h6>{% blocktrans %}How confident are you in data visualization ?{% endblocktrans %}</h6>
+          <a id="non_expert" class="btn waves-effect waves-light green darken-1" href="{% url 'frontend:get_started_type' code='non-expert' %}">{% trans "Not confident" %}
+          </a>
+          <!--<a id="intermediate" class="btn waves-effect waves-light indigo darken-1" href="{% url 'frontend:get_started_type' code='intermediate' %}">{% trans "Less confident" %}
+          </a>-->
+          <a class="btn waves-effect waves-light red darken-1"  href="{% url 'frontend:get_started_type' code='expert' %}">{% trans "Confident" %}
+          </a>
+          {% endif %}
+          <div class="clear"></div><br/>
+        </div>
+      </div>
+      <div class="col col-special s12 m6 l6">
+        <img src="{% static 'images/frontend_nedvis_plus.PNG' %}" style="max-width:99% !important;" class="z-depth-1 rounded" title='{% trans "Example of frontend of ODEON." %}'/>
+      </div>
+    </div>
+
+    <div class="row index-spacer" style="background-color: #F5F5F5 !important;">
+      <h5 class="center black-text darken-4" style="margin-bottom: 0pt !important;"><br/>{% blocktrans %}Check existent projects<small style="font-size: 12pt;"> <br/>You can base on one of the following project to start yours.</small> {% endblocktrans %}</h5>
+      <div class="row no-mb">
+        <div class="input-field sm-mb col s12">
+          <input placeholder='{% trans "Search by code, titile or description" %}' value="{{ search }}" id="search_project" name="search_project" type="text" class="validate rounded-input input-pad">
+        </div>
+      </div>
+      <div class="col col-special s12 m12">
+        <div class="row no-mb" id="shared_projects">
+          {% if projects %}
+            {% for projt in projects %}
+              <div class="col s6 m4 l3">
+                <div class="card horizontal">
+                  <div class="card-stacked">
+                    <div class="card-content proj-cont">
+                      <p style='text-align: right;'><small><b>{{ projt.dash_code }}</b></small></p>
+                      {% if projt.notes %}
+                      <p>{{ projt.notes|truncatechars:150 }}</p>
+                      {% else %}
+                      <p>{% trans "No description" %}</p>
+                      {% endif %}
+                    </div>
+                    <div class="card-action" style="padding: 10px 10px;">
+                      {% if projt.title %}
+                      <a target="_blank" href="{% url 'frontend:dashboard' code=projt.dash_code %}" class="proj-title">{{ projt.title|truncatechars:30 }}</a>
+                      {% else %}
+                      <p>{% trans "No title" %}</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+          <div class="col s12 m12">
+            <p class="center">{% trans "There are no projects matching your request. Please modify your request." %}</p>
+          </div>
+          {% endif %}
+          <div class="clear"></div>
+          <div class="col s12 m12 center">
+            {% if projects.has_other_pages %}
+              <ul class="pagination">
+                {% if projects.has_previous %}
+                  <li><a href="?search={{ search }}&page={{ projects.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in projects.paginator.page_range %}
+                  {% if projects.number == i %}
+                    <li class="active"><span>{{ i }}</span></li>
+                  {% else %}
+                    <li><a href="?search={{ search }}&page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if projects.has_next %}
+                  <li><a href="?search={{ search }}&page={{ projects.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+          </div>
+          <p>&nbsp;&nbsp;</p>
+        </div>
+      </div>
+    </div>
+    <div class="row index-spacer">
+      <h5 class="center black-text darken-4">{% blocktrans %}Want to know more about the architecture of ODEON? <small style="font-size: 12pt;">(check below) <br/>No coding skills required to use it.</small> {% endblocktrans %}</h5>
+      <div class="col col-special s12 m7 l8">
+        <div>
+          <img src="{% static 'images/architecture_nedvis.PNG' %}" style="max-width:99% !important;" class="z-depth-1 rounded" title='{% trans "Architecture of ODEON. From data collection until dashbord creation." %}'/>
+          <div class="clear"></div><br/>
+        </div>
+      </div>
+      <div class="col col-special s12 m5 l4">
+        <div class="card card-special" style="margin-top: 0px !important;">
+          <div class="card-content" style="padding: 12px !important;">
+            <h5 class="center indigo-text darken-4">{% trans "Contact Us" %}</h5>
+            <form method="POST" id="contact-form">
+                {% csrf_token %}
+                <div class="row no-mb">
+                  <div class="input-field sm-mb col m6 l6 s12">
+                    <input placeholder='{% trans "Full Name" %}' id="full_name" name="full_name" type="text" class="validate rounded-input input-pad">
+                    <label for="full_name">{% trans "Full Name" %}</label>
+                  </div>
+                  <div class="input-field sm-mb col m6 l6 s12">
+                    <input placeholder='{% trans "Email" %}' id="email" type="text" name="email" class="validate rounded-input input-pad">
+                    <label for="email">{% trans "Email" %}</label>
+                  </div>
+                </div>
+                <div class="row no-mb">
+                  <div class="input-field sm-mb col s12">
+                    <textarea placeholder='{% trans "Message" %}' id="message" name="message" class="materialize-textarea special-textarea rounded-input"></textarea>
+                    <label for="message">{% trans "Message *" %}</label>
+                  </div>
+                </div>
+                <div class="row no-mb center">
+                  <div class="clear"></div>
+                  <button class="btn waves-effect waves-light indigo darken-1sm-rounded"
+                   type="submit" name="action">{% trans "Submit" %}
+                    <i class="material-icons right">send</i>
+                  </button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

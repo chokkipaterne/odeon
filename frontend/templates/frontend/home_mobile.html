@@ -1,0 +1,205 @@
+{% extends 'mobile_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "CitizenApps" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/home-mobile.css' %}?v={%settings_value 'VERSION'%}">
+  {% if not is_mobile %}
+  <style type="text/css">
+  main, footer, .bdrad{
+  	max-width: 800px !important;
+  }
+  .modal{
+  	max-width: 370px !important;
+  }
+  </style>
+  {% endif %}
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <!--<script src="{% static 'js/projects.js' %}?v={%settings_value 'VERSION'%}"></script>-->
+{% endblock %}
+
+{% block content %}
+<div class="z-depth-2 p5 bdrad" style="background: white !important;">
+  <div class="bdinside">
+    <div class="row sm-marg">
+      <div class="col s7">
+        <h5 class="sm-marg"><b>{% trans "CitizenApps" %}</b></h5>
+      </div>
+      <div class="col s5">
+        <h5 class="sm-marg">
+          <!--<a class='dropdown-trigger right' href='javascript:void(0)' onclick="showModalAbout();">
+            <i class="material-icons right" style="color: #3F51B5">help</i>
+          </a>-->
+          <a class="dropdown-trigger" id="hlang" href="#" data-target="dropdown-languages1">
+              <i class="material-icons right">language</i>
+          </a>
+        </h5>
+        <h5 class="sm-marg"><a class='dropdown-trigger right' href='javascript:void(0)' onclick="showModalCountry();"><i class="material-icons right" style="color: #3F51B5">room</i></a></h5>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clear"><br/></div>
+<div class="content-top" style="background-color: white !important;overflow-x: clip !important;">
+  {% get_current_language as LANGUAGE_CODE %}
+  <div class="site-header center" style="background-image: url(/static/images/citizenapps_banner_{{LANGUAGE_CODE}}.jpg)">
+    <!--<div class="row sm-marg">
+      <div class="col s12 searchtop">
+          <i class="material-icons">search</i>
+          <input placeholder='{% trans "Search..." %}' value="{{search}}" id="modalsearch" name="modalsearch" type="text" class="browser-default special-input">
+      </div>
+    </div>-->
+  </div>
+</div>
+<div class="container mt-content">
+  <div class="row no-mb" style="margin-top: 15px;">
+    <div class="col m12 l12 s12">
+        <div class="row no-mb" style="display: flex;flex-wrap: wrap;flex-direction: row;">
+          <div class="col s12 m12 l12 projt projthoriz themhoriz" onclick="showModalAbout();">
+            <div class="card horizontal">
+              <div class="card-image center">
+                <img src="/static/images/database.png">
+              </div>
+              <div class="card-stacked">
+                <div class="card-content">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo tooltipped" href="javascript:void(0)" data-position="top" data-tooltip="{% trans 'More Details' %}" onclick="showModalAbout();"><i class="material-icons">help</i></a>
+                  <p>
+                    {% blocktrans %}
+                    <b>Open Government Data (OGD)</b> consists of data published by the government to be freely reused or distributed by anyone.
+                    The goal of <b>CitizenApps</b> is to help you understand the usefulness of OGD by showing some applications built from it.
+                    <br/>
+                    {% endblocktrans %}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clear"></div><br/>
+    </div>
+  </div>
+
+  <div class="row no-mb">
+    <div class="col m12 l12 s12">
+        {% if projects_popular %}
+        <div class="row no-mb" style="display: flex;flex-wrap: wrap;flex-direction: row;">
+          <h5 class="hsubtitle bdinside no-mt" style="margin-top: 0px !important;">{% trans "Popular Apps" %} {% trans "in" %} {{home_country|country_translate:LANGUAGE_CODE}}<a href="{% url 'frontend:projects_mobile' %}?sort=popular&country={{home_country}}" class="right"><small>{% trans 'See All' %}</small></a></h5>
+          {% for projt in projects_popular %}
+          <div class="col s6 m4 l3 projt projtvert">
+            <div class="card" onclick="location.href='{% url 'frontend:detail_project_mobile' code=projt.dash_code %}';">
+              <div class="card-image center">
+                {% if projt.static_image %}
+                <img src="{{projt.static_image}}">
+                {% elif projt.image %}
+                <img src="{{projt.image.url}}">
+                {% else %}
+                <img src="/static/images/nopreview.jpg">
+                {% endif %}
+                <!--<a class="btn-floating halfway-fab waves-effect waves-light indigo tooltipped" data-position="top" data-tooltip="{% trans 'More Details' %}" href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}"><i class="material-icons">visibility</i></a>-->
+              </div>
+              <div class="card-content">
+                <p style="margin-top: 2px;"><small>{{ projt.theme.name }}</small><small class="right"><span class="nbfv">{{ projt.nb_favorites }}</span> <span class="material-icons" style="font-size: 0.65rem;color:#1A237E;">favorite</span></small></p>
+                {% if projt.project_type == 'external' %}
+                <p><a  href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}">{{ projt.title|truncatechars:70 }}</a></p>
+                {% elif projt.project_type == 'internal' %}
+                <p><a href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}">{{ projt.title|truncatechars:70 }}</a></p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+        {% else %}
+        <div class="row no-mb">
+          <h5 class="hsubtitle bdinside">{% trans "Popular Apps" %} {% trans "in" %} {{home_country|country_translate:LANGUAGE_CODE}}</h5>
+          <p class="center">{% trans "There are no popular apps matching your request. Please modify your request." %}</p>
+        </div>
+        {% endif %}
+    </div>
+  </div>
+  <div class="row no-mb">
+    <div class="col m12 l12 s12">
+        {% if themes_popular %}
+        <div class="row no-mb" style="display: flex;flex-wrap: wrap;flex-direction: row;">
+          <h5 class="hsubtitle bdinside">{% trans "Find Apps by Topic" %} <a href="{% url 'frontend:topics_mobile' %}" class="right"><small>{% trans 'See All' %}</small></a></h5>
+          {% for theme in themes_popular %}
+          <div class="col s6 m4 l3 projt projthoriz themhoriz" onclick="location.href='{% url 'frontend:projects_mobile' %}?topic={{theme.name_en}}&country={{home_country}}';">
+            <div class="card horizontal">
+              <div class="card-image center">
+                <img src="{{theme.image.url}}">
+              </div>
+              <div class="card-stacked">
+                <div class="card-content">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo tooltipped" data-position="top" data-tooltip="{% trans 'More Details' %}" href="{% url 'frontend:projects_mobile' %}?topic={{theme.name_en}}&country={{home_country}}"><i class="material-icons">read_more</i></a>
+                  <p><a  href="{% url 'frontend:projects_mobile' %}?topic={{theme.name_en}}&country={{home_country}}">{{theme.name}}</a></p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+        {% else %}
+        <div class="row no-mb">
+          <h5 class="hsubtitle bdinside">{% trans "Top Topics" %}</h5>
+          <p class="center">{% trans "There are no top topics." %}</p>
+        </div>
+        {% endif %}
+        <div class="clear"></div><br/>
+    </div>
+  </div>
+  <div class="row no-mb">
+    <div class="col m12 l12 s12">
+        {% if projects_new %}
+        <div class="row no-mb" style="display: flex;flex-wrap: wrap;flex-direction: row;">
+          <h5 class="hsubtitle bdinside">{% trans "Latest Apps" %} {% trans "in" %} {{home_country|country_translate:LANGUAGE_CODE}} <a href="{% url 'frontend:projects_mobile' %}?sort=new&country={{home_country}}" class="right"><small>{% trans 'See All' %}</small></a></h5>
+          {% for projt in projects_new %}
+          <div class="col s12 m12 l12 projt projthoriz">
+            <div class="card horizontal" onclick="location.href='{% url 'frontend:detail_project_mobile' code=projt.dash_code %}';">
+              <div class="card-image center">
+                {% if projt.static_image %}
+                <img src="{{projt.static_image}}">
+                {% elif projt.image %}
+                <img src="{{projt.image.url}}">
+                {% else %}
+                <img src="/static/images/nopreview.jpg">
+                {% endif %}
+              </div>
+              <div class="card-stacked">
+                <div class="card-content">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo tooltipped" data-position="top" data-tooltip="{% trans 'More Details' %}" href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}"><i class="material-icons">navigate_next</i></a>
+                  {% if projt.project_type == 'external' %}
+                  <p><a href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}">{{ projt.title|truncatechars:70 }}</a></p>
+                  {% elif projt.project_type == 'internal' %}
+                  <p><a href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}">{{ projt.title|truncatechars:70 }}</a></p>
+                  {% endif %}
+                  {% if projt.notes %}
+                  <p>{{ projt.notes|truncatechars:100 }}</p>
+                  {% else %}
+                  <p>{% trans "No description" %}</p>
+                  {% endif %}
+                  <p style="margin-top: 10px;"><small>{{ projt.theme.name }}</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+        {% else %}
+        <div class="row no-mb">
+          <h5 class="hsubtitle bdinside">{% trans "Latest Apps" %} {% trans "In" %} {{home_country|country_translate:LANGUAGE_CODE}}</h5>
+          <p class="center">{% trans "There are no apps matching your request. Please modify your request." %}</p>
+        </div>
+        {% endif %}
+        <div class="clear"></div><br/>
+    </div>
+  </div><br/>
+</div>
+
+{% endblock %}

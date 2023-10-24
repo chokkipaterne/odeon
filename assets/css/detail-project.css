@@ -1,0 +1,183 @@
+/*Css */
+.mt-content{
+  /*border-radius: 20px;
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+  box-sizing: border-box;
+  border: 1px solid #ddd;*/
+  background: #ffffff;
+}
+
+.special-input{
+  width: 100% !important;
+  height: 40px !important;
+  border-radius: 5px !important;
+  border: 1px solid #ddd !important;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+
+.btn-flat{
+  border: 0px solid transparent !important;
+  margin-left: 3px !important;
+  padding: 0 8px !important;
+}
+i.left{
+  margin-right: 5px !important;
+}
+
+input, select, textarea{
+  font-size: 0.9rem !important;
+}
+
+.special-input1 {
+    width: 100% !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+    border: 1px solid #ddd !important;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+}
+
+.boxed{
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    background: #ffffff;
+    padding: 7px;
+    height: 140px;
+    margin-bottom: 7px !important;
+    font-size: 0.88rem;
+}
+
+.sm-seperator{
+  width: 100%;
+  height: 1px;
+  background: #eee;
+  margin:5px 0px 5px 0px;
+}
+
+.dotted{
+  padding: 5px !important;
+  border: 2px dotted #ddd;
+  margin: 0 auto !important;
+  min-height: 100px;
+}
+.smalltxt{
+  font-size: 0.75rem !important;
+}
+
+.labelcol{
+  font-size: 0.9rem !important;
+}
+#dqfile{
+  margin-top: -25px;
+}
+.collapsible-body{
+  padding: 1rem 1.1rem !important;
+}
+.ptitle{
+  font-size: 0.9rem !important;
+  font-weight: bold !important;
+  max-width: 90% !important;
+}
+.pdesc{
+  font-size: 0.85rem !important;
+  max-width: 90% !important;
+}
+.collection .collection-item {
+    padding: 10px 0px 5px 0px;
+}
+.collection .collection-item.avatar{
+  padding-left: 0px !important;
+}
+
+.text-indigo{
+	color: #3949AB !important;
+	cursor: pointer;
+}
+.pjs-active{
+  background: #3949AB !important;
+  color: white !important;
+}
+.pjs-inactive{
+  background: #DDDDDD !important;
+  color: black !important;
+}
+.pjstatus{
+	padding: 10px 10px;
+	border-radius: 50% !important;
+	cursor: pointer;
+	margin-top: 6px !important;
+  margin-left: 6px;
+}
+.spcollect .collection-item {
+    padding: 0px 0px 0px 0px !important;
+}
+
+.bgwhite{
+  background: #FFFFFF !important;
+}
+.feed .collection, .listdt .collection, .allinfo .collection{
+  border: 0px solid transparent !important;
+}
+.feedG {
+    color: #3f51b5 !important;
+    line-height: 48px;
+    height: 48px;
+    font-size: 1rem !important;
+    text-transform: uppercase;
+    font-weight: bold !important;
+}
+
+.tabs .tab a.active{
+	border-bottom: 1px solid #1A237E !important;
+	font-weight: bold !important;
+}
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    background-color: transparent !important;
+    outline: none;
+}
+.tabs .tab a:hover, .tabs .tab a.active {
+    background-color: transparent !important;
+    /*color: #1A237E !important;*/
+}
+.tabs .indicator {
+    background-color: #1A237E !important;
+}
+label{
+  color: black !important;
+}
+.starrr a {
+    color: #1A237E !important;
+    padding: 5px 5px 0px 5px !important;
+}
+#rating .starrr a{
+  font-size: 25px !important;
+}
+.starrr a:first-child{
+  padding: 5px 5px 0px 0px !important;
+}
+/*.toppopt .material-icons{
+  padding: 5px !important;
+  border-radius: 50% !important;
+  -webkit-box-shadow: 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
+  box-shadow: 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
+  margin-left: 7px;
+  cursor: pointer !important;
+}*/
+.topopt{
+  padding: 5px 7px !important;
+  margin-bottom: 15px !important;
+  margin-top: 10px !important;
+  -webkit-box-shadow: 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
+  box-shadow: 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
+  border-radius: 15px !important;
+  color: #1A237E !important;
+  background: #fff !important;
+  font-size: 0.9rem !important;
+  text-transform: none !important;
+  width: 100% !important;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

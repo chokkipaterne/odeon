@@ -1,0 +1,187 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Projects - ODEON" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/projects.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <script src="{% static 'js/projects.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-content">
+    <form method="GET" action="{% url 'frontend:projects' %}" id="search-form">
+      <div class="searchdiv">
+        <div class="row">
+          <div class="col m6 l4 s12">
+            <label>{% trans "Project Type" %}</label>
+            <select class="browser-default tooltippedf" name="type" id="type" data-position="top" data-tooltip='{% trans "Project Type" %}'>
+              <option value=''>{% trans "All" %}</option>
+              <option value='external' {% if type == "external" %} selected="selected" {% endif %}>{% trans "OGD Reuse" %}</option>
+              <!--<option value='internal' {% if type == "internal" %} selected="selected" {% endif %}>{% trans "Internal" %}</option>-->
+              <option value='proposed' {% if type == "proposed" %} selected="selected" {% endif %}>{% trans "Suggested Project" %}</option>
+            </select>
+          </div>
+          <div class="col m6 l4 s12">
+            <label>{% trans "Project Status" %}</label>
+            <select class="browser-default tooltippedf" name="status" id="status" data-position="top" data-tooltip='{% trans "Project Status" %}'>
+              <option value=''>{% trans "All" %}</option>
+              {% for st in request.session.statuses %}
+                {% if st.id == status %}
+                <option class="opths {%if st.for_suggested_project %} sp {% endif %} {% if st.for_existing_project %} ep {% endif %}" value='{{st.id}}' selected='selected'>{{st.name}} ({{st.abbreviation}})</option>
+                {% else %}
+                <option class="opths {%if st.for_suggested_project %} sp {% endif %} {% if st.for_existing_project %} ep {% endif %}" value='{{st.id}}'>{{st.name}} ({{st.abbreviation}})</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col m6 l4 s12 keywords">
+              <input type="hidden" value="{{topic}}" name="topic" id="topic"/>
+              <label>{% trans "Keywords" %}</label>
+              <input placeholder='{% trans "Search project by code, title, description" %}' value="{{search}}" id="search" name="search" type="text" class="browser-default special-input tooltippedf" data-position="top" data-tooltip='{% trans "Keywords" %}'>
+              <button type="submit" class="mt-2 modal-loadproj waves-effect waves-green btn indigo darken-1 lower" style="float: right !important;"><i class="material-icons">search</i></button>
+          </div>
+          <div class="col m6 l4 s12 schmore {% if not country and not state and not datefrom and not dateto %} hide {% endif %}">
+            <label>{% trans "Country" %}</label>
+            <select class="browser-default tooltippedf" name="country" id="country" data-position="top" data-tooltip='{% trans "Country" %}'>
+              <option value=''>{% trans "All" %}</option>
+              {% for ct in request.session.used_countries %}
+                {% if ct == country %}
+                <option value='{{ct}}' selected='selected'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                {% else %}
+                <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col m6 l4 s12 schmore {% if not country and not state and not datefrom and not dateto %} hide {% endif %}" style="position: relative;height: 47px;">
+            <label>{% trans "State/City" %}</label>
+            <input placeholder='{% trans "State/City" %}' id="state" name="state" value="{{state}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "State" %}'>
+          </div>
+          <div class="clear hide-on-med-and-up show-on-small"><br/></div>
+          <div class="col m6 l4 s12 schmore {% if not country and not state and not datefrom and not dateto %} hide {% endif %}">
+            <label>{% trans "Published Date From" %}</label>
+            <input placeholder='{% trans "Published Date From" %}' id="datefrom" name="datefrom" value="{{datefrom}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "Start Date" %}'>
+          </div>
+          <div class="col m6 l4 s12 schmore {% if not country and not state and not datefrom and not dateto %} hide {% endif %}">
+            <label>{% trans "Published Date To" %}</label>
+            <input placeholder='{% trans "Published Date To" %}' id="dateto" name="dateto" value="{{dateto}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "End Date" %}'>
+          </div>
+          <div class="col m12 l12 s12 text-right">
+            <span onclick="showmore()" class="text-indigo schless {% if country or state or datefrom or dateto %} hide {% endif %}">{% trans "More options" %}</span>
+            <span onclick="showless()" class="text-indigo schmore {% if not country and not state and not datefrom and not dateto %} hide {% endif %}">{% trans "Less options" %}</span>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col m4 l3 s12">
+        <h6 style="margin-top:0px; margin-bottom: 1rem;">{% trans "Filter by Topic" %}</h6>
+        <ul class="collection">
+          {% for key, theme in request.session.list_themes.items %}
+            <li class="collection-item avatar {% if theme.name_en == topic %} active {% endif %}" id="theme{{theme.id}}" style="text-align: left !important;" onclick="update_topic('{{theme.id}}','{{theme.name_en}}')">
+              <img src="{{theme.image}}" alt="" class="circle">
+              <p class="title ptitle" style="padding-top:10px;">{{theme.name}}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col m8 l9 s12">
+          <div class="row">
+              <div class="col m8 l9 s12"><h5 style="margin-top:0px; margin-bottom: 1rem;">
+                {% if type == 'external' %}
+                {{nbprojects}}{% trans " OGD reuses found." %}
+                {% elif type == 'proposed' %}
+                {{nbprojects}}{% trans " suggested projects found." %}
+                {% else %}
+                {{nbprojects}}{% trans " projects found." %}
+                {% endif %}
+              </h5></div>
+              <div class="col m4 l3 s12">
+                <label>{% trans "Sort By" %}</label>
+                <select class="browser-default tooltipped" data-position="top" data-tooltip='{% trans "Sort By" %}' name="sort" id="sort">
+                  <option value='modified' {% if sort == "modified" %} selected="selected" {% endif %}>{% trans "Published Date" %}</option>
+                  <option class="opths sp" value='nblikes' {% if sort == "nblikes" %} selected="selected" {% endif %}>{% trans "Likes" %}</option>
+                  <option class="opths ep" value='nbfavorites' {% if sort == "nbfavorites" %} selected="selected" {% endif %}>{% trans "Favorites" %}</option>
+                  <option value='nameasc' {% if sort == "nameasc" %} selected="selected" {% endif %}>{% trans "Name Ascending" %}</option>
+                  <option value='namedesc' {% if sort == "namedesc" %} selected="selected" {% endif %}>{% trans "Name Descending" %}</option>
+                </select>
+              </div>
+          </div>
+          {% if projects %}
+          <div class="row">
+            {% for projt in projects %}
+            <div class="col s12 m12 l6">
+              <div class="card horizontal">
+                <div class="card-image center">
+                  {% if projt.static_image %}
+                  <img src="{{projt.static_image}}">
+                  {% elif projt.image %}
+                  <img src="{{projt.image.url}}">
+                  {% else %}
+                  <img src="/static/images/nopreview.jpg">
+                  {% endif %}
+                  <div class="clear"></div>
+                  <span class="pjstatus tooltipped material-icons" style="background: {{projt.status.bg_color}} !important;color: {{projt.status.color}} !important;" data-position="top" data-tooltip='{{projt.status.name}}'>{{projt.status.icon}}</span>
+
+                </div>
+                <div class="card-stacked">
+                  <div class="card-content">
+                    {% if projt.title %}
+                    <p><a href="{% url 'frontend:detail_project' code=projt.dash_code %}">{{ projt.title|truncatechars:100 }}</a> {% if projt.project_type == 'proposed' %}(<span class="material-icons" style="font-size: 1rem;color:#1A237E;" onclick="savelink()">thumb_up</span>: {{projt.nb_likes}}){% endif %}
+                    {% if projt.project_type != 'proposed' %}(<span class="material-icons" style="font-size: 1rem;color:#1A237E;">favorite</span>: {{projt.nb_favorites}}){% endif %}</p>
+                    {% else %}
+                    <p><a href="{% url 'frontend:detail_project' code=projt.dash_code %}">{% trans "No title" %}</a></p>
+                    {% endif %}
+                    {% if projt.notes %}
+                    <p>{{ projt.notes|truncatechars:150 }}</p>
+                    {% else %}
+                    <p>{% trans "No description" %}</p>
+                    {% endif %}
+                    <p style="margin-top: 10px;"><small><b>{% trans "Type: " %}{%get_project_type projt.project_type %} | {% trans "Topic: " %}{{ projt.theme.name }} | {% trans "State/Country: " %}{% if projt.state %}{{ projt.state }}/{% endif %}{{ projt.country|country_translate:LANGUAGE_CODE }} | {% trans "Contact: " %}{{ projt.contact }}</b></small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+          {% else %}
+          <div>
+            <p class="center">{% trans "There are no projects matching your request. Please modify your request." %}</p>
+          </div>
+          {% endif %}
+          <div class="clear"></div>
+          <div class="center">
+            {% if projects.has_other_pages %}
+              <ul class="pagination">
+                {% if projects.has_previous %}
+                  <li><a href="?search={{ search }}&datefrom={{datefrom}}&dateto={{dateto}}&status={{ status }}&topic={{ topic }}&type={{ type }}&sort={{ sort }}&country={{ country }}&state={{ state }}&page={{ projects.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in pages %}
+                  {% if projects.number == i %}
+                    <li class="active"><span>{{ i }}</span></li>
+                  {% else %}
+                    <li><a href="?search={{ search }}&datefrom={{datefrom}}&dateto={{dateto}}&status={{ status }}&topic={{ topic }}&type={{ type }}&sort={{ sort }}&country={{ country }}&state={{ state }}&page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if projects.has_next %}
+                  <li><a href="?search={{ search }}&datefrom={{datefrom}}&dateto={{dateto}}&status={{ status }}&topic={{ topic }}&type={{ type }}&sort={{ sort }}&country={{ country }}&state={{ state }}&page={{ projects.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                  <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+          </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+{% endblock %}

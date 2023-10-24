@@ -1,0 +1,91 @@
+{% extends 'mobile_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Favorites" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/home-mobile.css' %}?v={%settings_value 'VERSION'%}">
+  {% if not is_mobile %}
+  <style type="text/css">
+  main, footer, .bdrad{
+  	max-width: 800px !important;
+  }
+  .modal{
+  	max-width: 370px !important;
+  }
+  </style>
+  {% endif %}
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <!--<script src="{% static 'js/projects.js' %}?v={%settings_value 'VERSION'%}"></script>-->
+{% endblock %}
+
+{% block content %}
+<div class="z-depth-2 p5 bdrad" style="background: white !important;">
+  <div class="bdinside">
+    <div class="row sm-marg">
+      <div class="col s9">
+        <h5 class="sm-marg"><b>{% trans "Favorites" %}</b></h5>
+      </div>
+      <div class="col s3">
+        <h5 class="sm-marg"><a class='dropdown-trigger right' href='javascript:void(0)' onclick="showModalAbout();"><i class="material-icons right" style="color: #3F51B5">help</i></a></h5>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clear"><br/></div>
+
+<div class="container mt-content" style="margin-top:10px !important;">
+  <div class="row no-mb">
+    <div class="col m12 l12 s12">
+        {% if favorites %}
+        <div class="row no-mb" style="display: flex;flex-wrap: wrap;flex-direction: row;">
+          <h5 class="hsubtitle bdinside no-mt" style="margin-top: 0px !important;">{{nbfavorites}} {% trans "favorites found" %}</h5>
+          {% for projt in favorites %}
+          <div class="col s12 m12 l12 projt projthoriz">
+            <div class="card horizontal" onclick="location.href='{% url 'frontend:detail_project_mobile' code=projt.dash_code %}';">
+              <div class="card-image center">
+                {% if projt.image %}
+                <img src="{{projt.image.url}}">
+                {% else %}
+                <img src="/static/images/nopreview.jpg">
+                {% endif %}
+
+              </div>
+              <div class="card-stacked">
+                <div class="card-content">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo tooltipped" data-position="top" data-tooltip="{% trans 'More Details' %}" href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}"><i class="material-icons">navigate_next</i></a>
+                  {% if projt.project_type == 'external' %}
+                  <p><a  href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}">{{ projt.title|truncatechars:70 }}</a></p>
+                  {% elif projt.project_type == 'internal' %}
+                  <p><a  href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}">{{ projt.title|truncatechars:70 }}</a></p>
+                  {% endif %}
+                  {% if projt.notes %}
+                  <p>{{ projt.notes|truncatechars:100 }}</p>
+                  {% else %}
+                  <p>{% trans "No description" %}</p>
+                  {% endif %}
+                  <p style="margin-top: 10px;"><small>{{ projt.theme.name }}</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+        {% else %}
+        <div class="row no-mb">
+          <h5 class="hsubtitle bdinside">{{nbfavorites}} {% trans "favorites found" %}</h5>
+          <p class="center">{% trans "There are no favorites." %}</p>
+        </div>
+        {% endif %}
+        <div class="clear"></div><br/>
+    </div>
+  </div>
+  <br/>
+</div>
+
+{% endblock %}

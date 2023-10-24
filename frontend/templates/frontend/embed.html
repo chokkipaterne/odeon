@@ -1,0 +1,55 @@
+{% extends 'embed_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Embed" %} - {% trans 'ODE' %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/embed.css' %}?v={%settings_value 'VERSION'%}">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+{% block custom_js %}
+  {# PHOTOS PAGE SCRIPTS #}
+  {% if project %}
+  <script src="{% static 'js/embed.js' %}?v={%settings_value 'VERSION'%}"></script>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="mt-content">
+  {% if project %}
+  <form class="hide" id="dash-form" action="{% url 'frontend:update_dashboard' code=code %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="dash_file" value="{{project|dash_info:'dash_file'}}" id="dash_file">
+    <input type="hidden" name="nb_params" value="{{project|dash_info:'nb_params'}}" id="nb_params">
+    <div id="dash-filt">
+      <div class="center">
+        <button class="btn waves-effect waves-light indigo darken-1 rounded lower"
+        data-position="top" data-tooltip='{% trans "Apply Filters" %}'
+         type="button" name="action" id="update-dash"><i class="material-icons left">update</i><span>{% trans "Apply Filters" %}</span>
+        </button>
+      </div>
+      {% with form=project|dash_info:"form" %}
+      {{form|safe}}
+      {% endwith %}
+    </div>
+  </form>
+  <div>
+    <div class="center dhviz col s12" data-file="{{viz.file_code}}" id="{{viz_code}}{{viz.suffix}}" data-id="{{viz_code}}" data-suffix="{{viz.suffix}}">
+        <div class="boxedf">
+          <div class="clear"></div>
+          <div class="plot-div" id="plot{{viz_code}}{{viz.suffix}}" >{{viz.plot_div|safe}}</div>
+          <div class="clear"></div>
+          <div class="sm-marg source" style="height: 50px;overflow: hidden !important;">
+            <div style="text-align:left !important;"><small>{{viz.data_title|safe}}</small></div>
+          </div>
+        </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+  {% else %}
+  <div class="center">{% trans "Code invalid" %}</div>
+  {% endif %}
+</div>
+{% endblock %}

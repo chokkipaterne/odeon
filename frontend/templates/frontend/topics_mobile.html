@@ -1,0 +1,76 @@
+{% extends 'mobile_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Topics" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/home-mobile.css' %}?v={%settings_value 'VERSION'%}">
+  {% if not is_mobile %}
+  <style type="text/css">
+  main, footer, .bdrad{
+  	max-width: 800px !important;
+  }
+  .modal{
+  	max-width: 370px !important;
+  }
+  </style>
+  {% endif %}
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <!--<script src="{% static 'js/projects.js' %}?v={%settings_value 'VERSION'%}"></script>-->
+{% endblock %}
+
+{% block content %}
+<div class="z-depth-2 p5 bdrad" style="background: white !important;">
+  <div class="bdinside">
+    <div class="row sm-marg">
+      <div class="col s9">
+        <h5 class="sm-marg"><b>{% trans "Topics" %}</b></h5>
+      </div>
+      <div class="col s3">
+        <h5 class="sm-marg"><a class='dropdown-trigger right' href='javascript:void(0)' onclick="showModalAbout();"><i class="material-icons right" style="color: #3F51B5">help</i></a></h5>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clear"><br/></div>
+
+<div class="container mt-content" style="margin-top:10px !important;">
+  <div class="row no-mb">
+    <div class="col m12 l12 s12">
+      {% if request.session.list_themes_mobile.items %}
+      <div class="row no-mb" style="display: flex;flex-wrap: wrap;flex-direction: row;">
+        <h5 class="hsubtitle bdinside no-mt" style="margin-top: 0px !important;">{% trans "Select a topic to see the related apps" %}</h5>
+        {% for key, theme in request.session.list_themes_mobile.items %}
+        <div class="col s6 m4 l3 projt projthoriz themhoriz" onclick="location.href='{% url 'frontend:projects_mobile' %}?topic={{theme.name_en}}&country={{country}}';">
+          <div class="card horizontal">
+            <div class="card-image center">
+              <img src="{{theme.image}}">
+            </div>
+            <div class="card-stacked">
+              <div class="card-content">
+                <a class="btn-floating halfway-fab waves-effect waves-light indigo tooltipped" data-position="top" data-tooltip="{% trans 'More Details' %}" href="{% url 'frontend:projects_mobile' %}?topic={{theme.name_en}}&country={{country}}"><i class="material-icons">read_more</i></a>
+                <p><a href="{% url 'frontend:projects_mobile' %}?topic={{theme.name_en}}&country={{country}}">{{theme.name}}</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        </div>
+      {% else %}
+      <div class="row no-mb">
+        <h5 class="hsubtitle bdinside">{% trans "Select a topic to see the related apps" %}</h5>
+        <p class="center">{% trans "There are no topics." %}</p>
+      </div>
+      {% endif %}
+      <div class="clear"></div><br/>
+    </div>
+  </div>
+  <br/>
+</div>
+
+{% endblock %}

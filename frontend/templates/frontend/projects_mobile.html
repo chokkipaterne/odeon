@@ -1,0 +1,114 @@
+{% extends 'mobile_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Apps" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/home-mobile.css' %}?v={%settings_value 'VERSION'%}">
+  {% if not is_mobile %}
+  <style type="text/css">
+  main, footer, .bdrad{
+  	max-width: 800px !important;
+  }
+  .modal{
+  	max-width: 370px !important;
+  }
+  </style>
+  {% endif %}
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <!--<script src="{% static 'js/projects.js' %}?v={%settings_value 'VERSION'%}"></script>-->
+{% endblock %}
+
+{% block content %}
+<div class="z-depth-2 p5 bdrad" style="background: white !important;">
+  <div class="bdinside">
+    <div class="row sm-marg">
+      <div class="col s9">
+        <h5 class="sm-marg"><b>{% trans "Apps" %}</b></h5>
+      </div>
+      <div class="col s3">
+        <h5 class="sm-marg"><a class='dropdown-trigger right' href='javascript:void(0)' onclick="showModalAbout();"><i class="material-icons right" style="color: #3F51B5">help</i></a></h5>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clear"><br/></div>
+
+<div class="container mt-content" style="margin-top:10px !important;">
+  <div class="row">
+    <div class="col s12 searchtop">
+        <i class="material-icons">search</i>
+        <input placeholder='{% trans "Search..." %}' value="{{search}}" id="modalsearch" name="modalsearch" type="text" class="browser-default special-input">
+    </div>
+  </div>
+  <div class="row no-mb">
+    <div class="col m12 l12 s12">
+        {% if projects %}
+        <div class="row no-mb" style="display: flex;flex-wrap: wrap;flex-direction: row;">
+          <h5 class="hsubtitle bdinside no-mt" style="margin-top: 0px !important;">{{nbprojects}} {% trans "apps found in" %} {% if state %}{{state}}{% else %}{{country|country_translate:LANGUAGE_CODE}}{% endif %}{% if topic %}{% trans " for " %}{{topic}}{% endif %}</h5>
+          {% for projt in projects %}
+          <div class="col s6 m4 l3 projt projtvert">
+            <div class="card" onclick="location.href='{% url 'frontend:detail_project_mobile' code=projt.dash_code %}';">
+              <div class="card-image center">
+                {% if projt.static_image %}
+                <img src="{{projt.static_image}}">
+                {% elif projt.image %}
+                <img src="{{projt.image.url}}">
+                {% else %}
+                <img src="/static/images/nopreview.jpg">
+                {% endif %}
+                <!--<a class="btn-floating halfway-fab waves-effect waves-light indigo tooltipped" data-position="top" data-tooltip="{% trans 'More Details' %}" href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}"><i class="material-icons">visibility</i></a>-->
+              </div>
+              <div class="card-content">
+                <p style="margin-top: 2px;"><small>{{ projt.theme.name }}</small><small class="right"><span class="nbfv">{{ projt.nb_favorites }}</span> <span class="material-icons" style="font-size: 0.65rem;color:#1A237E;">favorite</span></small></p>
+                {% if projt.project_type == 'external' %}
+                <p><a  href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}">{{ projt.title|truncatechars:70 }}</a></p>
+                {% elif projt.project_type == 'internal' %}
+                <p><a  href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}">{{ projt.title|truncatechars:70 }}</a></p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+        {% else %}
+        <div class="row no-mb">
+          <h5 class="hsubtitle bdinside">{{nbprojects}} {% trans "apps found in" %} {% if state %}{{state}}{% else %}{{country|country_translate:LANGUAGE_CODE}}{% endif %}{% if topic %}{% trans " for " %}{{topic}}{% endif %}</h5>
+          <p class="center">{% trans "There are no apps matching your request. Please modify your request." %}</p>
+        </div>
+        {% endif %}
+        <div class="clear"></div><br/>
+        <div class="row no-mb center">
+          {% if projects.has_other_pages %}
+            <ul class="pagination">
+              {% if projects.has_previous %}
+                <li><a href="?search={{ search }}&topic={{ topic }}&sort={{ sort }}&country={{ country }}&state={{ state }}&page={{ projects.previous_page_number }}">&laquo;</a></li>
+              {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+              {% endif %}
+              {% for i in pages %}
+                {% if projects.number == i %}
+                  <li class="active"><span>{{ i }}</span></li>
+                {% else %}
+                  <li><a href="?search={{ search }}&topic={{ topic }}&sort={{ sort }}&country={{ country }}&state={{ state }}&page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+              {% endfor %}
+              {% if projects.has_next %}
+                <li><a href="?search={{ search }}&topic={{ topic }}&sort={{ sort }}&country={{ country }}&state={{ state }}&page={{ projects.next_page_number }}">&raquo;</a></li>
+              {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+              {% endif %}
+            </ul>
+          {% endif %}
+        </div>
+    </div>
+  </div>
+  <br/>
+</div>
+
+{% endblock %}

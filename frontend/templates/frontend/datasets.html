@@ -1,0 +1,155 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Datasets - ODEON" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/datasets.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <script src="{% static 'js/datasets.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-content">
+    <form method="GET" action="{% url 'frontend:datasets' %}" id="search-form">
+      <div class="searchdiv">
+        <div class="row">
+          <div class="col m6 l4 s12">
+            <label>{% trans "Country" %}</label>
+            <select class="browser-default tooltippedf" name="country" id="country" data-position="top" data-tooltip='{% trans "Country" %}'>
+              <option value=''>{% trans "All" %}</option>
+              {% for ct in request.session.used_countries %}
+                {% if ct == country %}
+                <option value='{{ct}}' selected='selected'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                {% else %}
+                <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col m6 l4 s12" style="position: relative;height: 57px;">
+            <label>{% trans "State" %}</label>
+            <input placeholder='{% trans "State/City" %}' id="state" name="state" value="{{state}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "State" %}'>
+          </div>
+          <div class="clear hide-on-large-only show-on-medium-and-down"></div>
+          <div class="col m6 l4 s12">
+            <label>{% trans "Data Type" %}</label>
+            <select class="browser-default tooltippedf" name="type" id="type" data-position="top" data-tooltip='{% trans "Data Type" %}'>
+              <option value=''>{% trans "All" %}</option>
+              <option value='available' {% if type == "available" %} selected="selected" {% endif %}>{% trans "Existing Data" %}</option>
+              <option value='requested' {% if type == "requested" %} selected="selected" {% endif %}>{% trans "Requested Data" %}</option>
+            </select>
+          </div>
+          <div class="col m6 l4 s12 schmore {% if not search and not provided and not datefrom and not dateto %} hide {% endif %}">
+            <label>{% trans "Created Date From" %}</label>
+            <input placeholder='{% trans "Created Date From" %}' id="datefrom" name="datefrom" value="{{datefrom}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "Created Date From" %}'>
+          </div>
+          <div class="col m6 l4 s12 schmore {% if not search and not provided and not datefrom and not dateto %} hide {% endif %}">
+            <label>{% trans "Created Date To" %}</label>
+            <input placeholder='{% trans "Created Date To" %}' id="dateto" name="dateto" value="{{dateto}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "Created Date To" %}'>
+          </div>
+          <div class="col m6 l4 s12 schmore keywords {% if not search and not provided and not datefrom and not dateto %} hide {% endif %}">
+              <label>{% trans "Keywords" %}</label>
+              <input placeholder='{% trans "Search data by title, description, contact" %}' value="{{search}}" id="search" name="search" type="text" class="browser-default special-input tooltippedf" data-position="top" data-tooltip='{% trans "Keywords" %}'>
+              <button type="submit" class="mt-2 modal-loadproj waves-effect waves-green btn indigo darken-1 lower" style="float: right !important;"><i class="material-icons">search</i></button>
+          </div>
+          <div class="col m6 l4 s12 schmore hide" id="provd">
+            <label>{% trans "Requested Data Provided?" %}</label>
+            <select class="browser-default tooltipped" name="provided" id="provided" data-position="top" data-tooltip='{% trans "Requested Data Provided?" %}'>
+              <option value=''>{% trans "All" %}</option>
+              <option value='yes' {% if provided == "yes" %} selected="selected" {% endif %}>{% trans "Yes" %}</option>
+              <option value='no' {% if provided == "no" %} selected="selected" {% endif %}>{% trans "No" %}</option>
+            </select>
+          </div>
+          <div class="col m12 l12 s12 text-right">
+            <span onclick="showmore()" class="text-indigo schless {% if search or provided or datefrom or dateto %} hide {% endif %}">{% trans "More options" %}</span>
+            <span onclick="showless()" class="text-indigo schmore {% if not search and not provided and not datefrom and not dateto %} hide {% endif %}">{% trans "Less options" %}</span>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col m12 l12 s12">
+          <div class="row">
+              <div class="col m8 l9 s12"><h5 style="margin-top:0px; margin-bottom: 1rem;">
+                {% if type == 'available' %}
+                {{nbdatasets}}{% trans " available datasets found." %}
+                {% elif type == 'requested' %}
+                {{nbdatasets}}{% trans " requested datasets found." %}
+                {% else %}
+                {{nbdatasets}}{% trans " datasets found." %}
+                {% endif %}
+              </h5></div>
+              <div class="col m4 l3 s12">
+                <label>{% trans "Sort By" %}</label>
+                <select class="browser-default tooltipped" data-position="top" data-tooltip='{% trans "Sort By" %}' name="sort" id="sort">
+                  <option value='created' {% if sort == "created" %} selected="selected" {% endif %}>{% trans "Created Date" %}</option>
+                  <option class="opths rd" value='nblikes' {% if sort == "nblikes" %} selected="selected" {% endif %}>{% trans "Likes" %}</option>
+                  <!--<option value='nameasc' {% if sort == "nameasc" %} selected="selected" {% endif %}>{% trans "Name Ascending" %}</option>
+                  <option value='namedesc' {% if sort == "namedesc" %} selected="selected" {% endif %}>{% trans "Name Descending" %}</option>-->
+                </select>
+              </div>
+          </div>
+          {% if datasets %}
+          <div class="row">
+            {% for dt in datasets %}
+            <div class="col s12 m6 l4">
+              <div class="card horizontal">
+                <div class="card-content">
+                  {% if dt.more_details.title %}
+                  <p><a href="{% url 'frontend:explore_data' project_code=dt|getproject code=dt.code %}">{{ dt.more_details.title|truncatechars:80 }}</a>{%if dt.is_requested %} (<span class="material-icons" style="font-size: 1rem;color:#1A237E;">thumb_up</span>: {{dt.nb_likes}}){%endif%}</p>
+                  {% else %}
+                  <p><a href="{% url 'frontend:explore_data' project_code=dt|getproject code=dt.code %}">{% trans "No title" %}</a>{%if dt.is_requested %} (<span class="material-icons" style="font-size: 1rem;color:#1A237E;">thumb_up</span>: {{dt.nb_likes}}){%endif%}</p>
+                  {% endif %}
+                  {% if dt.more_details.description %}
+                  <p>{{ dt.more_details.description|removehtml|truncatechars:120 }}</p>
+                  {% else %}
+                  <p>{% trans "No description" %}</p>
+                  {% endif %}
+                  {% if dt.more_details.contact %}
+                  <p>{% trans "Contact: " %}{{ dt.more_details.contact }}</p>
+                  {% endif %}
+                  </div>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+          {% else %}
+          <div>
+            <p class="center">{% trans "There are no datasets matching your request. Please modify your request." %}</p>
+          </div>
+          {% endif %}
+          <div class="clear"></div>
+          <div class="center">
+          {% if datasets.has_other_pages %}
+            <ul class="pagination">
+          	{% if datasets.has_previous %}
+          	  <li><a href="?search={{ search }}&datefrom={{datefrom}}&dateto={{dateto}}&provided={{ provided }}&type={{ type }}&sort={{ sort }}&country={{ country }}&state={{ state }}&page={{ datasets.previous_page_number }}">&laquo;</a></li>
+          	{% else %}
+          	  <li class="disabled"><span>&laquo;</span></li>
+          	{% endif %}
+          	{% for i in pages %}
+          	  {% if datasets.number == i %}
+          		<li class="active"><span>{{ i }}</span></li>
+          	  {% else %}
+          		<li><a href="?search={{ search }}&datefrom={{datefrom}}&dateto={{dateto}}&provided={{ provided }}&type={{ type }}&sort={{ sort }}&country={{ country }}&state={{ state }}&page={{ i }}">{{ i }}</a></li>
+          	  {% endif %}
+          	{% endfor %}
+          	{% if datasets.has_next %}
+          	  <li><a href="?search={{ search }}&datefrom={{datefrom}}&dateto={{dateto}}&provided={{ provided }}&type={{ type }}&sort={{ sort }}&country={{ country }}&state={{ state }}&page={{ datasets.next_page_number }}">&raquo;</a></li>
+          	{% else %}
+          	  <li class="disabled"><span>&raquo;</span></li>
+          	{% endif %}
+            </ul>
+          {% endif %}
+          </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+{% endblock %}

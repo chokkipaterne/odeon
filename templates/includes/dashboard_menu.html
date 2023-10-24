@@ -1,0 +1,133 @@
+{% load static %}
+{% load i18n %}
+<div class="progress se-pre-con">
+  <div class="indeterminate"></div>
+</div>
+{% with showhide=project|dash_info:showhide_display %}
+<div class="dash-menu {%if trans_code != '' %} black white-text {% else %} white {% endif %} bdrad z-depth-2">
+  <div class="container">
+    <div class="indigo-text {%if trans_code != '' %} white-text {% endif %} toptitlmen tp1">{% trans "Explore Dashboard" %}</div>
+    <div class="indigo-text {%if trans_code != '' %} white-text {% endif %} toptitlmen tp2 hide">{{project.title}}</div>
+    {% if trans_code == '' %}
+    <ul class="left">
+      <li>
+        <a href="#" title='{% trans "Menu" %}' data-target="slide-out" class="sidenav-trigger" style="margin: 0 3px !important;padding: 0 10px !important;"><i class="material-icons {%if trans_code != '' %} white-text {% endif %}">menu</i></a>
+      </li>
+    </ul>
+    {% endif %}
+    <ul class="right">
+      {% with form=project|dash_info:"form" %}
+      {% if showhide.shfilt and form != "" %}
+      <li>
+        <a class="sidenav-trigger tooltipped" data-position="top" data-tooltip='{% trans "Filter" %}' title='{% trans "Filter" %}' href="#" data-target="filter-out"  style="margin: 0 3px !important;padding: 0 10px !important;"><i class="material-icons {%if trans_code != '' %} white-text {% endif %}">filter_alt</i></a>
+      </li>
+      {% endif %}
+      {% endwith %}
+      {% if trans_code != '' %}
+      <li class="show-on-large hide-on-med-and-down">
+        <a class="tooltipped" data-position="top" data-tooltip='{% trans "Info" %}' title='{% trans "Info" %}' href="{% url 'frontend:detail_project' code=project.dash_code %}" style="margin: 0 3px !important;padding: 0 5px !important;"><i class="material-icons white-text">info</i></a>
+      </li>
+      <li class="show-on-large hide-on-med-and-down">
+        <a class="tooltipped" data-position="top" data-tooltip='{% trans "Comment" %}' title='{% trans "Comment" %}' href="{% url 'frontend:detail_project' code=project.dash_code %}?goto=feedback" style="margin: 0 3px !important;padding: 0 5px !important;"><i class="material-icons white-text">comment</i></a>
+      </li>
+      <li class="show-on-large hide-on-med-and-down">
+        <a class="tooltipped" data-position="top" data-tooltip='{% trans "Embed" %}' title='{% trans "Embed" %}' href="javascript:void(0)" onclick="copyToClipboard('{{embed_link}}')" style="margin: 0 3px !important;padding: 0 5px !important;"><i class="material-icons white-text">code</i></a>
+      </li>
+      <li class="show-on-large hide-on-med-and-down">
+        <a class="tooltipped" data-position="top" data-tooltip='{% trans "Share" %}' title='{% trans "Share" %}' href="javascript:void(0)" onclick="share_dash('{{project.dash_code}}')" style="margin: 0 3px !important;padding: 0 5px !important;"><i class="material-icons white-text">share</i></a>
+      </li>
+      {% endif %}
+
+      <li><a class="{% if not showhide.shdsp_typ %} hide {% endif %} dropdown-trigger btn-flat waves-effect waves-light indigo darken-1 rounded lower secondary-content edit-info white-text" style="font-size: 85% !important;" title='{% trans "Switch Display Type" %}' href="#" data-target="dropdown-data" style="margin: 0 3px !important;padding: 0 10px !important;">{% trans "Switch Display Type" %}</a></li>
+      <ul id='dropdown-data' class='dropdown-content'>
+        <li><a href="?display=nov">{% trans "Novice" %}</a></li>
+        <li><a href="?display=less">{% trans "Less Advanced" %}</a></li>
+        <li><a href="?display=adv">{% trans "Advanced" %}</a></li>
+      </ul>
+    </ul>
+  </div>
+</div>
+
+<ul id="slide-out" class="sidenav">
+  {% if is_mobile %}
+  <li>
+    <a href="javascript:void(0)" onclick="window.history.go(-1); return false;">{% trans 'Go Back' %}</a>
+  </li>
+  {% endif %}
+  <li>
+    <a target="_blank" href="{% url 'frontend:detail_project' code=project.dash_code %}"><span>{% trans "Dashboard Information" %}</a>
+  </li>
+  <li>
+    <a target="_blank" href="{% url 'frontend:detail_project' code=project.dash_code %}?goto=feedback"><span>{% trans "Add Comments" %}</a>
+  </li>
+  <li>
+    <a href="javascript:void(0)" onclick="copyToClipboard('{{embed_link}}')"><span>{% trans "Embed Dashboard" %}</a>
+  </li>
+  <li>
+    <a href="javascript:void(0)" onclick="share_dash('{{project.dash_code}}')">{% trans "Share Dashboard" %}</a>
+  </li>
+
+  {% if showhide.shcstmen %}
+  <li>
+    <a href="javascript:void(0)" onclick="custom_dash('{{project.dash_code}}')">{% trans "Customize Dashboard" %}</a>
+  </li>
+  {% endif %}
+
+  {% get_current_language as LANGUAGE_CODE %}
+  {% get_available_languages as languages %}
+  {% for lang_code, lang_name in languages %}
+    {% language lang_code %}
+      <!--<li>
+        <a class="preview-item lang-item" data-code="{{ lang_code }}" href="#">{{ lang_name }}</a>
+      </li>-->
+    {% endlanguage %}
+  {% endfor %}
+  <form id="language-form" action="{% url 'frontend:set_language' %}" method="POST" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <input type="hidden" name="locale" value="{{ LANGUAGE_CODE }}"  id="id_locale">
+  </form>
+</ul>
+{% endwith %}
+<!--Share-->
+<div id="modalShare" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h5 id="modalheader-share">{% trans "Share Project" %}</h5>
+    <div id="share"><br/>
+      <form id="share-form" action="{% url 'frontend:share_project' %}" method="post">
+        {% csrf_token %}
+        <div class="input-field col s12">
+          <input placeholder='{% trans "Emails (separated by ,)" %}' id="emails" name="emails" type="text" class="validate" value="">
+          <label for="email">{% trans "Emails (separated by ,)" %}</label>
+        </div><br/>
+        <div class="input-field col s12">
+          <input type="hidden" id="weblink" value="{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{object.get_absolute_url}}/dashboard/"/>
+          <textarea placeholder='{% trans "Message" %}' id="message" name="body" class="materialize-textarea" style="min-height: 100px;"></textarea>
+          <label for="email">{% trans "Message" %}</label>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+    <a href="javascript:void(0)" class="modal-share waves-effect waves-green btn blue darken-1 lower rounded">{% trans "Send Mail" %}</a>
+  </div>
+</div>
+<!--End modal share-->
+
+<ul id="dropdown-languages" class="dropdown-content">
+  {% get_current_language as LANGUAGE_CODE %}
+  {% get_available_languages as languages %}
+  {% for lang_code, lang_name in languages %}
+    {% language lang_code %}
+      <li>
+        <a class="dropdown-item preview-item lang-item" data-code="{{ lang_code }}" href="#">{{ lang_name }}</a>
+      </li>
+    {% endlanguage %}
+  {% endfor %}
+  <form id="language-form" action="{% url 'frontend:set_language' %}" method="POST" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <input type="hidden" name="locale" value="{{ LANGUAGE_CODE }}"  id="id_locale">
+  </form>
+</ul>

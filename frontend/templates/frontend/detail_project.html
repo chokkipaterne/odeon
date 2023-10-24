@@ -1,0 +1,454 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Project Details" %} - {% trans "ODEON" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/detail-project.css' %}?v={%settings_value 'VERSION'%}">
+  <link rel="stylesheet" href="{% static 'css/vendor/font-awesome/css/font-awesome.min.css' %}?v={%settings_value 'VERSION'%}" />
+  <link rel="stylesheet" href="{% static 'css/vendor/starrr.css' %}?v={%settings_value 'VERSION'%}" />
+{% endblock %}
+{% block custom_js %}
+  {# JQUERY FILE UPLOAD SCRIPTS #}
+
+  {# PHOTOS PAGE SCRIPTS #}
+  <script src="{% static 'js/vendor/starrr.js' %}?v={%settings_value 'VERSION'%}"></script>
+  <script src="{% static 'js/detail-project.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-content" style="background: transparent !important;">
+  <div class="row" style="margin-bottom: 0px !important;">
+    <div class="col col-special s12 m12 l12">
+      {% if project and project.title  %}
+      <div class="z-depth-1 p5" style="background: white !important;">
+        <h5 class="center indigo-text darken-4 sm-marg" id="text-top">{{ project.title }}</h5>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-special s12 m12 l12">
+      <div class="row">
+        <div class="col col-special s12 m9 l9">
+          <ul class="collapsible expandable" id="gneral_info">
+            <li class="active">
+              <div class="collapsible-header"><i class="material-icons">snippet_folder</i><b>{% trans "Project Information" %}</b></div>
+              <div class="collapsible-body">
+                {% if project.project_type == 'proposed' %}
+                {% if not checklike %}
+                <div class="row">
+                  <div class="col s12 m12">
+                    <div style="text-align:right;" id="msglike"><span>Help us to speed up the development of this project by clicking on </span><span class="material-icons tooltipped" style="font-size: 30px;color:#1A237E;" onclick="savelink('like')" data-position="top" data-tooltip="{% trans 'I think this project is pertinent.' %}">thumb_up</span></div>
+                  </div>
+                </div>
+                {% endif %}
+                {% endif %}
+                {% if project.project_type != 'proposed' and user.is_authenticated %}
+                <div class="row">
+                  <div class="col s12 m12">
+                    <div style="text-align:right;" id="btnrmfav" class="{% if not checkfavorite %} hide {%endif%}"><span class="material-icons tooltipped" style="font-size: 30px;color:#1A237E;" onclick="savelink('favorite')" data-position="top" data-tooltip="{% trans 'Remove from favorites' %}">heart_broken</span></div>
+                    <div style="text-align:right;" id="btnaddfav" class="{% if checkfavorite %} hide {%endif%}"><span class="material-icons tooltipped" style="font-size: 30px;color:#1A237E;" onclick="savelink('favorite')" data-position="top" data-tooltip="{% trans 'Add to favorites' %}">favorite</span></div>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if project and project.notes  %}
+                <p><b>{% trans "Description: " %}</b><br/>{{ project.notes|deshtml|safe }}</p>
+                {% endif %}
+                <div class="row">
+                  <div class="col s12 m6">
+                    <ul class="collection spcollect">
+                      <li class="collection-item">
+                        <p style="text-align: left !important;"><b>{% trans "Type: " %}</b>{%get_project_type project.project_type %}</p>
+                      </li>
+                      <li class="collection-item">
+                        <p style="text-align: left !important;"><b>{% trans "Topic: " %}</b>{{ project.theme }}</p>
+                      </li>
+                      <li class="collection-item">
+                        <p style="text-align: left !important;"><b>{% trans "State/Country: " %}</b>{% if project.state %}{{ project.state }}/{% endif %}{{ project.country|country_translate:LANGUAGE_CODE }}</p>
+                      </li>
+                      <!--<li class="collection-item">
+                        <p style="text-align: left !important;"><b>{% trans "Last modified: " %}</b>{{ project.updated_at }}</p>
+                      </li>-->
+                      <li class="collection-item">
+                        <p style="text-align: left !important;"><b>{% trans "Published At: " %}</b>{{ project.published_at }}</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col s12 m6">
+                    <ul class="collection spcollect">
+                      <li class="collection-item" style="border-bottom: 1px solid transparent;">
+                        <p><b>{% trans "Project Status: " %}</b>{{project.status_name}}<br/></p>
+                      </li>
+                      <li class="collection-item">
+                        <p class="center">
+                        {% for st in request.session.statuses %}
+                          {% if st.id == project.status %}
+                          <span class="pjstatus pjs-active material-icons tooltipped" data-position="top" data-tooltip="{{st.name}}">{{st.icon}}</span>
+                          {% else %}
+                          <span class="pjstatus pjs-inactive material-icons tooltipped" data-position="top" data-tooltip="{{st.name}}">{{st.icon}}</span>
+                          {% endif %}
+                        {% endfor %}</p>
+                      </li>
+                      {% if project.project_type == 'proposed' %}
+                      <li class="collection-item">
+                        <p style="text-align: left !important;"><b>{% trans "Likes: " %}</b><span id="nb_likes">{{ project.nb_likes }}</span></p>
+                      </li>
+                      {% if project.user_request_type  %}
+                      <li class="collection-item">
+                        <p style="text-align: left !important;"><b>{% trans "Resquested by: " %}</b>{%get_user_type project.user_request_type %}</p>
+                      </li>
+                      {% endif %}
+                      {% endif %}
+                      {% if project.project_type != 'proposed' %}
+                      <li class="collection-item">
+                        <p style="text-align: left !important;"><b>{% trans "Favorites: " %}</b><span id="nb_favorites">{{ project.nb_favorites }}</span></p>
+                      </li>
+                      {% endif %}
+                      <li class="collection-item">
+                        <p style="text-align: left !important;"><b>{% trans "Contact: " %}</b>{{ project.contact }}</p>
+                      </li>
+                    </ul>
+                  </div>
+
+                </div>
+                <!--<p><b>{% trans "Type: " %}</b>{%get_project_type project.project_type %} | <b>{% trans "Topic: " %}</b>{{ project.theme }} | <b>{% trans "State/Country: " %}</b>{{ project.state }}/{{ project.country }}  | <b>{% trans "Last modified: " %}</b>{{ project.updated_at }}</p>
+                <p><b>{% trans "Contact: " %}{{ project.contact }}</b></p>-->
+                <!--form to autocomplete title-->
+                <form id="savelike-form" action="{% url 'frontend:save_like' %}" method="POST" style="display: none;">
+                  {% csrf_token %}
+                  <input type="hidden" name="obj_id" id="obj_id" value="{{ project.id }}">
+                  <input type="hidden" name="like_type" id="like_type" value="project">
+                  <input type="hidden" name="action_type" id="action_type" value="like">
+                </form>
+                <!--end form autocomplete title-->
+                {%if project.list_files or project.list_datasets %}
+                <hr/>
+                <div class="row">
+                    <div class="col s12">
+                      <span><b>{% trans "This project is based on Open Data.</b> The list of Open Data used in this project is as follows." %}</span>
+                      {%if project.list_datasets %}
+                      <p>{{project.list_datasets|generatelink|safe}}</p>
+                      {% endif %}
+                      <ul class="collection">
+                        {% for key, file in project.list_files.items %}
+                          <li class="collection-item avatar">
+                            <span class="title ptitle">{{file.full_title}}</span> {% if file.is_requested %}<span>•</span> {% trans "(requested)" %} {% endif %}
+                            <p onclick="togglepdesc('{{key}}')" id="pdesc1_{{key}}" class="pdesc pdesc1 tooltipped" data-position="top" data-tooltip='{% trans "Click for more details" %}' style="text-align: left !important;">{{file.description |truncatechars:60}}</p>
+                            <p onclick="togglepdesc('{{key}}')" id="pdesc2_{{key}}" class="pdesc pdesc2 hide tooltipped" data-position="top" data-tooltip='{% trans "Click for less details" %}' style="text-align: left !important;">{{file.description}}</p>
+                            <a class="secondary-content" target="_blank" href="{% url 'frontend:explore_data' project_code=project.dash_code code=file.code %}" class="secondary-content"><i class="material-icons tooltipped" data-position="top" data-tooltip='{% trans "Explore data" %}'>visibility</i></a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col col-special s12 m3 l3 center">
+          <ul class="collapsible expandable">
+            <li class="active">
+              <div class="collapsible-header"><i class="material-icons">menu</i><b>{% trans "Project Options" %}</b></div>
+              <div class="collapsible-body">
+                <div style="clear: both;"></div>
+                <div id="tqlt" class="table-responsive" style="width:100%">
+                  <table class="table-sm">
+                    <tr>
+                      <td><a href="javascript:void(0)" onclick="share_info('{{project.dash_code}}')">{% trans "Share Project" %}</a></td>
+                    </tr>
+                    {% if project.link %}
+                    <tr>
+                      <td><a href="{{ project.link }}" target="_blank">{% trans "Access Project" %}</a></td>
+                    </tr>
+                    {% elif project.project_type == 'internal' %}
+                    <tr>
+                      <td><a href="{% url 'frontend:dashboard' code=project.dash_code %}">{% trans "Access Project" %}</a></td>
+                    </tr>
+                    <!--<tr>
+                      <td><a href="#">{% trans "Customize Dashboard" %}</a></td>
+                    </tr>-->
+                    {% endif %}
+                    {% if project.project_type == 'external' or project.project_type == 'internal' %}
+                    <tr>
+                      <td><a href="javascript:void(0)" onclick="activetabs('feedback-form','tab2')">{% trans "Provide Feedback" %}</a></td>
+                    </tr>
+                    {% elif project.project_type == 'proposed' %}
+                    <tr>
+                      <td><a href="javascript:void(0)" onclick="activetabs('feedback-form','tab0')">{% trans "Refine Project Requirements" %}</a></td>
+                    </tr>
+                    <tr>
+                      <td><a href="javascript:void(0)" onclick="activetabs('feedback-form','tab1')">{% trans "Update Development Progress" %}</a></td>
+                    </tr>
+                    <tr>
+                      <td><a href="javascript:void(0)" onclick="activetabs('feedback','tab1')">{% trans "Monitor Development Progress" %}</a></td>
+                    </tr>
+                    <tr>
+                      <td><a href="javascript:void(0)" onclick="activetabs('feedback-form','tab2')">{% trans "Provide Feedback" %}</a></td>
+                    </tr>
+                    {% endif %}
+                  </table>
+                  </div>
+                  </div>
+                </li>
+              </ul>
+              <ul class="collapsible expandable">
+                <li class="active">
+                  <div class="collapsible-header"><i class="material-icons">email</i><b>{% trans "Subscribe to Project" %}</b></div>
+                  <div class="collapsible-body">
+                    <form id="sdp-form" action="" method="post">
+                      {% csrf_token %}
+                      <input name="sdpid" id="sdpid" type="hidden" value="{{project.id}}"/>
+                      <div class="input-field">
+                        <input placeholder='{% trans "Email" %}' id="sdpemail" name="sdpemail" type="email" class="validate" value="{% if user.is_authenticated  %}{{user.email}}{% endif %}" required>
+                        <label for="email">{% trans "Email" %}</label>
+                      </div>
+                      <button class="btn waves-effect waves-light indigo darken-1sm-rounded"
+                       type="submit" name="subscribe">{% trans "Subscribe" %}
+                        <i class="material-icons right">send</i>
+                      </button>
+                    </form>
+                  </div>
+                </li>
+              </ul>
+          </div>
+        </div>
+      </div>
+      <div style="clear: both;"></div>
+      <div class="col col-special s12 m12 l12 " id="feedback">
+        <div class="col s12 m12 l12 bgwhite">
+          <div>
+          <ul class="tabs">
+            <li class="tab col s4"><a class="indigo-text darken-4 {% if project.status == 1 %} active {% endif %}" href="#tab0">{% trans "Requirement Clarification" %}</a></li>
+            <li class="tab col s4"><a class="indigo-text darken-4 {% if project.status == 2 %} active {% endif %}" href="#tab1">{% trans "Development Progress" %}</a></li>
+            <li class="tab col s4"><a class="indigo-text darken-4 {% if project.status >= 3 %} active {% endif %}" href="#tab2">{% trans "Feedback after Development Complete" %}</a></li>
+          </ul>
+        </div>
+        <div id="tab0">
+          <div class="col s12" id="tablect">
+            <!--<div class="row no-mb">
+              <div class="col l12 s12 sm-mb" style="float:right;">
+                <p class="center">Help us to refine the requirements of this project.</p>
+              </div>
+            </div>-->
+            {%if project.feedbacks_req %}
+            <div class="row feed">
+                <div class="col s12">
+                  <ul class="collection">
+                    {% for key, feed in project.feedbacks_req.items %}
+                      <li class="collection-item {{feed.feedback_type_div}} feedli" style="text-align: left !important;" id="fd{{key}}">
+                        <span class="title ptitle">{{feed.username}}</span> <small>({{feed.user_type}})</small> <span>•</span> {{ feed.created_at }} <span>•</span> <a href="javascript:void(0)" onclick="initcomment('{{feed.reply}}', '{{key}}')" class="tooltipped" data-position="top" data-tooltip="{% trans 'Reply to comment.' %}"><span class="material-icons">
+reply
+</span></a>
+                        <div style="margin-top: 10px;" class="sm-marg" id="feed{{key}}">{{feed.comment|deshtml|safe}}</div>
+                        {% if feed.attach %}
+                        <a href="/files/{{feed.attach}}" target="_blank">{% trans "Attachment" %}</a>
+                        {% endif %}
+                      </li>
+                      {% for keysub, subfeed in feed.subfeedbacks.items %}
+                      <li class="collection-item {{feed.feedback_type_div}} feedli" style="text-align: left !important;" id="fd{{keysub}}">
+                        <div style="padding-left:20px;">
+                          <span class="title ptitle">{{subfeed.username}} </span><small>({{subfeed.user_type}})</small> <span>•</span> {{ subfeed.created_at }} <span>•</span> <a href="javascript:void(0)" onclick="initcomment('{{feed.reply}}', '{{keysub}}')" class="tooltipped" data-position="top" data-tooltip="{% trans 'Reply to comment.' %}"><span class="material-icons">
+reply
+</span></a>
+                          <div style="margin-top: 10px;" class="sm-marg" id="feed{{keysub}}">{{ subfeed.comment|deshtml|safe }}</div>
+                          {% if subfeed.attach %}
+                          <a href="/files/{{subfeed.attach}}" target="_blank">{% trans "Attachment" %}</a>
+                          {% endif %}
+                        </div>
+                      </li>
+                      {% endfor %}
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              {% else %}
+              <div class="row feed">
+                  <div class="col s12 center">
+                    <p>{% trans "Be the first to comment." %}</p>
+                  </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        <div id="tab1">
+          <div class="col s12" id="tablect">
+            <!--<div class="row no-mb">
+              <div class="col l12 s12 sm-mb" style="float:right;">
+                <p class="center">Help us to refine the requirements of this project.</p>
+              </div>
+            </div>-->
+            {%if project.feedbacks_sta %}
+            <div class="row feed">
+                <div class="col s12">
+                  <ul class="collection">
+                    {% for key, feed in project.feedbacks_sta.items %}
+                      <li class="collection-item {{feed.feedback_type_div}} feedli" style="text-align: left !important;" id="fd{{key}}">
+                        <span class="title ptitle">{{feed.username}}</span> <small>({{feed.user_type}})</small> <span>•</span> {{ feed.created_at }} <span>•</span> <a href="javascript:void(0)" onclick="initcomment('{{feed.reply}}', '{{key}}')" class="tooltipped" data-position="top" data-tooltip="{% trans 'Reply to comment.' %}"><span class="material-icons">
+reply
+</span></a>
+                        <div style="margin-top: 10px;" class="sm-marg" id="feed{{key}}">{{feed.comment|deshtml|safe}}</div>
+                        {% if feed.attach %}
+                        <a href="/files/{{feed.attach}}" target="_blank">{% trans "Attachment" %}</a>
+                        {% endif %}
+                      </li>
+                      {% for keysub, subfeed in feed.subfeedbacks.items %}
+                      <li class="collection-item {{feed.feedback_type_div}} feedli" style="text-align: left !important;" id="fd{{keysub}}">
+                        <div style="padding-left:20px;">
+                          <span class="title ptitle">{{subfeed.username}} </span><small>({{subfeed.user_type}})</small> <span>•</span> {{ subfeed.created_at }} <span>•</span> <a href="javascript:void(0)" onclick="initcomment('{{feed.reply}}', '{{keysub}}')" class="tooltipped" data-position="top" data-tooltip="{% trans 'Reply to comment.' %}"><span class="material-icons">
+reply
+</span></a>
+                          <div style="margin-top: 10px;" class="sm-marg" id="feed{{keysub}}">{{ subfeed.comment|deshtml|safe }}</div>
+                          {% if subfeed.attach %}
+                          <a href="/files/{{subfeed.attach}}" target="_blank">{% trans "Attachment" %}</a>
+                          {% endif %}
+                        </div>
+                      </li>
+                      {% endfor %}
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              {% else %}
+              <div class="row feed">
+                  <div class="col s12 center">
+                    <p>{% trans "Be the first to comment." %}</p>
+                  </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        <div id="tab2">
+          <div class="col s12" id="tablectdc">
+            <!--<div class="row no-mb">
+              <div class="col l12 s12 sm-mb" style="float:right;">
+                <p class="center">Help us to refine the requirements of this project.</p>
+              </div>
+            </div>-->
+            {%if project.feedbacks %}
+            <div class="row feed">
+                <div class="col s12">
+                  <ul class="collection">
+                    {% for key, feed in project.feedbacks.items %}
+                      <li class="collection-item {{feed.feedback_type_div}} feedli" style="text-align: left !important;" id="fd{{key}}">
+                        <span class="title ptitle">{{feed.username}}</span> <small>({{feed.user_type}})</small> <span>•</span> {{ feed.created_at }} <span>•</span> <a href="javascript:void(0)" onclick="initcomment('{{feed.reply}}', '{{key}}')" class="tooltipped" data-position="top" data-tooltip="{% trans 'Reply to comment.' %}"><span class="material-icons">
+reply
+</span></a>
+                        <div style="margin-top: 10px;" class="sm-marg" id="feed{{key}}">{{feed.comment|deshtml|safe}}</div>
+                        {% if feed.attach %}
+                        <a href="/files/{{feed.attach}}" target="_blank">{% trans "Attachment" %}</a>
+                        {% endif %}
+                      </li>
+                      {% for keysub, subfeed in feed.subfeedbacks.items %}
+                      <li class="collection-item {{feed.feedback_type_div}} feedli" style="text-align: left !important;" id="fd{{keysub}}">
+                        <div style="padding-left:20px;">
+                          <span class="title ptitle">{{subfeed.username}} </span><small>({{subfeed.user_type}})</small> <span>•</span> {{ subfeed.created_at }} <span>•</span> <a href="javascript:void(0)" onclick="initcomment('{{feed.reply}}', '{{keysub}}')" class="tooltipped" data-position="top" data-tooltip="{% trans 'Reply to comment.' %}"><span class="material-icons">
+reply
+</span></a>
+                          <div style="margin-top: 10px;" class="sm-marg" id="feed{{keysub}}">{{ subfeed.comment|deshtml|safe }}</div>
+                          {% if subfeed.attach %}
+                          <a href="/files/{{subfeed.attach}}" target="_blank">{% trans "Attachment" %}</a>
+                          {% endif %}
+                        </div>
+                      </li>
+                      {% endfor %}
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              {% else %}
+              <div class="row feed">
+                  <div class="col s12 center">
+                    <p>{% trans "Be the first to comment." %}</p>
+                  </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col s12 m12">
+          <hr/>
+          <div><p><b><span id="postcomment">{% trans "Leave your Comment" %}</span></b></p></div>
+          <div>
+            <form method="POST" id="feedback-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" value="" id="parent_feedback" name="parent_feedback"/>
+                <p class="sm-marg hide" id="replyp"><b>{% trans "Reply to the following comment:" %}</b> <span id="replycomment"></span><br/><br/></p>
+                <div class="row no-mb feedback_type_div">
+                  <div class="col m4 s12 sm-mb hide">
+                    <label style="color:black;">{% trans "Comment Type*" %}</label>
+                    <select class="browser-default" style="width:100%" name="feedback_type" id="feedback_type" required>
+                      {% for fdty in feedback_types %}
+                      {% if fdty.0 == feedback_type %}
+                      <option value='{{fdty.0}}' selected='selected'>{{fdty.1}}</option>
+                      {% else %}
+                      <option value='{{fdty.0}}'>{{fdty.1}}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="input-field sm-mb col s12 m4">
+                    <input placeholder='{% trans "Full Name" %}' value="{{name}}" id="name" name="name" type="text" class="validate rounded-input input-pad" required>
+                    <label for="full_name">{% trans "Name*" %}</label>
+                  </div>
+                  <div class="col m4 s12 sm-mb">
+                    <label style="color:black;">{% trans "User Type*" %}</label>
+                    <select class="browser-default" style="width:100%" name="user_type" id="user_type" required>
+                      {% for usty in user_types %}
+                      {% if usty.0 == user.user_type %}
+                      <option value='{{usty.0}}' selected='selected'>{{usty.1}}</option>
+                      {% else %}
+                      <option value='{{usty.0}}'>{{usty.1}}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="col m4 s12 sm-mb" id="feedpjstatus">
+                    <label style="color:black;">{% trans "Project Status*" %}</label>
+                    <select class="browser-default" name="fdstatus" id="fdstatus">
+                      <option value=''>{% trans "Select the project status" %}</option>
+                      {% for st in request.session.statuses %}
+                        {% if st.for_update_status %}
+                        <option value='{{st.name}}_{{st.id}}'>{{st.name}} ({{st.abbreviation}})</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="col m12 s12 sm-mb" id="rating"><input type="hidden" name="rate" id="rate" value=""><label for="full_name">{% trans "Rating" %}</label><br/><div class="starrr"></div></div>
+                </div>
+                <div class="clear"></div>
+                <div class="row no-mb">
+                  <div class="input-field no-mb col s12 m12">
+                    <textarea placeholder='{% trans "Message" %}' id="comment" name="comment" class="materialize-textarea special-textarea rounded-input" required>{{comment}}</textarea>
+                    <label for="message">{% trans "Message*" %}</label>
+                  </div>
+                  <div class="col m12 s12 sm-mb">
+                    <label for="attachment" style="color:black;">{% trans "Attachment" %}</label><br/>
+                    <input id="attach" name="attach" type="file">
+                  </div>
+                  <div class="clear"></div>
+                  <br/>
+                </div>
+                <div class="row no-mb">
+                  <div class="clear"></div>
+                  <div class="col m12 s12 sm-mb">
+                  <button class="btn waves-effect waves-light indigo darken-1sm-rounded"
+                   type="submit" name="action">{% trans "Submit" %}
+                    <i class="material-icons right">send</i>
+                  </button>
+                  <a href="javascript:void(0)" onclick="initcomment()" class="btn waves-effect waves-light gray">{% trans "Reset" %}</a>
+                  </div>
+                </div>
+                <br/>
+            </form>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

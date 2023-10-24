@@ -1,0 +1,3477 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-01 13:29+0200\n"
+"PO-Revision-Date: 2021-10-08 12:57+0000\n"
+"Last-Translator:   <abiola-paterne.chokki@unamur.be>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.0\n"
+"X-Translated-Using: django-rosetta 0.9.7\n"
+
+#: .\accounts\models.py:7
+#: .\frontend\templates\frontend\index_01_06_2021.html:34
+#: .\frontend\templates\frontend\index_backup.html:39
+msgid "Confident"
+msgstr "Confiant"
+
+#: .\accounts\models.py:8
+#: .\frontend\templates\frontend\index_01_06_2021.html:32
+#: .\frontend\templates\frontend\index_backup.html:37
+msgid "Less confident"
+msgstr "Moins confiant"
+
+#: .\accounts\models.py:9
+#: .\frontend\templates\frontend\index_01_06_2021.html:30
+#: .\frontend\templates\frontend\index_backup.html:35
+msgid "Not confident"
+msgstr "Pas confiant"
+
+#: .\dataviz\settings.py:123
+msgid "English"
+msgstr ""
+
+#: .\dataviz\settings.py:124
+msgid "Français"
+msgstr ""
+
+#: .\frontend\forms.py:18
+msgid "csv"
+msgstr ""
+
+#: .\frontend\forms.py:19
+msgid "json"
+msgstr ""
+
+#: .\frontend\forms.py:20
+msgid "xls"
+msgstr ""
+
+#: .\frontend\forms.py:21
+msgid "xlsx"
+msgstr ""
+
+#: .\frontend\forms.py:25
+msgid "Extension"
+msgstr "Extension"
+
+#: .\frontend\forms.py:27
+msgid "Link"
+msgstr "Lien"
+
+#: .\frontend\forms.py:28
+#: .\frontend\templates\frontend\visualization_guide.html:731
+#: .\templates\includes\menu.html:243
+msgid "Title"
+msgstr "Titre"
+
+#: .\frontend\forms.py:30
+msgid "Refresh Timeout"
+msgstr "Délai de rafraîchissement"
+
+#: .\frontend\forms.py:30
+msgid "Let empty if you don't need to refresh data"
+msgstr "Laissez vide si vous n'avez pas besoin de rafraîchir les données"
+
+#: .\frontend\forms.py:42
+msgid "Link isn't downloadable"
+msgstr "Le lien n'est pas téléchargeable"
+
+#: .\frontend\forms.py:46
+msgid "Link invalid"
+msgstr "Lien non valable"
+
+#: .\frontend\forms.py:54
+msgid "File extension not valid"
+msgstr "L'extension de fichier n'est pas valable"
+
+#: .\frontend\forms.py:57
+msgid "File extension doesn't match with the file to download"
+msgstr "L'extension de fichier ne correspond pas au fichier à télécharger"
+
+#: .\frontend\forms.py:81 .\frontend\views.py:1205 .\frontend\views.py:1578
+#: .\visualizations\models.py:103 .\visualizations\models.py:232
+#: .\visualizations\models.py:279 .\visualizations\models.py:540
+msgid "Citizen"
+msgstr "Citoyen"
+
+#: .\frontend\forms.py:82 .\frontend\views.py:1206 .\frontend\views.py:1579
+#: .\visualizations\models.py:104 .\visualizations\models.py:233
+#: .\visualizations\models.py:280 .\visualizations\models.py:541
+msgid "Publisher"
+msgstr "Fournisseur de données"
+
+#: .\frontend\forms.py:83 .\frontend\views.py:1207 .\frontend\views.py:1580
+#: .\visualizations\models.py:105 .\visualizations\models.py:234
+#: .\visualizations\models.py:281 .\visualizations\models.py:542
+msgid "Developer"
+msgstr "Développeur"
+
+#: .\frontend\forms.py:87
+msgid "User Type"
+msgstr "Type d'utilisateur"
+
+#: .\frontend\forms.py:89
+msgid "Email address"
+msgstr "Adresse électronique"
+
+#: .\frontend\templates\frontend\dashboard.html:5
+#: .\frontend\templates\frontend\visualization_guide.html:6
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#: .\frontend\templates\frontend\dashboard.html:5
+#: .\frontend\templates\frontend\detail_project.html:5
+#: .\frontend\templates\frontend\explore_data.html:5
+#: .\frontend\templates\frontend\get_started.html:6
+#: .\frontend\templates\frontend\get_started.html:8
+#: .\frontend\templates\frontend\index.html:5
+#: .\frontend\templates\frontend\index_01_06_2021.html:5
+#: .\frontend\templates\frontend\index_26_09_2021.html:5
+#: .\frontend\templates\frontend\index_backup.html:5
+#: .\frontend\templates\frontend\login.html:5
+#: .\frontend\templates\frontend\register.html:5
+#: .\frontend\templates\frontend\visualization_guide.html:6
+#: .\frontend\templates\frontend\visualization_guide.html:8
+#: .\templates\includes\menu.html:5 .\templates\includes\menu.html:6
+msgid "ODEON"
+msgstr "ODEON"
+
+#: .\frontend\templates\frontend\dashboard.html:28
+#: .\frontend\templates\frontend\visualization_guide.html:704
+msgid "Confirmation"
+msgstr "Confirmation"
+
+#: .\frontend\templates\frontend\dashboard.html:29
+msgid "Are you sure that you want to customize that dashboard?"
+msgstr "Êtes-vous sûr de vouloir personnaliser ce tableau de bord ?"
+
+#: .\frontend\templates\frontend\dashboard.html:32
+#: .\frontend\templates\frontend\datasets.html:52
+#: .\frontend\templates\frontend\explore_data.html:70
+#: .\frontend\templates\frontend\visualization_guide.html:708
+msgid "No"
+msgstr "Non"
+
+#: .\frontend\templates\frontend\dashboard.html:33
+#: .\frontend\templates\frontend\datasets.html:51
+#: .\frontend\templates\frontend\explore_data.html:68
+#: .\frontend\templates\frontend\visualization_guide.html:709
+msgid "Yes"
+msgstr "Oui"
+
+#: .\frontend\templates\frontend\dashboard.html:48
+#: .\frontend\templates\frontend\dashboard.html:49
+msgid "Apply Filters"
+msgstr "Appliquer les filtres"
+
+#: .\frontend\templates\frontend\dashboard.html:71
+msgid "Visualization Information"
+msgstr "Informations sur la visualisation"
+
+#: .\frontend\templates\frontend\dashboard.html:77
+#| msgid "Visualizations"
+msgid "Visual Marks"
+msgstr "Visual Marks"
+
+#: .\frontend\templates\frontend\datasets.html:5
+msgid "Datasets - ODEON"
+msgstr "Jeux de données - ODEON"
+
+#: .\frontend\templates\frontend\datasets.html:23 .\utils\viz.py:1284
+msgid "Data Type"
+msgstr "Type de données"
+
+#: .\frontend\templates\frontend\datasets.html:24
+#: .\frontend\templates\frontend\datasets.html:31
+#: .\frontend\templates\frontend\datasets.html:50
+#: .\frontend\templates\frontend\issues.html:24
+#: .\frontend\templates\frontend\projects.html:24
+#: .\frontend\templates\frontend\projects.html:32
+#: .\frontend\templates\frontend\projects.html:49
+msgid "All"
+msgstr "Tous"
+
+#: .\frontend\templates\frontend\datasets.html:25
+msgid "Existing Data"
+msgstr "Données existantes"
+
+#: .\frontend\templates\frontend\datasets.html:26
+#: .\frontend\templates\frontend\index_26_09_2021.html:252
+#: .\templates\includes\menu.html:112 .\templates\includes\menu.html:342
+msgid "Requested Data"
+msgstr "Jeux de données demandés"
+
+#: .\frontend\templates\frontend\datasets.html:30
+#: .\frontend\templates\frontend\index.html:29
+#: .\frontend\templates\frontend\index.html:30
+#: .\frontend\templates\frontend\index_26_09_2021.html:29
+#: .\frontend\templates\frontend\index_26_09_2021.html:30
+#: .\frontend\templates\frontend\issues.html:23
+#: .\frontend\templates\frontend\projects.html:48
+msgid "Country"
+msgstr "Pays"
+
+#: .\frontend\templates\frontend\datasets.html:42
+#: .\frontend\templates\frontend\index.html:37
+#: .\frontend\templates\frontend\index_26_09_2021.html:37
+#: .\frontend\templates\frontend\issues.html:35
+#: .\frontend\templates\frontend\projects.html:60
+msgid "State/City"
+msgstr "Etat/Ville"
+
+#: .\frontend\templates\frontend\datasets.html:42
+#: .\frontend\templates\frontend\issues.html:35
+#: .\frontend\templates\frontend\projects.html:60
+msgid "State"
+msgstr "Etat"
+
+#: .\frontend\templates\frontend\datasets.html:45
+msgid "Search data by title, description, contact"
+msgstr "Recherche de données par titre, description, contact"
+
+#: .\frontend\templates\frontend\datasets.html:45
+#: .\frontend\templates\frontend\index.html:40
+#: .\frontend\templates\frontend\index_26_09_2021.html:40
+#: .\frontend\templates\frontend\issues.html:38
+#: .\frontend\templates\frontend\projects.html:44
+msgid "Keywords"
+msgstr "Mots clés"
+
+#: .\frontend\templates\frontend\datasets.html:49
+msgid "Requested Data Provided?"
+msgstr "Jeu de données demandé fourni ?"
+
+#: .\frontend\templates\frontend\datasets.html:56
+#: .\frontend\templates\frontend\projects.html:63
+msgid "More options"
+msgstr "Plus d'options"
+
+#: .\frontend\templates\frontend\datasets.html:57
+#: .\frontend\templates\frontend\projects.html:64
+msgid "Less options"
+msgstr "Moins d'options"
+
+#: .\frontend\templates\frontend\datasets.html:66
+msgid " available datasets found."
+msgstr " jeux de données disponibles trouvés."
+
+#: .\frontend\templates\frontend\datasets.html:68
+msgid " requested datasets found."
+msgstr " jeux de données demandés trouvés."
+
+#: .\frontend\templates\frontend\datasets.html:70
+msgid " datasets found."
+msgstr "  jeux de données trouvés."
+
+#: .\frontend\templates\frontend\datasets.html:74
+#: .\frontend\templates\frontend\projects.html:92
+msgid "Sort By"
+msgstr "Trier par"
+
+#: .\frontend\templates\frontend\datasets.html:75
+msgid "Created Date"
+msgstr "Date de création"
+
+#: .\frontend\templates\frontend\datasets.html:76
+#: .\frontend\templates\frontend\projects.html:94
+msgid "Likes"
+msgstr "Likes"
+
+#: .\frontend\templates\frontend\datasets.html:77
+#: .\frontend\templates\frontend\projects.html:95
+msgid "Name Ascending"
+msgstr "Nom en ordre croissant"
+
+#: .\frontend\templates\frontend\datasets.html:78
+#: .\frontend\templates\frontend\projects.html:96
+msgid "Name Descending"
+msgstr "Nom en ordre descendant"
+
+#: .\frontend\templates\frontend\datasets.html:91
+#: .\frontend\templates\frontend\index_01_06_2021.html:71
+#: .\frontend\templates\frontend\index_26_09_2021.html:291
+#: .\frontend\templates\frontend\index_26_09_2021.html:383
+#: .\frontend\templates\frontend\issues.html:64
+#: .\frontend\templates\frontend\projects.html:119
+msgid "No title"
+msgstr "Pas de titre"
+
+#: .\frontend\templates\frontend\datasets.html:96
+#: .\frontend\templates\frontend\index_01_06_2021.html:64
+#: .\frontend\templates\frontend\index_26_09_2021.html:296
+#: .\frontend\templates\frontend\projects.html:124
+msgid "No description"
+msgstr "Aucune description"
+
+#: .\frontend\templates\frontend\datasets.html:99
+#: .\frontend\templates\frontend\detail_project.html:93
+#: .\frontend\templates\frontend\detail_project.html:100
+#: .\frontend\templates\frontend\explore_data.html:77
+#: .\frontend\templates\frontend\explore_data.html:143
+#: .\frontend\templates\frontend\index_26_09_2021.html:299
+#: .\frontend\templates\frontend\projects.html:126
+msgid "Contact: "
+msgstr "Contact: "
+
+#: .\frontend\templates\frontend\datasets.html:108
+msgid ""
+"There are no datasets matching your request. Please modify your request."
+msgstr ""
+"Il n'y a pas de jeux de données correspondant à votre demande. Veuillez "
+"modifier votre demande."
+
+#: .\frontend\templates\frontend\detail_project.html:5
+msgid "Project Details"
+msgstr "Détails du projet"
+
+#: .\frontend\templates\frontend\detail_project.html:35
+msgid "Project Information"
+msgstr "Informations sur le projet"
+
+#: .\frontend\templates\frontend\detail_project.html:41
+msgid "I think this project is pertinent."
+msgstr "Je pense que ce projet est pertinent."
+
+#: .\frontend\templates\frontend\detail_project.html:48
+#: .\frontend\templates\frontend\explore_data.html:59 .\utils\viz.py:131
+#: .\utils\viz.py:133 .\utils\viz.py:204 .\utils\viz.py:5642
+msgid "Description: "
+msgstr "Description : "
+
+#: .\frontend\templates\frontend\detail_project.html:54
+#: .\frontend\templates\frontend\detail_project.html:99
+#: .\frontend\templates\frontend\explore_data.html:143
+#: .\frontend\templates\frontend\get_started.html:163
+#: .\frontend\templates\frontend\projects.html:126
+msgid "Type: "
+msgstr "Type : "
+
+#: .\frontend\templates\frontend\detail_project.html:57
+#: .\frontend\templates\frontend\detail_project.html:99
+#: .\frontend\templates\frontend\projects.html:126
+msgid "Topic: "
+msgstr "Thème: "
+
+#: .\frontend\templates\frontend\detail_project.html:60
+#: .\frontend\templates\frontend\detail_project.html:99
+#: .\frontend\templates\frontend\projects.html:126
+msgid "State/Country: "
+msgstr "Etat/Pays : "
+
+#: .\frontend\templates\frontend\detail_project.html:63
+#: .\frontend\templates\frontend\detail_project.html:99
+#: .\frontend\templates\frontend\explore_data.html:143
+msgid "Last modified: "
+msgstr "Dernière modification : "
+
+#: .\frontend\templates\frontend\detail_project.html:70
+msgid "Project Status: "
+msgstr "Statut du projet : "
+
+#: .\frontend\templates\frontend\detail_project.html:84
+#: .\frontend\templates\frontend\explore_data.html:102
+msgid "Likes: "
+msgstr "Likes: "
+
+#: .\frontend\templates\frontend\detail_project.html:88
+msgid "Resquested by: "
+msgstr "Demandé par : "
+
+#: .\frontend\templates\frontend\detail_project.html:112
+msgid "List of open data used in this project"
+msgstr "Liste des données ouvertes utilisées dans ce projet"
+
+#: .\frontend\templates\frontend\detail_project.html:116
+msgid "(requested)"
+msgstr "(demandé)"
+
+#: .\frontend\templates\frontend\detail_project.html:117
+#: .\frontend\templates\frontend\explore_data.html:141
+#: .\frontend\templates\frontend\get_started.html:161
+msgid "Click for more details"
+msgstr "Cliquez pour plus de détails"
+
+#: .\frontend\templates\frontend\detail_project.html:118
+#: .\frontend\templates\frontend\explore_data.html:142
+#: .\frontend\templates\frontend\get_started.html:162
+msgid "Click for less details"
+msgstr "Cliquez pour moins de détails"
+
+#: .\frontend\templates\frontend\detail_project.html:119
+msgid "Explore data"
+msgstr "Explorer les données"
+
+#: .\frontend\templates\frontend\detail_project.html:133
+msgid "Project Options"
+msgstr "Options du projet"
+
+#: .\frontend\templates\frontend\detail_project.html:139
+#: .\templates\includes\dashboard_menu.html:53
+#: .\templates\includes\menu.html:40 .\templates\includes\menu.html:125
+msgid "Share Project"
+msgstr "Partager le projet"
+
+#: .\frontend\templates\frontend\detail_project.html:143
+#: .\frontend\templates\frontend\detail_project.html:147
+msgid "Access Project"
+msgstr "Accéder au projet"
+
+#: .\frontend\templates\frontend\detail_project.html:150
+#: .\templates\includes\dashboard_menu.html:33
+msgid "Customize Dashboard"
+msgstr "Personnaliser le tableau de bord"
+
+#: .\frontend\templates\frontend\detail_project.html:155
+#: .\frontend\templates\frontend\detail_project.html:168
+msgid "Provide Feedback"
+msgstr "Donnez votre avis"
+
+#: .\frontend\templates\frontend\detail_project.html:159
+msgid "Refine Project Requirements"
+msgstr "Affiner les exigences du projet"
+
+#: .\frontend\templates\frontend\detail_project.html:162
+msgid "Update Development Progress"
+msgstr "Mise à jour de l'avancement du développement"
+
+#: .\frontend\templates\frontend\detail_project.html:165
+msgid "Monitor Development Progress"
+msgstr "Suivre l'évolution du développement"
+
+#: .\frontend\templates\frontend\detail_project.html:178
+msgid "Subscribe to Project"
+msgstr "S'abonner au projet"
+
+#: .\frontend\templates\frontend\detail_project.html:184
+#: .\frontend\templates\frontend\detail_project.html:185
+#: .\frontend\templates\frontend\explore_data.html:230
+#: .\frontend\templates\frontend\explore_data.html:231
+#: .\frontend\templates\frontend\index.html:260
+#: .\frontend\templates\frontend\index_01_06_2021.html:131
+#: .\frontend\templates\frontend\index_01_06_2021.html:132
+#: .\frontend\templates\frontend\index_26_09_2021.html:450
+#: .\frontend\templates\frontend\index_backup.html:61
+#: .\frontend\templates\frontend\index_backup.html:62
+#: .\templates\includes\menu.html:179 .\templates\includes\menu.html:180
+#: .\templates\includes\menu.html:201 .\templates\includes\menu.html:202
+msgid "Email"
+msgstr "Mail"
+
+#: .\frontend\templates\frontend\detail_project.html:188
+#: .\frontend\templates\frontend\explore_data.html:234
+#: .\templates\includes\menu.html:172 .\templates\includes\menu.html:187
+#: .\templates\includes\menu.html:222
+msgid "Subscribe"
+msgstr "S'abonner"
+
+#: .\frontend\templates\frontend\detail_project.html:204
+#: .\frontend\templates\frontend\detail_project.html:208
+#: .\frontend\views.py:1586 .\frontend\views.py:1592
+#: .\visualizations\models.py:537
+msgid "Requirement Clarification"
+msgstr "Clarification des exigences"
+
+#: .\frontend\templates\frontend\detail_project.html:205
+#: .\frontend\templates\frontend\detail_project.html:209
+msgid "Development Progress"
+msgstr "Progression du développement"
+
+#: .\frontend\templates\frontend\detail_project.html:206
+#: .\frontend\templates\frontend\detail_project.html:210
+#: .\frontend\templates\frontend\detail_project.html:311
+msgid "Feedback after Development Complete"
+msgstr "Retour d'information après la fin du développement"
+
+#: .\frontend\templates\frontend\detail_project.html:227
+#: .\frontend\templates\frontend\detail_project.html:238
+#: .\frontend\templates\frontend\detail_project.html:274
+#: .\frontend\templates\frontend\detail_project.html:285
+#: .\frontend\templates\frontend\detail_project.html:324
+#: .\frontend\templates\frontend\detail_project.html:335
+#: .\frontend\templates\frontend\explore_data.html:299
+#: .\frontend\templates\frontend\explore_data.html:310
+msgid "Reply to comment."
+msgstr "Répondre au commentaire."
+
+#: .\frontend\templates\frontend\detail_project.html:232
+#: .\frontend\templates\frontend\detail_project.html:243
+#: .\frontend\templates\frontend\detail_project.html:279
+#: .\frontend\templates\frontend\detail_project.html:290
+#: .\frontend\templates\frontend\detail_project.html:329
+#: .\frontend\templates\frontend\detail_project.html:340
+#: .\frontend\templates\frontend\detail_project.html:414
+#: .\frontend\templates\frontend\explore_data.html:304
+#: .\frontend\templates\frontend\explore_data.html:315
+#: .\frontend\templates\frontend\explore_data.html:388
+#: .\frontend\templates\frontend\index_26_09_2021.html:388
+#: .\frontend\templates\frontend\issues.html:59
+msgid "Attachment"
+msgstr "Pièce jointe"
+
+#: .\frontend\templates\frontend\detail_project.html:255
+#: .\frontend\templates\frontend\detail_project.html:302
+#: .\frontend\templates\frontend\detail_project.html:352
+#: .\frontend\templates\frontend\explore_data.html:327
+msgid "Be the first to comment."
+msgstr "Soyez le premier à commenter."
+
+#: .\frontend\templates\frontend\detail_project.html:360
+msgid "Leave your Comment"
+msgstr "Laissez votre commentaire"
+
+#: .\frontend\templates\frontend\detail_project.html:365
+#: .\frontend\templates\frontend\explore_data.html:344
+msgid "Reply to the following comment:"
+msgstr "Répondez au commentaire suivant :"
+
+#: .\frontend\templates\frontend\detail_project.html:368
+#: .\frontend\templates\frontend\explore_data.html:347
+msgid "Comment Type*"
+msgstr "Type de commentaire*"
+
+#: .\frontend\templates\frontend\detail_project.html:380
+#: .\frontend\templates\frontend\explore_data.html:360
+#: .\frontend\templates\frontend\index.html:256
+#: .\frontend\templates\frontend\index_01_06_2021.html:127
+#: .\frontend\templates\frontend\index_01_06_2021.html:128
+#: .\frontend\templates\frontend\index_26_09_2021.html:446
+#: .\frontend\templates\frontend\index_backup.html:55
+#: .\frontend\templates\frontend\index_backup.html:56
+msgid "Full Name"
+msgstr "Nom complet"
+
+#: .\frontend\templates\frontend\detail_project.html:381
+#: .\frontend\templates\frontend\explore_data.html:361
+msgid "Name*"
+msgstr "Nom*"
+
+#: .\frontend\templates\frontend\detail_project.html:384
+#: .\frontend\templates\frontend\explore_data.html:364
+msgid "User Type*"
+msgstr "Type d'utilisateur*"
+
+#: .\frontend\templates\frontend\detail_project.html:396
+msgid "Project Status*"
+msgstr "Statut du projet* "
+
+#: .\frontend\templates\frontend\detail_project.html:398
+#: .\frontend\templates\frontend\get_started.html:67
+msgid "Select the project status"
+msgstr "Sélectionnez le statut du projet"
+
+#: .\frontend\templates\frontend\detail_project.html:410
+#: .\frontend\templates\frontend\explore_data.html:384
+#: .\frontend\templates\frontend\index.html:266
+#: .\frontend\templates\frontend\index_01_06_2021.html:137
+#: .\frontend\templates\frontend\index_26_09_2021.html:456
+#: .\frontend\templates\frontend\index_backup.html:67
+#: .\templates\includes\dashboard_menu.html:63
+#: .\templates\includes\dashboard_menu.html:64
+#: .\templates\includes\menu.html:157 .\templates\includes\menu.html:158
+msgid "Message"
+msgstr "Message"
+
+#: .\frontend\templates\frontend\detail_project.html:411
+#: .\frontend\templates\frontend\explore_data.html:385
+#: .\frontend\templates\frontend\index.html:267
+#: .\frontend\templates\frontend\index_26_09_2021.html:457
+msgid "Message*"
+msgstr "Message *"
+
+#: .\frontend\templates\frontend\detail_project.html:424
+#: .\frontend\templates\frontend\explore_data.html:398
+#: .\frontend\templates\frontend\index.html:273
+#: .\frontend\templates\frontend\index_01_06_2021.html:144
+#: .\frontend\templates\frontend\index_26_09_2021.html:463
+#: .\frontend\templates\frontend\index_backup.html:74
+#: .\templates\includes\menu.html:276 .\utils\viz.py:2616
+msgid "Submit"
+msgstr "Soumettre"
+
+#: .\frontend\templates\frontend\detail_project.html:427
+#: .\frontend\templates\frontend\explore_data.html:401
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: .\frontend\templates\frontend\explore_data.html:5
+#: .\frontend\templates\frontend\get_started.html:377
+msgid "Explore Data"
+msgstr "Explorer les données"
+
+#: .\frontend\templates\frontend\explore_data.html:35
+msgid "(Requested)"
+msgstr "(Demandé)"
+
+#: .\frontend\templates\frontend\explore_data.html:46
+msgid "Data Information"
+msgstr "Informations sur le jeu de données"
+
+#: .\frontend\templates\frontend\explore_data.html:52
+msgid "I think this data is pertinent."
+msgstr "Je pense que ces données sont pertinentes."
+
+#: .\frontend\templates\frontend\explore_data.html:66
+msgid "Requested Data Provided: "
+msgstr "Jeu de données demandé fourni : "
+
+#: .\frontend\templates\frontend\explore_data.html:82 .\utils\viz.py:136
+#: .\utils\viz.py:209
+msgid "Source: "
+msgstr "Source : "
+
+#: .\frontend\templates\frontend\explore_data.html:92 .\utils\viz.py:180
+msgid "Last Modified: "
+msgstr "Dernière modification : "
+
+#: .\frontend\templates\frontend\explore_data.html:107
+#| msgid "Upload Data"
+msgid "Download data: "
+msgstr "Télécharger le jeu de données :"
+
+#: .\frontend\templates\frontend\explore_data.html:108
+msgid "Click here"
+msgstr "Cliquez ici"
+
+#: .\frontend\templates\frontend\explore_data.html:113
+msgid "Update frequency: "
+msgstr "Fréquence de mise à jour : "
+
+#: .\frontend\templates\frontend\explore_data.html:117
+msgid "N/A"
+msgstr ""
+
+#: .\frontend\templates\frontend\explore_data.html:135
+msgid "List of projects using this open data"
+msgstr "Liste des projets utilisant ces données ouvertes"
+
+#: .\frontend\templates\frontend\explore_data.html:144
+msgid "View project"
+msgstr "Voir le projet"
+
+#: .\frontend\templates\frontend\explore_data.html:158
+#| msgid "Less Options"
+msgid "Data Options"
+msgstr "Options du jeu de données"
+
+#: .\frontend\templates\frontend\explore_data.html:164
+#| msgid "Explore Data"
+msgid "Share Data"
+msgstr "Partager le jeu de données"
+
+#: .\frontend\templates\frontend\explore_data.html:168
+msgid "Reply to Data Request"
+msgstr "Réponse à la demande de données"
+
+#: .\frontend\templates\frontend\explore_data.html:172
+#: .\frontend\views.py:1313
+msgid "Report Data Issue"
+msgstr "Rapport sur les problèmes de données"
+
+#: .\frontend\templates\frontend\explore_data.html:181
+#: .\frontend\views.py:1336
+#| msgid "Data Visualization"
+msgid "Data Quality"
+msgstr "Qualité du jeu de données"
+
+#: .\frontend\templates\frontend\explore_data.html:183
+msgid "More/Less Detail"
+msgstr "Plus/moins de détails"
+
+#: .\frontend\templates\frontend\explore_data.html:191
+#| msgid "Data Visualization"
+msgid "Dataset Quality"
+msgstr "Qualité du jeu de données"
+
+#: .\frontend\templates\frontend\explore_data.html:194
+msgid "Metrics"
+msgstr "Métriques"
+
+#: .\frontend\templates\frontend\explore_data.html:195
+#, python-format
+msgid "%%"
+msgstr ""
+
+#: .\frontend\templates\frontend\explore_data.html:198
+msgid "Check if the title, description and last update are provided"
+msgstr ""
+"Vérifiez si le titre, la description et la dernière mise à jour sont fournis"
+
+#: .\frontend\templates\frontend\explore_data.html:198
+#| msgid "Data Type Information"
+msgid "Dataset Information"
+msgstr "Informations sur le jeu de données"
+
+#: .\frontend\templates\frontend\explore_data.html:202
+msgid "Check if all column labels are provided"
+msgstr "Vérifiez si toutes les étiquettes de colonnes sont fournies"
+
+#: .\frontend\templates\frontend\explore_data.html:202
+msgid "Column Labels"
+msgstr "Étiquettes des colonnes"
+
+#: .\frontend\templates\frontend\explore_data.html:206
+msgid "Check if all column descriptions are provided"
+msgstr "Vérifiez si toutes les descriptions de colonnes sont fournies"
+
+#: .\frontend\templates\frontend\explore_data.html:206
+msgid "Column descriptions"
+msgstr "Description des colonnes"
+
+#: .\frontend\templates\frontend\explore_data.html:210
+msgid "Check if all cells have values"
+msgstr "Vérifiez si toutes les cellules ont des valeurs"
+
+#: .\frontend\templates\frontend\explore_data.html:210
+msgid "Complete cells"
+msgstr "Cellules complètes"
+
+#: .\frontend\templates\frontend\explore_data.html:214
+msgid "Average of dataset quality"
+msgstr "Moyenne de la qualité des données"
+
+#: .\frontend\templates\frontend\explore_data.html:214
+msgid "Average"
+msgstr ""
+
+#: .\frontend\templates\frontend\explore_data.html:224
+#| msgid "Submit Data"
+msgid "Subscribe to Data"
+msgstr "S'abonner au jeu de  données"
+
+#: .\frontend\templates\frontend\explore_data.html:250
+msgid "Data Content"
+msgstr "Contenu des données"
+
+#: .\frontend\templates\frontend\explore_data.html:260
+#| msgid "2 Columns"
+msgid "Explore Columns"
+msgstr "Explorer les colonnes"
+
+#: .\frontend\templates\frontend\explore_data.html:262
+msgid "Learn more about each column of your dataset."
+msgstr ""
+"Apprenez-en davantage sur chaque colonne de votre ensemble de données."
+
+#: .\frontend\templates\frontend\explore_data.html:269
+#| msgid "Select Grouping"
+msgid "Select column"
+msgstr "Sélectionnez une colonne"
+
+#: .\frontend\templates\frontend\explore_data.html:290
+#| msgid "Previous"
+msgid "Previous Comments"
+msgstr "Commentaires précédents"
+
+#: .\frontend\templates\frontend\explore_data.html:336
+msgid "Reply to data request"
+msgstr "Réponse à la demande de données"
+
+#: .\frontend\templates\frontend\explore_data.html:338
+msgid "Report a data issue"
+msgstr "Signaler un problème de données"
+
+#: .\frontend\templates\frontend\explore_data.html:377
+msgid "Check if your comment answers to the data request"
+msgstr "Vérifiez si votre commentaire répond à la demande de données"
+
+#: .\frontend\templates\frontend\get_started.html:6
+#: .\frontend\templates\frontend\get_started.html:38
+msgid "Create/Load Project"
+msgstr "Créer/Charger un projet"
+
+#: .\frontend\templates\frontend\get_started.html:8
+msgid "Add Data"
+msgstr "Ajouter des données"
+
+#: .\frontend\templates\frontend\get_started.html:42
+msgid "New here?"
+msgstr "Vous êtes nouveau ici ?"
+
+#: .\frontend\templates\frontend\get_started.html:42
+msgid "Create a new project"
+msgstr "Créer un nouveau projet"
+
+#: .\frontend\templates\frontend\get_started.html:43
+msgid ""
+"Create project will allow you to save your changes for future use or allow "
+"others users who have the project code to edit it."
+msgstr ""
+"Créer un projet vous permettra d'enregistrer vos modifications pour une "
+"utilisation ultérieure ou de permettre à d'autres utilisateurs possédant le "
+"code du projet de le modifier."
+
+#: .\frontend\templates\frontend\get_started.html:44
+msgid "All fields marked with * are required"
+msgstr "Tous les champs marqués d'un * sont obligatoires"
+
+#: .\frontend\templates\frontend\get_started.html:52
+msgid "Choose your project type*"
+msgstr "Choisissez votre type de projet*"
+
+#: .\frontend\templates\frontend\get_started.html:54
+msgid "Select the project type"
+msgstr "Sélectionnez le type de projet"
+
+#: .\frontend\templates\frontend\get_started.html:65
+msgid "Choose your project status*"
+msgstr "Choisissez le statut de votre projet*"
+
+#: .\frontend\templates\frontend\get_started.html:78
+#: .\templates\includes\menu.html:205 .\templates\includes\menu.html:251
+msgid "Country*"
+msgstr "Pays*"
+
+#: .\frontend\templates\frontend\get_started.html:80
+msgid "Select the country of the project"
+msgstr "Sélectionnez le pays du projet"
+
+#: .\frontend\templates\frontend\get_started.html:91
+#: .\templates\includes\menu.html:214 .\templates\includes\menu.html:260
+msgid "State/City*"
+msgstr "Etat/Ville*"
+
+#: .\frontend\templates\frontend\get_started.html:92
+#| msgid "Enter existant project code"
+msgid "Enter the state/city of the project"
+msgstr "Indiquez l'état/la ville du projet"
+
+#: .\frontend\templates\frontend\get_started.html:96
+#: .\templates\includes\menu.html:265
+msgid "Domain*"
+msgstr "Domaine*"
+
+#: .\frontend\templates\frontend\get_started.html:98
+msgid "Select the domain of the project"
+msgstr "Sélectionnez le domaine du projet"
+
+#: .\frontend\templates\frontend\get_started.html:109 .\utils\viz.py:5135
+#| msgid "Title"
+msgid "Title*"
+msgstr "Titre*"
+
+#: .\frontend\templates\frontend\get_started.html:110
+#| msgid "Project"
+msgid "Project title"
+msgstr "Titre du projet"
+
+#: .\frontend\templates\frontend\get_started.html:113
+msgid "Access Link*"
+msgstr "Lien d'accès"
+
+#: .\frontend\templates\frontend\get_started.html:114
+msgid "E.g., https://example.com"
+msgstr "Par exemple, https://example.com"
+
+#: .\frontend\templates\frontend\get_started.html:117
+msgid "Description*"
+msgstr "Description*"
+
+#: .\frontend\templates\frontend\get_started.html:118
+msgid "Description of the project"
+msgstr "Description du projet"
+
+#: .\frontend\templates\frontend\get_started.html:121
+msgid "Contact Information (Name & Email)*"
+msgstr "Informations de contact (nom et courriel)*"
+
+#: .\frontend\templates\frontend\get_started.html:122
+msgid "e.g., Peter|peter@gmail.com"
+msgstr "par exemple, Peter|peter@gmail.com"
+
+#: .\frontend\templates\frontend\get_started.html:125
+#: .\frontend\templates\frontend\visualization_guide.html:606
+msgid ""
+"Enable it to make your project public (other users can access/duplicate it)."
+msgstr ""
+"Activez-la pour rendre votre projet public (d'autres utilisateurs peuvent y "
+"accéder/le dupliquer)."
+
+#: .\frontend\templates\frontend\get_started.html:125
+msgid "Share with all users?"
+msgstr "Partager avec tous les utilisateurs ?"
+
+#: .\frontend\templates\frontend\get_started.html:128
+msgid "Logo or Screnshot to present your project"
+msgstr "Logo ou Screnshot pour présenter votre projet"
+
+#: .\frontend\templates\frontend\get_started.html:137
+#: .\frontend\templates\frontend\get_started.html:579
+#: .\frontend\templates\frontend\get_started.html:580
+#| msgid "Save all rates"
+msgid "Save Changes"
+msgstr "Sauvegarder les changements"
+
+#: .\frontend\templates\frontend\get_started.html:137
+#: .\frontend\templates\frontend\get_started.html:353
+msgid "Create New Project"
+msgstr "Créer un nouveau projet"
+
+#: .\frontend\templates\frontend\get_started.html:142
+#: .\frontend\templates\frontend\visualization_guide.html:372
+#: .\frontend\templates\frontend\visualization_guide.html:373
+#: .\frontend\templates\frontend\visualization_guide.html:422
+msgid "OR"
+msgstr "Ou"
+
+#: .\frontend\templates\frontend\get_started.html:145
+msgid "Load the project using a project code?"
+msgstr "Charger le projet en utilisant un code de projet ?"
+
+#: .\frontend\templates\frontend\get_started.html:149
+msgid "Enter existant project code"
+msgstr "Entrez le code du projet existant"
+
+#: .\frontend\templates\frontend\get_started.html:155
+#: .\templates\includes\menu.html:92 .\templates\includes\menu.html:104
+#: .\templates\includes\menu.html:320 .\templates\includes\menu.html:332
+msgid "My Projects"
+msgstr "Mes projets"
+
+#: .\frontend\templates\frontend\get_started.html:164
+msgid "Load project"
+msgstr "Charger le projet"
+
+#: .\frontend\templates\frontend\get_started.html:178
+#: .\frontend\templates\frontend\get_started.html:639
+msgid "What's next?"
+msgstr "Quelle est la prochaine étape ?"
+
+#: .\frontend\templates\frontend\get_started.html:179
+msgid "Add the datasets used or to be used by the project, if you know them."
+msgstr ""
+"Ajoutez les jeux de données utilisés ou devant être utilisés par le projet, "
+"si vous les connaissez."
+
+#: .\frontend\templates\frontend\get_started.html:186
+msgid "Add related data"
+msgstr "Ajouter des données connexes"
+
+#: .\frontend\templates\frontend\get_started.html:187
+msgid ""
+"Integrate the data used by the project. Select the data directly from OGD "
+"portals or use other options (upload file or external link)."
+msgstr ""
+"Intégrer les données utilisées par le projet. Sélectionnez les données "
+"directement à partir des portails d'OGD ou utilisez d'autres options "
+"(téléchargement de fichier ou lien externe)."
+
+#: .\frontend\templates\frontend\get_started.html:197
+msgid "Request data"
+msgstr "Demande de données"
+
+#: .\frontend\templates\frontend\get_started.html:198
+msgid ""
+"Need a dataset for a project? If so, provide the data details and the "
+"community will help you."
+msgstr ""
+"Vous avez besoin d'un jeu de données pour un projet ? Si oui, fournissez les"
+" détails des données et la communauté vous aidera."
+
+#: .\frontend\templates\frontend\get_started.html:213
+#: .\frontend\templates\frontend\get_started.html:215
+#: .\templates\includes\menu.html:99 .\templates\includes\menu.html:327
+msgid "Add Data to Project"
+msgstr "Ajouter des jeux de données au projet"
+
+#: .\frontend\templates\frontend\get_started.html:220
+msgid ""
+"Please give us the information about the open data portal and the dataset."
+msgstr ""
+"Veuillez nous donner des informations sur le portail de données ouvertes et "
+"le jeu de données."
+
+#: .\frontend\templates\frontend\get_started.html:221
+#: .\frontend\templates\frontend\get_started.html:265
+msgid "Use this code to edit the project in the future."
+msgstr "Utilisez ce code pour modifier le projet à l'avenir."
+
+#: .\frontend\templates\frontend\get_started.html:221
+#: .\frontend\templates\frontend\get_started.html:265
+msgid "Project code: "
+msgstr "Code du projet : "
+
+#: .\frontend\templates\frontend\get_started.html:243
+msgid "Select/Enter Portal"
+msgstr "Sélectionner/Entrer le portail"
+
+#: .\frontend\templates\frontend\get_started.html:248
+msgid "Eg. https://data.namur.be/"
+msgstr "Par exemple, https://data.namur.be/"
+
+#: .\frontend\templates\frontend\get_started.html:251
+msgid "Provide dataset information and press enter"
+msgstr ""
+"Fournissez les informations sur le jeu de données et appuyez sur la touche "
+"Entrée"
+
+#: .\frontend\templates\frontend\get_started.html:252
+msgid "Eg. covid and press enter"
+msgstr "Par exemple, covid et appuyez sur la touche Entrée"
+
+#: .\frontend\templates\frontend\get_started.html:264
+msgid ""
+"Please clean up your data before uploading it to the system. Your data must "
+"have column names in the header."
+msgstr ""
+"Veuillez corriger vos données avant de les télécharger dans le système. Vos "
+"données doivent avoir des noms de colonne dans l'en-tête."
+
+#: .\frontend\templates\frontend\get_started.html:274
+msgid "Select Online Resources"
+msgstr "Sélectionnez les ressources en ligne"
+
+#: .\frontend\templates\frontend\get_started.html:277
+msgid "Select"
+msgstr "Sélectionnez"
+
+#: .\frontend\templates\frontend\get_started.html:282
+#: .\frontend\templates\frontend\get_started.html:295
+#: .\frontend\templates\frontend\get_started.html:309
+#: .\frontend\templates\frontend\visualization_guide.html:918
+#: .\frontend\templates\frontend\visualization_guide.html:964
+#: .\frontend\templates\frontend\visualization_guide.html:975
+#: .\templates\includes\dashboard_menu.html:70
+#: .\templates\includes\menu.html:164 .\templates\includes\menu.html:186
+#: .\templates\includes\menu.html:220 .\templates\includes\menu.html:275
+msgid "Close"
+msgstr "Fermer"
+
+#: .\frontend\templates\frontend\get_started.html:291
+#: .\frontend\templates\frontend\get_started.html:346
+msgid "Use External Link"
+msgstr "Utiliser un lien externe"
+
+#: .\frontend\templates\frontend\get_started.html:296
+msgid "Submit Data"
+msgstr "Soumettre des données"
+
+#: .\frontend\templates\frontend\get_started.html:305
+msgid "Enter Project Code"
+msgstr "Entrez le code du projet"
+
+#: .\frontend\templates\frontend\get_started.html:306
+msgid "Enter project code"
+msgstr "Entrez le code du projet"
+
+#: .\frontend\templates\frontend\get_started.html:310
+msgid "Load Project"
+msgstr "Charger le projet"
+
+#: .\frontend\templates\frontend\get_started.html:323
+msgid "Drop your files here (csv, json, xls, xlsx only)"
+msgstr "Déposez vos fichiers ici (csv, json, xls, xlsx uniquement)"
+
+#: .\frontend\templates\frontend\get_started.html:325
+msgid "Drop your excel files here"
+msgstr "Déposez vos fichiers excel ici"
+
+#: .\frontend\templates\frontend\get_started.html:327
+msgid "or"
+msgstr "ou"
+
+#: .\frontend\templates\frontend\get_started.html:330
+msgid "Upload your files"
+msgstr "Téléchargez vos fichiers"
+
+#: .\frontend\templates\frontend\get_started.html:331
+msgid "Select Files from your computer"
+msgstr "Sélectionnez les fichiers de votre ordinateur"
+
+#: .\frontend\templates\frontend\get_started.html:338
+msgid "You can also"
+msgstr "Vous pouvez également"
+
+#: .\frontend\templates\frontend\get_started.html:341
+msgid "Use existing data in the system"
+msgstr "Utiliser les données existantes dans le système"
+
+#: .\frontend\templates\frontend\get_started.html:342
+msgid "Use Existing Data"
+msgstr "Utiliser les données existantes"
+
+#: .\frontend\templates\frontend\get_started.html:345
+msgid "Get data from external link"
+msgstr "Obtenir des données à partir d'un lien externe"
+
+#: .\frontend\templates\frontend\get_started.html:349
+msgid "Load/Create Project"
+msgstr "Charger/Créer un projet"
+
+#: .\frontend\templates\frontend\get_started.html:349
+msgid "Project"
+msgstr "Projet"
+
+#: .\frontend\templates\frontend\get_started.html:352
+msgid "Load Existant Project"
+msgstr "Charger un projet existant"
+
+#: .\frontend\templates\frontend\get_started.html:361
+msgid "List Data Selected"
+msgstr "Liste des données sélectionnées"
+
+#: .\frontend\templates\frontend\get_started.html:375
+msgid "(Data Quality: "
+msgstr "(Qualité des données : "
+
+#: .\frontend\templates\frontend\get_started.html:376
+msgid "Delete Data"
+msgstr "Supprimer des données"
+
+#: .\frontend\templates\frontend\get_started.html:376
+msgid "Delete"
+msgstr "Supprimer"
+
+#: .\frontend\templates\frontend\get_started.html:377
+msgid "Explore"
+msgstr "Explorer"
+
+#: .\frontend\templates\frontend\get_started.html:378
+#| msgid "Hide/Show Data Information"
+msgid "Edit Data Information"
+msgstr "Modifier les informations sur les données"
+
+#: .\frontend\templates\frontend\get_started.html:378
+#: .\frontend\templates\frontend\visualization_guide.html:726
+#: .\utils\viz.py:2631
+msgid "Edit"
+msgstr "Modifier"
+
+#: .\frontend\templates\frontend\get_started.html:385
+msgid "Preprocess your data before using it"
+msgstr "Prétraitez vos données avant de les utiliser"
+
+#: .\frontend\templates\frontend\get_started.html:396
+#| msgid "Which filters do you want to apply?"
+msgid "Which transformation to apply?"
+msgstr "Quelle transformation appliquer ?"
+
+#: .\frontend\templates\frontend\get_started.html:398
+#| msgid "Select Orientation"
+msgid "Select transformation"
+msgstr "Sélectionner la transformation"
+
+#: .\frontend\templates\frontend\get_started.html:399
+#| msgid "2 Columns"
+msgid "Drop Columns"
+msgstr "Supprimer les colonnes"
+
+#: .\frontend\templates\frontend\get_started.html:400
+msgid "Search & Replace Values"
+msgstr "Rechercher et remplacer des valeurs"
+
+#: .\frontend\templates\frontend\get_started.html:401
+msgid "Aggregate Data"
+msgstr "Données agrégées"
+
+#: .\frontend\templates\frontend\get_started.html:402
+msgid "Combine Data"
+msgstr "Combiner les données"
+
+#: .\frontend\templates\frontend\get_started.html:407
+msgid "Get started by choosing your transformation"
+msgstr "Commencez par choisir votre transformation"
+
+#: .\frontend\templates\frontend\get_started.html:415
+#: .\frontend\templates\frontend\get_started.html:445
+#: .\frontend\templates\frontend\get_started.html:484
+msgid "Dataset*"
+msgstr "Jeu de données*"
+
+#: .\frontend\templates\frontend\get_started.html:417
+#: .\frontend\templates\frontend\get_started.html:447
+#: .\frontend\templates\frontend\get_started.html:486
+#: .\frontend\templates\frontend\get_started.html:516
+#: .\frontend\templates\frontend\get_started.html:538
+#| msgid "Delete Data"
+msgid "Select Data"
+msgstr "Sélectionnez le jeu de données"
+
+#: .\frontend\templates\frontend\get_started.html:422
+#: .\frontend\templates\frontend\get_started.html:452
+#: .\frontend\templates\frontend\get_started.html:491
+msgid "Columns*"
+msgstr "Colonnes*"
+
+#: .\frontend\templates\frontend\get_started.html:424
+#: .\frontend\templates\frontend\get_started.html:454
+#: .\frontend\templates\frontend\get_started.html:493
+#| msgid "2 Columns"
+msgid "Select Columns"
+msgstr "Sélectionnez les colonnes"
+
+#: .\frontend\templates\frontend\get_started.html:428
+#: .\frontend\templates\frontend\get_started.html:467
+#: .\frontend\templates\frontend\get_started.html:497
+msgid "New Dataset Name"
+msgstr "Nom du nouveau jeu de données"
+
+#: .\frontend\templates\frontend\get_started.html:429
+#: .\frontend\templates\frontend\get_started.html:468
+#: .\frontend\templates\frontend\get_started.html:498
+#: .\frontend\templates\frontend\get_started.html:550
+msgid "Dataset Title"
+msgstr "Titre du jeu de données"
+
+#: .\frontend\templates\frontend\get_started.html:430
+#: .\frontend\templates\frontend\get_started.html:469
+#: .\frontend\templates\frontend\get_started.html:499
+msgid ""
+"Leave empty if you wish to overwrite the current dataset. Putting a title "
+"different from the current is recommended."
+msgstr ""
+"Laissez vide si vous souhaitez écraser l'ensemble de données actuel. Il est "
+"recommandé de mettre un titre différent du titre actuel."
+
+#: .\frontend\templates\frontend\get_started.html:433
+#: .\frontend\templates\frontend\get_started.html:472
+#: .\frontend\templates\frontend\get_started.html:502
+#: .\frontend\templates\frontend\get_started.html:554
+msgid "Execute"
+msgstr "Exécuter"
+
+#: .\frontend\templates\frontend\get_started.html:458
+#| msgid "Exact Search?"
+msgid "Search"
+msgstr "Recherche"
+
+#: .\frontend\templates\frontend\get_started.html:459
+#| msgid "search ..."
+msgid "Search ..."
+msgstr "Recherche ..."
+
+#: .\frontend\templates\frontend\get_started.html:460
+msgid "Leave empty if you wish to search for empty cells."
+msgstr "Laissez vide si vous souhaitez rechercher les cellules vides."
+
+#: .\frontend\templates\frontend\get_started.html:463
+msgid "Replace*"
+msgstr "Remplacer*"
+
+#: .\frontend\templates\frontend\get_started.html:464
+msgid "Replace by ..."
+msgstr "Remplacer par ..."
+
+#: .\frontend\templates\frontend\get_started.html:514
+msgid "Dataset 1*"
+msgstr "Ensemble de données 1*"
+
+#: .\frontend\templates\frontend\get_started.html:521
+#| msgid "1 Column"
+msgid "Column 1*"
+msgstr "Colonne 1*"
+
+#: .\frontend\templates\frontend\get_started.html:523
+#: .\frontend\templates\frontend\get_started.html:545
+#| msgid "Select Grouping"
+msgid "Select Column"
+msgstr "Sélectionner la colonne"
+
+#: .\frontend\templates\frontend\get_started.html:527
+#| msgid "Select Type"
+msgid "Relation Type*"
+msgstr "Type de relation *"
+
+#: .\frontend\templates\frontend\get_started.html:529
+msgid "Inner Join"
+msgstr ""
+
+#: .\frontend\templates\frontend\get_started.html:530
+msgid "Left Join"
+msgstr ""
+
+#: .\frontend\templates\frontend\get_started.html:531
+msgid "Right Join"
+msgstr ""
+
+#: .\frontend\templates\frontend\get_started.html:532
+msgid "Full Join"
+msgstr ""
+
+#: .\frontend\templates\frontend\get_started.html:536
+#| msgid "Data"
+msgid "Dataset 2"
+msgstr "Jeu de données 2"
+
+#: .\frontend\templates\frontend\get_started.html:543
+#| msgid "1 Column"
+msgid "Column 2*"
+msgstr "Colonne 2*"
+
+#: .\frontend\templates\frontend\get_started.html:549
+msgid "New Dataset Name*"
+msgstr "Nouveau nom du jeu de données*"
+
+#: .\frontend\templates\frontend\get_started.html:551
+msgid "Putting a title different from the current is recommended."
+msgstr "Il est recommandé de mettre un titre différent du titre actuel."
+
+#: .\frontend\templates\frontend\get_started.html:590
+msgid "Hide/Show Data Information"
+msgstr "Masquer/afficher les informations sur les données"
+
+#: .\frontend\templates\frontend\get_started.html:591
+msgid "See Data Info"
+msgstr "Voir les informations sur les données"
+
+#: .\frontend\templates\frontend\get_started.html:596
+msgid ""
+"Is the auto-detection of datatype wrong? If yes, correct the wrong detection"
+msgstr ""
+"L'auto-détection du type de données est-elle erronée ? Si oui, corrigez la "
+"détection erronée"
+
+#: .\frontend\templates\frontend\get_started.html:603
+msgid "Which attribute has wrong datatype?"
+msgstr "Quel attribut a un mauvais type de données ?"
+
+#: .\frontend\templates\frontend\get_started.html:608
+msgid "Choose the correct datatype"
+msgstr "Choisissez le bon type de données"
+
+#: .\frontend\templates\frontend\get_started.html:610
+msgid "Select Type"
+msgstr "Sélectionnez le type"
+
+#: .\frontend\templates\frontend\get_started.html:618
+#: .\frontend\templates\frontend\get_started.html:619
+msgid "Process"
+msgstr "Traiter"
+
+#: .\frontend\templates\frontend\get_started.html:646
+msgid "Create visualization"
+msgstr "Créer une visualisation"
+
+#: .\frontend\templates\frontend\get_started.html:647
+msgid ""
+"ODEON will suggest you some visualisations after selection of columns and "
+"purpose of the visualization(not mandatory)."
+msgstr ""
+"ODEON vous proposera des visualisations après avoir sélectionné les "
+"colonnes et le but de la visualisation (non obligatoire)."
+
+#: .\frontend\templates\frontend\get_started.html:657
+msgid "Get recommendations"
+msgstr "Obtenir des recommandations"
+
+#: .\frontend\templates\frontend\get_started.html:658
+msgid ""
+"ODEON will automatically suggest you multiple visualizations that you can "
+"easily modify if needed and add them to your dashboard."
+msgstr ""
+"ODEON vous proposera automatiquement plusieurs visualisations que vous "
+"pourrez facilement modifier si nécessaire et les ajouter à votre tableau de "
+"bord."
+
+#: .\frontend\templates\frontend\get_started.html:663
+msgid "You're done. Thank you for sharing your project with us."
+msgstr "Vous avez terminé. Merci d'avoir partagé votre projet avec nous."
+
+#: .\frontend\templates\frontend\index.html:22
+#: .\frontend\templates\frontend\index_26_09_2021.html:22
+msgid "Centralized repository for open government data initiatives"
+msgstr ""
+"Référentiel centralisé pour les initiatives de données gouvernementales "
+"ouvertes"
+
+#: .\frontend\templates\frontend\index.html:40
+#: .\frontend\templates\frontend\index_26_09_2021.html:40
+#: .\frontend\templates\frontend\projects.html:44
+msgid "Search project by code, title, description"
+msgstr "Rechercher un projet par code, titre, description"
+
+#: .\frontend\templates\frontend\index.html:47
+#: .\frontend\templates\frontend\index_26_09_2021.html:47
+msgid "View All Projects"
+msgstr "Voir tous les projets"
+
+#: .\frontend\templates\frontend\index.html:77
+#: .\frontend\templates\frontend\index_26_09_2021.html:77
+msgid "About ODEON"
+msgstr "A propos de ODEON"
+
+#: .\frontend\templates\frontend\index.html:79
+#: .\frontend\templates\frontend\index_26_09_2021.html:79
+msgid ""
+"\n"
+"              ODEON is a centralized repository whose objective is to facilitate communication betweeen\n"
+"              Open Government Data (OGD) stakeholders: citizens, developers and publishers.<br/><br/>\n"
+"              <b>As citizen</b>, you can suggest a project idea for developers and also follow the progress of the project development if needed.<br/>\n"
+"              <b>As developer</b>, you can discover the projects that citizens are interested in and also get feedback from users during the development progress.\n"
+"              In addition, you can request datasets from publishers and also report issues found in datasets used in your projects.<br/>\n"
+"              <b>As publisher</b>, you can discover the projects that used our datasets. You can also find out about requested data and reported issues with our datasets.\n"
+"              "
+msgstr ""
+"\n"
+"              ODEON est un référentiel centralisé dont l'objectif est de faciliter la communication entre .\n"
+"              les parties prenantes de l'Open Government Data (OGD) : citoyens, développeurs et éditeurs.<br/><br/>\n"
+"              <b>En tant que citoyen</b>, vous pouvez suggérer une idée de projet pour les développeurs et également suivre l'évolution du développement du projet si nécessaire.<br/>\n"
+"              <b>En tant que développeur</b>, vous pouvez découvrir les projets qui intéressent les citoyens et également obtenir des retours des utilisateurs au cours de l'avancement du développement.\n"
+"              En outre, vous pouvez demander des ensembles de données aux éditeurs et également signaler les problèmes trouvés dans les ensembles de données utilisés dans vos projets.<br/>\n"
+"              <b>En tant qu'éditeur</b>, vous pouvez découvrir les projets qui ont utilisé nos jeux de données. Vous pouvez également vous renseigner sur les données demandées et les problèmes signalés avec nos jeux de données.\n"
+"              "
+
+#: .\frontend\templates\frontend\index.html:92
+#: .\frontend\templates\frontend\index_26_09_2021.html:92
+msgid "Choose your user type"
+msgstr "Choisissez votre type d'utilisateur"
+
+#: .\frontend\templates\frontend\index.html:93
+#: .\frontend\templates\frontend\index_26_09_2021.html:93
+msgid ""
+"Please select the user type that suits you best to see the related features."
+msgstr ""
+"Veuillez sélectionner le type d'utilisateur qui vous convient le mieux pour "
+"voir les fonctionnalités associées."
+
+#: .\frontend\templates\frontend\index.html:109
+#: .\frontend\templates\frontend\index.html:166
+#: .\frontend\templates\frontend\index_26_09_2021.html:109
+#: .\frontend\templates\frontend\index_26_09_2021.html:166
+#: .\frontend\templates\frontend\index_26_09_2021.html:202
+msgid "Explore OGD reuses"
+msgstr "Explorer les projets existants"
+
+#: .\frontend\templates\frontend\index.html:110
+#: .\frontend\templates\frontend\index.html:167
+#: .\frontend\templates\frontend\index_26_09_2021.html:110
+#: .\frontend\templates\frontend\index_26_09_2021.html:167
+#: .\frontend\templates\frontend\index_26_09_2021.html:203
+msgid ""
+"Discover all the applications/services that have been developed using the "
+"OGD."
+msgstr ""
+"Découvrez toutes les applications/services qui ont été développées à l'aide "
+"de l'OGD."
+
+#: .\frontend\templates\frontend\index.html:120
+#: .\frontend\templates\frontend\index.html:155
+msgid "Explore suggested projects"
+msgstr "Explorer les projets proposés"
+
+#: .\frontend\templates\frontend\index.html:121
+#: .\frontend\templates\frontend\index.html:156
+#: .\frontend\templates\frontend\index_26_09_2021.html:121
+#: .\frontend\templates\frontend\index_26_09_2021.html:156
+#: .\frontend\templates\frontend\index_26_09_2021.html:214
+msgid "Discover all the applications/services that are suggested by users."
+msgstr ""
+"Découvrez toutes les applications/services qui sont suggérées par les "
+"utilisateurs."
+
+#: .\frontend\templates\frontend\index.html:131
+#: .\frontend\templates\frontend\index.html:188
+#: .\frontend\templates\frontend\index_26_09_2021.html:131
+#: .\frontend\templates\frontend\index_26_09_2021.html:188
+#: .\frontend\views.py:356
+msgid "Suggest a project"
+msgstr "Suggérer un projet"
+
+#: .\frontend\templates\frontend\index.html:132
+#: .\frontend\templates\frontend\index_26_09_2021.html:132
+msgid ""
+"Have an idea? if so drop it here and the community will work on that as soon"
+" as possible."
+msgstr ""
+"Vous avez une idée ? Si oui, déposez-la ici et la communauté y travaillera "
+"dès que possible."
+
+#: .\frontend\templates\frontend\index.html:142
+#: .\frontend\templates\frontend\index.html:177
+#: .\frontend\templates\frontend\index_26_09_2021.html:142
+#: .\frontend\templates\frontend\index_26_09_2021.html:177
+#: .\frontend\views.py:355
+msgid "Register an OGD reuse"
+msgstr "Enregistrer un projet existant"
+
+#: .\frontend\templates\frontend\index.html:143
+#: .\frontend\templates\frontend\index.html:178
+#: .\frontend\templates\frontend\index_26_09_2021.html:143
+#: .\frontend\templates\frontend\index_26_09_2021.html:178
+msgid ""
+"Register an existing application or service developed using OGD in the "
+"system."
+msgstr ""
+"Enregistrer dans le système une application ou un service existant développé"
+" à l'aide d'OGD."
+
+#: .\frontend\templates\frontend\index.html:189
+#: .\frontend\templates\frontend\index_26_09_2021.html:189
+msgid ""
+"Have an idea and want to check if it is relevant for citizens? if so drop it"
+" here and the community will give you their feedback."
+msgstr ""
+"Vous avez une idée et vous voulez vérifier si elle est pertinente pour les "
+"citoyens ? Si oui, déposez-la ici et la communauté vous donnera son avis."
+
+#: .\frontend\templates\frontend\index.html:202
+#| msgid "Explore Data"
+msgid "Explore projects"
+msgstr "Explorer les projets"
+
+#: .\frontend\templates\frontend\index.html:203
+msgid ""
+"Discover all the existing and suggested applications/services using the OGD."
+msgstr ""
+"Découvrez toutes les applications/services existantes et suggérées utilisant"
+" l'OGD."
+
+#: .\frontend\templates\frontend\index.html:213
+#: .\frontend\templates\frontend\index_26_09_2021.html:224
+msgid "View requested data"
+msgstr "Afficher les jeux de données demandés"
+
+#: .\frontend\templates\frontend\index.html:214
+#: .\frontend\templates\frontend\index_26_09_2021.html:225
+msgid "View all the requested data by developers and respond to them."
+msgstr ""
+"Consultez toutes les données demandées par les développeurs et répondez-"
+"leur."
+
+#: .\frontend\templates\frontend\index.html:224
+#: .\frontend\templates\frontend\index_26_09_2021.html:235
+msgid "View data issues"
+msgstr "Voir les problèmes de données"
+
+#: .\frontend\templates\frontend\index.html:225
+#: .\frontend\templates\frontend\index_26_09_2021.html:236
+msgid "View and respond to all issues related to a specific dataset."
+msgstr ""
+"Visualisez et répondez à toutes les questions relatives à un ensemble de "
+"données spécifique."
+
+#: .\frontend\templates\frontend\index.html:235
+#: .\templates\includes\menu.html:195
+msgid "Subscribe to a weekly report"
+msgstr "S'abonner à un rapport hebdomadaire"
+
+#: .\frontend\templates\frontend\index.html:236
+msgid "Get a weekly report on requested data and data issues."
+msgstr ""
+"Obtenez un rapport hebdomadaire sur les données demandées et les problèmes "
+"de données."
+
+#: .\frontend\templates\frontend\index.html:248
+#: .\frontend\templates\frontend\index_01_06_2021.html:122
+#: .\frontend\templates\frontend\index_26_09_2021.html:438
+msgid "Contact Us"
+msgstr "Nous contacter"
+
+#: .\frontend\templates\frontend\index.html:249
+#: .\frontend\templates\frontend\index_26_09_2021.html:439
+msgid ""
+"Do not hesitate to contact us if you have any suggestions to improve the "
+"system or if you have any questions."
+msgstr ""
+"N'hésitez pas à nous contacter si vous avez des suggestions pour améliorer "
+"le système ou si vous avez des questions."
+
+#: .\frontend\templates\frontend\index.html:257
+#: .\frontend\templates\frontend\index_26_09_2021.html:447
+#| msgid "Full Name"
+msgid "Full Name*"
+msgstr "Nom et prénom*"
+
+#: .\frontend\templates\frontend\index.html:261
+#: .\frontend\templates\frontend\index_26_09_2021.html:451
+#| msgid "Email"
+msgid "Email*"
+msgstr "Courriel*"
+
+#: .\frontend\templates\frontend\index_01_06_2021.html:24
+msgid "Easily create a dashboard using Open Government Data<br/>"
+msgstr ""
+"Créez facilement un tableau de bord en utilisant les données "
+"gouvernementales ouvertes<br/>"
+
+#: .\frontend\templates\frontend\index_01_06_2021.html:25
+msgid ""
+"Create your dashbord from scratch or from an existent dashboard in few steps"
+" without programming knowledge. Let's get started.<br/>"
+msgstr ""
+"Créez votre tableau de bord à partir de zéro ou d'un tableau de bord "
+"existant en quelques étapes sans connaissances en programmation. "
+"Commençons.<br/>"
+
+#: .\frontend\templates\frontend\index_01_06_2021.html:27
+#: .\frontend\templates\frontend\index_backup.html:32
+msgid "Get Started"
+msgstr "Démarrer"
+
+#: .\frontend\templates\frontend\index_01_06_2021.html:29
+msgid "How confident are you in data visualization ?"
+msgstr "Quel est votre degré de confiance dans la visualisation des données ?"
+
+#: .\frontend\templates\frontend\index_01_06_2021.html:41
+msgid "Example of frontend of ODEON."
+msgstr "Exemple de frontend de ODEON."
+
+#: .\frontend\templates\frontend\index_01_06_2021.html:46
+msgid ""
+"Check existent projects<small style=\"font-size: 12pt;\"> <br/>You can base "
+"on one of the following project to start yours.</small> "
+msgstr ""
+"Vérifiez les projets existants<small style=\"font-size : 12pt ;\"> <br/>Vous"
+" pouvez vous baser sur l'un des projets suivants pour démarrer le "
+"vôtre.</small> "
+
+#: .\frontend\templates\frontend\index_01_06_2021.html:49
+msgid "Search by code, titile or description"
+msgstr "Recherche par code, titre ou description"
+
+#: .\frontend\templates\frontend\index_01_06_2021.html:80
+#: .\frontend\templates\frontend\projects.html:135
+msgid ""
+"There are no projects matching your request. Please modify your request."
+msgstr ""
+"Il n'y a aucun projet correspondant à votre demande. Veuillez modifier votre"
+" demande."
+
+#: .\frontend\templates\frontend\index_01_06_2021.html:112
+msgid ""
+"Want to know more about the architecture of ODEON? <small style=\"font-"
+"size: 12pt;\">(check below) <br/>No coding skills required to use "
+"it.</small> "
+msgstr ""
+"Vous voulez en savoir plus sur l'architecture de l'ODEON ? <small "
+"style=\"font-size : 12pt ;\">(vérifier ci-dessous) <br/>Aucune compétence en"
+" codage n'est requise pour l'utiliser.</small> "
+
+#: .\frontend\templates\frontend\index_01_06_2021.html:115
+msgid "Architecture of ODEON. From data collection until dashbord creation."
+msgstr ""
+"Architecture de l'ODEON. De la collecte des données à la création des "
+"tableaux de bord."
+
+#: .\frontend\templates\frontend\index_01_06_2021.html:138
+#: .\frontend\templates\frontend\index_backup.html:68
+msgid "Message *"
+msgstr "Message *"
+
+#: .\frontend\templates\frontend\index_26_09_2021.html:120
+#: .\frontend\templates\frontend\index_26_09_2021.html:155
+#: .\frontend\templates\frontend\index_26_09_2021.html:213
+msgid "Explore requested projects"
+msgstr "Explorer les projets demandés"
+
+#: .\frontend\templates\frontend\index_26_09_2021.html:247
+msgid "Requested Data & Data Issues"
+msgstr "Données demandées et problèmes de données"
+
+#: .\frontend\templates\frontend\index_26_09_2021.html:248
+msgid ""
+"Search by country and city to see the requested data and reported data "
+"issues in your area."
+msgstr ""
+"Effectuez une recherche par pays et par ville pour voir les données "
+"demandées et les problèmes de données signalés dans votre région."
+
+#: .\frontend\templates\frontend\index_26_09_2021.html:260
+#: .\frontend\templates\frontend\index_26_09_2021.html:352
+#: .\templates\includes\menu.html:207 .\templates\includes\menu.html:253
+msgid "Select the country of the data"
+msgstr "Choisissez le pays des données"
+
+#: .\frontend\templates\frontend\index_26_09_2021.html:271
+#: .\frontend\templates\frontend\index_26_09_2021.html:363
+#: .\templates\includes\menu.html:215 .\templates\includes\menu.html:261
+msgid "Enter the state/city of the data"
+msgstr "Entrez l'état/la ville des données"
+
+#: .\frontend\templates\frontend\index_26_09_2021.html:274
+msgid "Search title, description, contact"
+msgstr "Rechercher un titre, une description, un contact"
+
+#: .\frontend\templates\frontend\index_26_09_2021.html:333
+msgid "No request data."
+msgstr "Pas de données de demande."
+
+#: .\frontend\templates\frontend\index_26_09_2021.html:344
+#: .\templates\includes\menu.html:115 .\templates\includes\menu.html:345
+msgid "Data Issues"
+msgstr "Problèmes sur les jeux de données"
+
+#: .\frontend\templates\frontend\index_26_09_2021.html:366
+#: .\frontend\templates\frontend\issues.html:38
+msgid "Search comment, name, file title, file description"
+msgstr ""
+"Recherche de commentaire, nom, titre du fichier, description du fichier"
+
+#: .\frontend\templates\frontend\index_26_09_2021.html:381
+#: .\frontend\templates\frontend\issues.html:62
+msgid "Related File: "
+msgstr "Dossier connexe : "
+
+#: .\frontend\templates\frontend\index_26_09_2021.html:385
+#: .\frontend\templates\frontend\issues.html:56
+msgid "View"
+msgstr "Voir"
+
+#: .\frontend\templates\frontend\index_26_09_2021.html:422
+msgid "No data issue."
+msgstr "Pas de problème de données."
+
+#: .\frontend\templates\frontend\index_backup.html:24
+msgid "Create an interactive dashboard in few steps"
+msgstr "Créer un tableau de bord interactif en quelques étapes"
+
+#: .\frontend\templates\frontend\index_backup.html:26
+msgid ""
+"\n"
+"            Whether you have a basic or advanced knowledge in data visualization,\n"
+" creating your <b class='indigo-text'>dashboard</b> through attractive, interactive charts/maps is now <b class='indigo-text'>simpler than ever</b>.\n"
+"            "
+msgstr ""
+"\n"
+"            Que vous ayez des connaissances de base ou avancées en matière de visualisation de données,\n"
+" La création de votre <b class='indigo-text'>dashboard</b> par le biais de cartes/graphiques interactives et attrayantes est désormais <b class='indigo-text'>plus simple que jamais</b>\n"
+"            "
+
+#: .\frontend\templates\frontend\index_backup.html:34
+msgid "Let's get started.<br/>How confident are you in data visualization ?"
+msgstr ""
+"Commençez. <br/> Quel est votre degré de confiance dans la visualisation des"
+" données ?"
+
+#: .\frontend\templates\frontend\index_backup.html:48
+msgid "Feedback"
+msgstr "Avis"
+
+#: .\frontend\templates\frontend\index_backup.html:49
+msgid ""
+"Feel free to leave your comments. That will help us to improve the system."
+msgstr ""
+"N'hésitez pas à laisser vos commentaires. Cela nous aidera à améliorer le "
+"système."
+
+#: .\frontend\templates\frontend\issues.html:5
+msgid "Data Issues - ODEON"
+msgstr "Questions relatives aux données - ODEON"
+
+#: .\frontend\templates\frontend\issues.html:47
+msgid " data issues found."
+msgstr " problèmes sur les jeux de données trouvés."
+
+#: .\frontend\templates\frontend\issues.html:73
+msgid "There are no issues matching your request. Please modify your request."
+msgstr ""
+"Il n'y a aucun problème correspondant à votre demande. Veuillez modifier "
+"votre demande."
+
+#: .\frontend\templates\frontend\login.html:5
+#: .\frontend\templates\frontend\login.html:17
+#: .\frontend\templates\frontend\login.html:29
+#: .\frontend\templates\frontend\login.html:30
+#: .\templates\includes\menu.html:54 .\templates\includes\menu.html:139
+msgid "Login"
+msgstr "Se connecter"
+
+#: .\frontend\templates\frontend\login.html:36
+msgid "If you don't have an account"
+msgstr "Si vous n'avez pas de compte"
+
+#: .\frontend\templates\frontend\login.html:36
+msgid "sign up"
+msgstr "s'inscrire"
+
+#: .\frontend\templates\frontend\login.html:36
+#: .\frontend\templates\frontend\register.html:33
+msgid "instead"
+msgstr "à la place"
+
+#: .\frontend\templates\frontend\projects.html:5
+msgid "Projects - ODEON"
+msgstr "Projets - ODEON"
+
+#: .\frontend\templates\frontend\projects.html:23
+#| msgid "Project"
+msgid "Project Type"
+msgstr "Type de projet"
+
+#: .\frontend\templates\frontend\projects.html:25
+#| msgid "Load Existant Project"
+msgid "OGD Reuse"
+msgstr "Projet existant"
+
+#: .\frontend\templates\frontend\projects.html:26
+#: .\visualizations\models.py:395
+msgid "Internal"
+msgstr ""
+
+#: .\frontend\templates\frontend\projects.html:27
+msgid "Suggested Project"
+msgstr "Projet suggéré"
+
+#: .\frontend\templates\frontend\projects.html:31 .\frontend\views.py:1591
+#: .\visualizations\models.py:535
+#| msgid "Project"
+msgid "Project Status"
+msgstr "Statut du projet"
+
+#: .\frontend\templates\frontend\projects.html:70
+msgid "Topics"
+msgstr "Thèmes"
+
+#: .\frontend\templates\frontend\projects.html:84
+msgid " OGD reuses found."
+msgstr " projets existants trouvés."
+
+#: .\frontend\templates\frontend\projects.html:86
+msgid " suggested projects found."
+msgstr " projets suggérés trouvés."
+
+#: .\frontend\templates\frontend\projects.html:88
+msgid " projects found."
+msgstr " projets trouvés."
+
+#: .\frontend\templates\frontend\projects.html:93
+msgid "Last Modified"
+msgstr "Dernière modification"
+
+#: .\frontend\templates\frontend\register.html:5
+#: .\frontend\templates\frontend\register.html:16
+#: .\templates\includes\menu.html:55 .\templates\includes\menu.html:140
+msgid "Register"
+msgstr "S'inscrire"
+
+#: .\frontend\templates\frontend\register.html:17
+msgid ""
+"Registration is not required, but it will give you easy access to our "
+"previous projects."
+msgstr ""
+"L'inscription n'est pas obligatoire, mais elle vous permettra d'accéder "
+"facilement à nos projets précédents."
+
+#: .\frontend\templates\frontend\register.html:26
+#: .\frontend\templates\frontend\register.html:27
+msgid "Sign Up"
+msgstr "S'inscrire"
+
+#: .\frontend\templates\frontend\register.html:33
+msgid "If you already have an account"
+msgstr "Si vous avez déjà un compte"
+
+#: .\frontend\templates\frontend\register.html:33
+msgid "login"
+msgstr "connexion"
+
+#: .\frontend\templates\frontend\visualization_guide.html:8
+msgid "Visualization"
+msgstr "Visualisation"
+
+#: .\frontend\templates\frontend\visualization_guide.html:34
+#: .\templates\includes\menu.html:33 .\templates\includes\menu.html:119
+#| msgid "Visualization"
+msgid "Visualize Data"
+msgstr "Visualiser le jeu de  données"
+
+#: .\frontend\templates\frontend\visualization_guide.html:35
+#: .\frontend\templates\frontend\visualization_guide.html:105
+#| msgid "Project code: "
+msgid "Project Code: "
+msgstr "Code du projet :"
+
+#: .\frontend\templates\frontend\visualization_guide.html:35
+#: .\frontend\templates\frontend\visualization_guide.html:105
+msgid "Send this code to your team to collaborate on this project."
+msgstr "Envoyez ce code à votre équipe pour collaborer à ce projet."
+
+#: .\frontend\templates\frontend\visualization_guide.html:35
+msgid "Dashboard Code: "
+msgstr "Code du tableau de bord : "
+
+#: .\frontend\templates\frontend\visualization_guide.html:39
+#: .\frontend\templates\frontend\visualization_guide.html:59
+msgid "Data Info"
+msgstr "Informations sur les données"
+
+#: .\frontend\templates\frontend\visualization_guide.html:47
+#: .\frontend\templates\frontend\visualization_guide.html:63
+msgid "Predefined Tasks"
+msgstr "Tâches prédéfinies"
+
+#: .\frontend\templates\frontend\visualization_guide.html:69
+#: .\frontend\templates\frontend\visualization_guide.html:218
+msgid "Create Visualization"
+msgstr "Créer une visualisation"
+
+#: .\frontend\templates\frontend\visualization_guide.html:73
+#: .\frontend\templates\frontend\visualization_guide.html:91
+msgid "Get Recommendations for Analysis"
+msgstr "Obtenir des recommandations pour l'analyse"
+
+#: .\frontend\templates\frontend\visualization_guide.html:76
+#: .\frontend\templates\frontend\visualization_guide.html:94
+msgid "Get Distribution Recommendations"
+msgstr "Obtenir des recommandations de distribution"
+
+#: .\frontend\templates\frontend\visualization_guide.html:97
+#: .\frontend\templates\frontend\visualization_guide.html:104
+#: .\templates\includes\menu.html:37 .\templates\includes\menu.html:122
+#| msgid "Run Dashboard"
+msgid "Setup Dashboard"
+msgstr "Configurer le tableau de bord"
+
+#: .\frontend\templates\frontend\visualization_guide.html:107
+msgid "Add Visulization to Dashboard"
+msgstr "Ajouter la visulisation au tableau de bord"
+
+#: .\frontend\templates\frontend\visualization_guide.html:110
+#: .\frontend\templates\frontend\visualization_guide.html:692
+msgid "Ready to see your dashboard in action? Click on this button"
+msgstr "Prêt à voir votre tableau de bord en action ? Cliquez sur ce bouton"
+
+#: .\frontend\templates\frontend\visualization_guide.html:111
+#| msgid "Run Dashboard"
+msgid "Save Changes & Run Dashboard"
+msgstr "Enregistrer les modifications et exécuter le tableau de bord"
+
+#: .\frontend\templates\frontend\visualization_guide.html:125
+msgid "Data"
+msgstr "Données"
+
+#: .\frontend\templates\frontend\visualization_guide.html:128
+msgid "search dimension or measure ..."
+msgstr "recherche dimension ou mesure ..."
+
+#: .\frontend\templates\frontend\visualization_guide.html:130
+msgid "(Drag elements below to create visualization)"
+msgstr "(Faites glisser les éléments ci-dessous pour créer une visualisation)"
+
+#: .\frontend\templates\frontend\visualization_guide.html:135
+msgid "Get Recommendation Visualizations for Distribution"
+msgstr "Obtenir des visualisations de recommandations pour la distribution"
+
+#: .\frontend\templates\frontend\visualization_guide.html:135
+msgid "Distribution Vizs"
+msgstr "Distribution Vizs"
+
+#: .\frontend\templates\frontend\visualization_guide.html:136
+msgid "Get Recommendation Visualizations for Analysis"
+msgstr "Obtenir des visualisations de recommandations pour l'analyse"
+
+#: .\frontend\templates\frontend\visualization_guide.html:136
+msgid "Vizs for Analysis"
+msgstr "Vizs pour l'analyse"
+
+#: .\frontend\templates\frontend\visualization_guide.html:140
+msgid "Dimensions"
+msgstr "Dimensions"
+
+#: .\frontend\templates\frontend\visualization_guide.html:148
+#: .\frontend\templates\frontend\visualization_guide.html:168
+msgid "Add to attributes"
+msgstr "Ajouter aux attributs"
+
+#: .\frontend\templates\frontend\visualization_guide.html:149
+#: .\frontend\templates\frontend\visualization_guide.html:169
+msgid "Add to filters"
+msgstr "Ajouter aux filtres"
+
+#: .\frontend\templates\frontend\visualization_guide.html:150
+#: .\frontend\templates\frontend\visualization_guide.html:170
+msgid "Add to dashboard filters"
+msgstr "Ajouter aux filtres du tableau de bord"
+
+#: .\frontend\templates\frontend\visualization_guide.html:156
+msgid "Measures"
+msgstr "Mesures"
+
+#: .\frontend\templates\frontend\visualization_guide.html:189
+msgid "Choose one or multiple visualization type"
+msgstr "Choisissez un ou plusieurs types de visualisation"
+
+#: .\frontend\templates\frontend\visualization_guide.html:191
+msgid "search visualization type ..."
+msgstr "recherche type de visualisation ..."
+
+#: .\frontend\templates\frontend\visualization_guide.html:203
+#: .\frontend\templates\frontend\visualization_guide.html:549
+msgid "Alternative visualizations"
+msgstr "Visualisations alternatives"
+
+#: .\frontend\templates\frontend\visualization_guide.html:210
+#: .\frontend\templates\frontend\visualization_guide.html:211
+#: .\frontend\templates\frontend\visualization_guide.html:534
+#: .\frontend\templates\frontend\visualization_guide.html:535
+#: .\frontend\templates\frontend\visualization_guide.html:556
+#: .\frontend\templates\frontend\visualization_guide.html:557
+msgid "Load More"
+msgstr "Charger plus"
+
+#: .\frontend\templates\frontend\visualization_guide.html:239
+#: .\frontend\templates\frontend\visualization_guide.html:327
+#: .\frontend\templates\frontend\visualization_guide.html:358
+#: .\frontend\templates\frontend\visualization_guide.html:578
+msgid "Drag and Drop here"
+msgstr "Glisser-déposer ici"
+
+#: .\frontend\templates\frontend\visualization_guide.html:244
+msgid "1. Setup your visualization marks"
+msgstr "1. Configurez vos marques de visualisation"
+
+#: .\frontend\templates\frontend\visualization_guide.html:249
+msgid "Which visualization type do you want?"
+msgstr "Quel type de visualisation souhaitez-vous ?"
+
+#: .\frontend\templates\frontend\visualization_guide.html:251
+msgid "Choose Visualization Type"
+msgstr "Choisissez le type de visualisation"
+
+#: .\frontend\templates\frontend\visualization_guide.html:252
+msgid "Viz Type"
+msgstr "Type de visualisation"
+
+#: .\frontend\templates\frontend\visualization_guide.html:263
+#: .\frontend\templates\frontend\visualization_guide.html:264
+#: .\frontend\templates\frontend\visualization_guide.html:385
+#: .\frontend\templates\frontend\visualization_guide.html:598
+#: .\frontend\templates\frontend\visualization_guide.html:600
+msgid "Drop attributes here"
+msgstr "Déposez les attributs ici"
+
+#: .\frontend\templates\frontend\visualization_guide.html:271
+msgid "Which orientation to apply for the graph?"
+msgstr "Quelle orientation appliquer pour le graphique ?"
+
+#: .\frontend\templates\frontend\visualization_guide.html:272
+msgid "Visualization orientation"
+msgstr "Orientation de la visualisation"
+
+#: .\frontend\templates\frontend\visualization_guide.html:274
+msgid "Select Viz Orientation"
+msgstr "Sélectionnez l'orientation Viz"
+
+#: .\frontend\templates\frontend\visualization_guide.html:275
+msgid "Horizontal"
+msgstr "Horizontal"
+
+#: .\frontend\templates\frontend\visualization_guide.html:276
+msgid "Vertical"
+msgstr "Vertical"
+
+#: .\frontend\templates\frontend\visualization_guide.html:284
+msgid "How to group the elements of the graph?"
+msgstr "Comment regrouper les éléments du graphique ?"
+
+#: .\frontend\templates\frontend\visualization_guide.html:285
+msgid "Visualization grouping"
+msgstr "Groupement de visualisation"
+
+#: .\frontend\templates\frontend\visualization_guide.html:287
+msgid "Select Viz Grouping"
+msgstr "Sélectionnez le groupement Viz"
+
+#: .\frontend\templates\frontend\visualization_guide.html:288
+msgid "Group"
+msgstr "Groupe"
+
+#: .\frontend\templates\frontend\visualization_guide.html:289
+msgid "Stacked (only bar chart)"
+msgstr "Empilés (seulement diagramme à barres)"
+
+#: .\frontend\templates\frontend\visualization_guide.html:290
+msgid "Overlay"
+msgstr "Superposition"
+
+#: .\frontend\templates\frontend\visualization_guide.html:299
+#, python-format
+msgid "Weights(%%) & Min score"
+msgstr "Poids (%%) et score minimum"
+
+#: .\frontend\templates\frontend\visualization_guide.html:302
+msgid "expert"
+msgstr "expert"
+
+#: .\frontend\templates\frontend\visualization_guide.html:303
+msgid "weight for experts"
+msgstr "poids pour les experts"
+
+#: .\frontend\templates\frontend\visualization_guide.html:306
+msgid "intermediate"
+msgstr "intermédiaire"
+
+#: .\frontend\templates\frontend\visualization_guide.html:307
+msgid "weight for intermediates"
+msgstr "poids pour les intermédiaires"
+
+#: .\frontend\templates\frontend\visualization_guide.html:310
+msgid "non-expert"
+msgstr "non-expert"
+
+#: .\frontend\templates\frontend\visualization_guide.html:311
+msgid "weight for non-experts"
+msgstr "poids pour les non-experts"
+
+#: .\frontend\templates\frontend\visualization_guide.html:314
+msgid "threshold"
+msgstr "seuil"
+
+#: .\frontend\templates\frontend\visualization_guide.html:315
+msgid "Min score used to decide if the visualization is acceptable or not"
+msgstr ""
+"Score minimum utilisé pour décider si la visualisation est acceptable ou non"
+
+#: .\frontend\templates\frontend\visualization_guide.html:331
+msgid "1. Which attributes do you want to visualize?"
+msgstr "1. Quels sont les attributs que vous voulez visualiser ?"
+
+#: .\frontend\templates\frontend\visualization_guide.html:333
+#: .\frontend\templates\frontend\visualization_guide.html:364
+#: .\frontend\templates\frontend\visualization_guide.html:585
+msgid "Drop attributes or Click on "
+msgstr "Glisser les attributs ou cliquez sur "
+
+#: .\frontend\templates\frontend\visualization_guide.html:333
+#: .\frontend\templates\frontend\visualization_guide.html:364
+#: .\frontend\templates\frontend\visualization_guide.html:585
+msgid " nearby the wanted attributes"
+msgstr " à proximité des attributs recherchés"
+
+#: .\frontend\templates\frontend\visualization_guide.html:336
+msgid ""
+"This feature helps you to generate the visualization without specifying the "
+"visualization marks"
+msgstr ""
+"Cette fonction vous permet de générer la visualisation sans spécifier les "
+"marques de visualisation"
+
+#: .\frontend\templates\frontend\visualization_guide.html:337
+msgid "Attributes"
+msgstr "Attributs"
+
+#: .\frontend\templates\frontend\visualization_guide.html:338
+msgid "Drop attributes you want to visualize here"
+msgstr "Déposez ici les attributs que vous souhaitez visualiser"
+
+#: .\frontend\templates\frontend\visualization_guide.html:342
+msgid ""
+"Confident in data visualization, click on button below to see more options"
+msgstr ""
+"Confiant dans la visualisation des données, cliquez sur le bouton ci-dessous"
+" pour voir plus d'options"
+
+#: .\frontend\templates\frontend\visualization_guide.html:343
+#: .\frontend\templates\frontend\visualization_guide.html:441
+msgid "Advanced Options"
+msgstr "Options avancées"
+
+#: .\frontend\templates\frontend\visualization_guide.html:346
+#: .\frontend\templates\frontend\visualization_guide.html:389
+#: .\frontend\templates\frontend\visualization_guide.html:415
+msgid "Finish"
+msgstr "Terminer"
+
+#: .\frontend\templates\frontend\visualization_guide.html:349
+#: .\frontend\templates\frontend\visualization_guide.html:395
+msgid "Next"
+msgstr "Suivant"
+
+#: .\frontend\templates\frontend\visualization_guide.html:362
+msgid "2. Which filters do you want to apply?"
+msgstr "2. Quels filtres voulez-vous appliquer ?"
+
+#: .\frontend\templates\frontend\visualization_guide.html:362
+#: .\frontend\templates\frontend\visualization_guide.html:402
+msgid "(optional)"
+msgstr "(facultatif)"
+
+#: .\frontend\templates\frontend\visualization_guide.html:366
+msgid "Choose the operator to use "
+msgstr "Choisissez l'opérateur à utiliser "
+
+#: .\frontend\templates\frontend\visualization_guide.html:368
+#: .\frontend\templates\frontend\visualization_guide.html:369
+msgid "AND"
+msgstr "Et"
+
+#: .\frontend\templates\frontend\visualization_guide.html:377
+msgid "Keep data from filters"
+msgstr "Protéger les données des filtres"
+
+#: .\frontend\templates\frontend\visualization_guide.html:378
+msgid "Keep"
+msgstr "Gardez"
+
+#: .\frontend\templates\frontend\visualization_guide.html:381
+msgid "Exclude data from filters"
+msgstr "Exclure les données des filtres"
+
+#: .\frontend\templates\frontend\visualization_guide.html:382
+msgid "Exclude"
+msgstr "Exclure"
+
+#: .\frontend\templates\frontend\visualization_guide.html:392
+#: .\frontend\templates\frontend\visualization_guide.html:412
+msgid "Previous"
+msgstr "Précédent"
+
+#: .\frontend\templates\frontend\visualization_guide.html:402
+msgid "3. What is your visualization objective?"
+msgstr "3. Quel est votre objectif de visualisation ?"
+
+#: .\frontend\templates\frontend\visualization_guide.html:403
+msgid "That option will help to affine the results "
+msgstr "Cette option contribuera à affiner les résultats "
+
+#: .\frontend\templates\frontend\visualization_guide.html:425
+msgid "Select attributes"
+msgstr "Sélectionner les attributs"
+
+#: .\frontend\templates\frontend\visualization_guide.html:435
+msgid "Click on 'Generate Viz' when you are done with the above settings"
+msgstr ""
+"Cliquez sur \"Générer Viz\" lorsque vous avez terminé les paramètres ci-"
+"dessus"
+
+#: .\frontend\templates\frontend\visualization_guide.html:437
+msgid "Generate Visualization based on marks"
+msgstr "Générer une visualisation basée sur les marques"
+
+#: .\frontend\templates\frontend\visualization_guide.html:438
+msgid "Generate Viz"
+msgstr "Générer Viz"
+
+#: .\frontend\templates\frontend\visualization_guide.html:442
+msgid "Less Options"
+msgstr "Moins d'options"
+
+#: .\frontend\templates\frontend\visualization_guide.html:457
+msgid "Idioms"
+msgstr "Idiomes"
+
+#: .\frontend\templates\frontend\visualization_guide.html:479
+#: .\frontend\templates\frontend\visualization_guide.html:480
+msgid "Back"
+msgstr "Retour"
+
+#: .\frontend\templates\frontend\visualization_guide.html:484
+msgid "Empty rates"
+msgstr "Vider des scores"
+
+#: .\frontend\templates\frontend\visualization_guide.html:485
+msgid "Empty Rates"
+msgstr "Vider des scores"
+
+#: .\frontend\templates\frontend\visualization_guide.html:488
+msgid "Reorder visualizations based on the different rates"
+msgstr "Réorganiser les visualisations en fonction des différents scores"
+
+#: .\frontend\templates\frontend\visualization_guide.html:489
+msgid "Reorder Viz"
+msgstr "Réorganiser Viz"
+
+#: .\frontend\templates\frontend\visualization_guide.html:492
+msgid "Submit the different rates"
+msgstr "Soumettre les différents scores"
+
+#: .\frontend\templates\frontend\visualization_guide.html:493
+msgid "Submit Rates"
+msgstr "Soumettre les scores"
+
+#: .\frontend\templates\frontend\visualization_guide.html:500
+msgid "Search by keywords your graph among the listed visualizations"
+msgstr ""
+"Recherchez par mots clés votre graphique parmi les visualisations listées"
+
+#: .\frontend\templates\frontend\visualization_guide.html:506
+msgid "search your graph among the listed visualizations ...."
+msgstr "recherchez votre graphique parmi les visualisations répertoriées ...."
+
+#: .\frontend\templates\frontend\visualization_guide.html:512
+msgid "Exact Search?"
+msgstr "Recherche exacte ?"
+
+#: .\frontend\templates\frontend\visualization_guide.html:517
+msgid "Don't find what you are looking for?"
+msgstr "Vous ne trouvez pas ce que vous cherchez ?"
+
+#: .\frontend\templates\frontend\visualization_guide.html:517
+msgid "Create your visualization"
+msgstr "Créez votre visualisation"
+
+#: .\frontend\templates\frontend\visualization_guide.html:572
+#: .\frontend\templates\frontend\visualization_guide.html:647
+msgid "Dashboard Settings"
+msgstr "Paramètres du tableau de bord"
+
+#: .\frontend\templates\frontend\visualization_guide.html:572
+msgid "(The default settings will be used if no configuration is made.)"
+msgstr ""
+"(Les paramètres par défaut seront utilisés si aucune configuration n'est "
+"effectuée.)"
+
+#: .\frontend\templates\frontend\visualization_guide.html:582
+msgid "1. Which filters do you want to apply for dashboard?"
+msgstr "1. Quels filtres voulez-vous appliquer pour le tableau de bord ?"
+
+#: .\frontend\templates\frontend\visualization_guide.html:597
+msgid "Drag to remove element or click on the element to setup some options"
+msgstr ""
+"Faites glisser pour supprimer l'élément ou cliquez sur l'élément pour "
+"configurer certaines options"
+
+#: .\frontend\templates\frontend\visualization_guide.html:606
+msgid "Make your project public?"
+msgstr "Rendre votre projet public ?"
+
+#: .\frontend\templates\frontend\visualization_guide.html:610
+msgid "2. Configure dashboard based on display type"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:615
+#: .\frontend\templates\frontend\visualization_guide.html:757
+#: .\templates\includes\dashboard_menu.html:18
+msgid "Novice"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:616
+#: .\frontend\templates\frontend\visualization_guide.html:758
+#: .\templates\includes\dashboard_menu.html:19
+msgid "Less Advanced"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:617
+#: .\frontend\templates\frontend\visualization_guide.html:759
+#: .\templates\includes\dashboard_menu.html:20
+msgid "Advanced"
+msgstr "Avancé"
+
+#: .\frontend\templates\frontend\visualization_guide.html:620
+#| msgid "Visualization orientation"
+msgid "Visulization Settings"
+msgstr "Paramètres de visulisation"
+
+#: .\frontend\templates\frontend\visualization_guide.html:623
+#| msgid "3. Title"
+msgid "Show Title"
+msgstr "Afficher le titre"
+
+#: .\frontend\templates\frontend\visualization_guide.html:629
+#| msgid "Description"
+msgid "Show Description"
+msgstr "Afficher la description"
+
+#: .\frontend\templates\frontend\visualization_guide.html:635
+msgid "Show Marks"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:641
+msgid "Show Data Source"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:650
+msgid "Show Customization Menu"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:656
+#| msgid "Filters"
+msgid "Show Filters"
+msgstr "Afficher les filtres"
+
+#: .\frontend\templates\frontend\visualization_guide.html:665
+msgid "1 Column"
+msgstr "1 Colonne"
+
+#: .\frontend\templates\frontend\visualization_guide.html:666
+msgid "2 Columns"
+msgstr "2 Colonnes"
+
+#: .\frontend\templates\frontend\visualization_guide.html:686
+msgid "Dashboard Visualizations"
+msgstr "Visualisations des tableaux de bord"
+
+#: .\frontend\templates\frontend\visualization_guide.html:693
+#: .\frontend\templates\frontend\visualization_guide.html:714
+msgid "Run Dashboard"
+msgstr "Tableau de bord"
+
+#: .\frontend\templates\frontend\visualization_guide.html:705
+msgid "Are you sure that you want to delete that visualization?"
+msgstr "Êtes-vous sûr de vouloir supprimer cette visualisation ?"
+
+#: .\frontend\templates\frontend\visualization_guide.html:713
+msgid "Run Dashboard. Make sure you save your changes first."
+msgstr ""
+"Exécution du tableau de bord. Assurez-vous d'abord de sauvegarder vos "
+"modifications."
+
+#: .\frontend\templates\frontend\visualization_guide.html:725
+#: .\utils\viz.py:2630
+msgid "Edit visualization"
+msgstr "Modifier la visualisation"
+
+#: .\frontend\templates\frontend\visualization_guide.html:727
+msgid "Remove this visualization from dashboard"
+msgstr "Supprimer cette visualisation du tableau de bord"
+
+#: .\frontend\templates\frontend\visualization_guide.html:728
+msgid "Remove"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:733
+#: .\templates\includes\menu.html:248 .\utils\viz.py:5149 .\utils\viz.py:5167
+msgid "Description"
+msgstr "Description"
+
+#: .\frontend\templates\frontend\visualization_guide.html:739
+#, python-format
+msgid "Width(%%)"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:741
+#, python-format
+msgid "100%%"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:742
+#, python-format
+msgid "50%%"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:743
+#, python-format
+msgid "33%%"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:744
+#, python-format
+msgid "25%%"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:748
+msgid "Height(px)"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:754
+#| msgid "Generate Visualization based on marks"
+msgid "Show Visulization based on display type"
+msgstr "Afficher la visulisation en fonction du type d'affichage"
+
+#: .\frontend\templates\frontend\visualization_guide.html:790
+#: .\frontend\templates\frontend\visualization_guide.html:873
+#: .\utils\viz.py:5167
+msgid "Label"
+msgstr "Label"
+
+#: .\frontend\templates\frontend\visualization_guide.html:791
+msgid "Label on Graph (optional)"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:794
+#: .\frontend\templates\frontend\visualization_guide.html:795
+msgid "Color on Graph (optional)"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:798
+#: .\frontend\templates\frontend\visualization_guide.html:800
+msgid "Order on Graph (optional)"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:801
+msgid "Ascending"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:802
+msgid "Descending"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:806
+msgid "Please choose an option for the element"
+msgstr "Veuillez choisir une option pour l'élément"
+
+#: .\frontend\templates\frontend\visualization_guide.html:810
+msgid "-"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:816
+msgid "Bins"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:822
+msgid "Sum"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:828
+msgid "Mean"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:834
+msgid "Maximum"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:840
+msgid "Minimum"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:846
+msgid "yyyy"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:852
+msgid "yyyy-mm"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:858
+msgid "yyyy-mm-dd"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:864
+msgid "hh:ii"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:871
+msgid "Please specify a filter"
+msgstr "Veuillez spécifier un filtre"
+
+#: .\frontend\templates\frontend\visualization_guide.html:874
+msgid "Name of this attribute in dashbaord"
+msgstr "Nom de cet attribut dans le tableau de bord"
+
+#: .\frontend\templates\frontend\visualization_guide.html:878
+#: .\frontend\templates\frontend\visualization_guide.html:936
+msgid "Option"
+msgstr "Option"
+
+#: .\frontend\templates\frontend\visualization_guide.html:879
+msgid "contains"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:880
+msgid "doesn't contain"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:881
+#: .\frontend\templates\frontend\visualization_guide.html:938
+msgid "is equal to"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:882
+#: .\frontend\templates\frontend\visualization_guide.html:939
+msgid "isn't equal to"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:883
+msgid "is set"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:884
+msgid "is not set"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:886
+#: .\frontend\templates\frontend\visualization_guide.html:940
+msgid "greater than"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:887
+#: .\frontend\templates\frontend\visualization_guide.html:941
+msgid "less than"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:888
+#: .\frontend\templates\frontend\visualization_guide.html:942
+msgid "greater and equal than"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:889
+#: .\frontend\templates\frontend\visualization_guide.html:943
+msgid "less and equal than"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:890
+#: .\frontend\templates\frontend\visualization_guide.html:944
+msgid "is between"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:892
+msgid "in"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:893
+msgid "not in"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:895
+#: .\frontend\templates\frontend\visualization_guide.html:946
+msgid "is true"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:896
+#: .\frontend\templates\frontend\visualization_guide.html:947
+msgid "is false"
+msgstr ""
+
+#: .\frontend\templates\frontend\visualization_guide.html:900
+#: .\frontend\templates\frontend\visualization_guide.html:903
+#: .\frontend\templates\frontend\visualization_guide.html:953
+#: .\frontend\templates\frontend\visualization_guide.html:956
+msgid "Value"
+msgstr "Valeur"
+
+#: .\frontend\templates\frontend\visualization_guide.html:919
+#: .\frontend\templates\frontend\visualization_guide.html:965
+msgid "Apply"
+msgstr "Appliquer"
+
+#: .\frontend\templates\frontend\visualization_guide.html:926
+msgid "Score settings"
+msgstr "Paramètres des scores"
+
+#: .\frontend\views.py:71
+msgid "All fields are required"
+msgstr "Tous les champs sont obligatoires"
+
+#: .\frontend\views.py:79 .\frontend\views.py:1476
+#| msgid "Deleted successfully"
+msgid "Subscription saved successfully"
+msgstr "L'abonnement a été enregistré avec succès"
+
+#: .\frontend\views.py:82 .\frontend\views.py:107 .\frontend\views.py:370
+#: .\frontend\views.py:451 .\frontend\views.py:559 .\frontend\views.py:565
+#: .\frontend\views.py:597 .\frontend\views.py:627 .\frontend\views.py:633
+#: .\frontend\views.py:689 .\frontend\views.py:698 .\frontend\views.py:787
+#: .\frontend\views.py:793 .\frontend\views.py:810 .\frontend\views.py:816
+#: .\frontend\views.py:822 .\frontend\views.py:828 .\frontend\views.py:845
+#: .\frontend\views.py:884 .\frontend\views.py:904 .\frontend\views.py:910
+#: .\frontend\views.py:931 .\frontend\views.py:940 .\frontend\views.py:957
+#: .\frontend\views.py:966 .\frontend\views.py:979 .\frontend\views.py:1010
+#: .\frontend\views.py:1075 .\frontend\views.py:1085 .\frontend\views.py:1095
+#: .\frontend\views.py:1106 .\frontend\views.py:1161 .\frontend\views.py:1164
+#: .\frontend\views.py:1167 .\frontend\views.py:1172 .\frontend\views.py:1181
+#: .\frontend\views.py:1291 .\frontend\views.py:1365 .\frontend\views.py:1369
+#: .\frontend\views.py:1479 .\frontend\views.py:1519
+#: .\utils\data_portal.py:235 .\utils\data_portal.py:358
+#: .\utils\data_portal.py:480 .\utils\data_portal.py:613
+#: .\utils\data_portal.py:732 .\utils\viz.py:957 .\utils\viz.py:1148
+#: .\utils\viz.py:1942 .\utils\viz.py:2030 .\utils\viz.py:2724
+#: .\utils\viz.py:3099 .\utils\viz.py:3294 .\utils\viz.py:3387
+#: .\utils\viz.py:3415 .\utils\viz.py:4017 .\utils\viz.py:4397
+#: .\utils\viz.py:4485 .\utils\viz.py:4498 .\utils\viz.py:4942
+#: .\utils\viz.py:4991 .\utils\viz.py:5016 .\utils\viz.py:5117
+#: .\utils\viz.py:5202 .\utils\viz.py:5403 .\utils\viz.py:5520
+msgid "Something went wrong"
+msgstr "Quelque chose s'est mal passé"
+
+#: .\frontend\views.py:98
+msgid "Feedback sent successfully"
+msgstr "Feedback envoyé avec succès"
+
+#: .\frontend\views.py:100
+msgid "Please fill message"
+msgstr "Veuillez remplir le message"
+
+#: .\frontend\views.py:122
+msgid "Message sent successfully"
+msgstr "Message envoyé avec succès"
+
+#: .\frontend\views.py:133
+msgid "New account created:"
+msgstr "Nouveau compte créé :"
+
+#: .\frontend\views.py:171 .\frontend\views.py:173
+msgid "Invalid username or password."
+msgstr "Nom d'utilisateur ou mot de passe invalide."
+
+#: .\frontend\views.py:184
+msgid "Logged out successfully!"
+msgstr "Déconnexion réussie !"
+
+#: .\frontend\views.py:291
+#| msgid "Deleted successfully"
+msgid "Project saved successfully"
+msgstr "Projet sauvegardé avec succès"
+
+#: .\frontend\views.py:302 .\frontend\views.py:1293 .\frontend\views.py:1521
+msgid "Fields * are required"
+msgstr "Les champs * sont obligatoires"
+
+#: .\frontend\views.py:374
+msgid "File already exists"
+msgstr "Le fichier existe déjà"
+
+#: .\frontend\views.py:379
+msgid "Add online resource #{}# to project"
+msgstr "Ajouter la ressource en ligne #{}# au projet"
+
+#: .\frontend\views.py:402
+msgid "Project loaded successfully"
+msgstr "Projet chargé avec succès"
+
+#: .\frontend\views.py:406
+msgid "Project code invalid"
+msgstr "Code de projet non valide"
+
+#: .\frontend\views.py:408
+msgid "Please fill code"
+msgstr "Veuillez remplir le code"
+
+#: .\frontend\views.py:438
+msgid "Add new file #{}# to project"
+msgstr ""
+
+#: .\frontend\views.py:441
+msgid "Format file invalid"
+msgstr "Fichier de format invalide"
+
+#: .\frontend\views.py:449 .\frontend\views.py:485 .\utils\data_portal.py:229
+msgid "File invalid"
+msgstr "Fichier non valide"
+
+#: .\frontend\views.py:477
+msgid "Add new external link #{}# to project"
+msgstr ""
+
+#: .\frontend\views.py:499 .\frontend\views.py:547
+msgid "Please check your inputs"
+msgstr ""
+
+#: .\frontend\views.py:542
+msgid "Add new requested data #{}# to project"
+msgstr ""
+
+#: .\frontend\views.py:545
+msgid "Successful data request"
+msgstr ""
+
+#: .\frontend\views.py:556
+msgid "Delete file #{}# from project"
+msgstr ""
+
+#: .\frontend\views.py:590
+msgid "Change datatype of column #{}# from #{}# to #{}#"
+msgstr ""
+
+#: .\frontend\views.py:595 .\utils\viz.py:5369
+msgid "Update successful"
+msgstr ""
+
+#: .\frontend\views.py:874 .\frontend\views.py:1563
+msgid "Code invalid"
+msgstr ""
+
+#: .\frontend\views.py:1004 .\frontend\views.py:1080 .\frontend\views.py:1090
+#: .\frontend\views.py:1100 .\frontend\views.py:1111
+#| msgid "Please specify a filter"
+msgid "Please fill all fileds"
+msgstr "Veuillez remplir tous les champs"
+
+#: .\frontend\views.py:1026 .\utils\data_portal.py:51
+msgid "Impossible to retrieve data."
+msgstr "Impossible de récupérer les données."
+
+#: .\frontend\views.py:1028 .\utils\data_portal.py:44
+#: .\utils\data_portal.py:53
+#| msgid "No data available for your request"
+msgid "No datasets match your request."
+msgstr "Aucun jeu de données ne correspond à votre demande."
+
+#: .\frontend\views.py:1040 .\utils\data_portal.py:154
+msgid "Unable to retrieve dataset"
+msgstr "Impossible de récupérer le jeu de données"
+
+#: .\frontend\views.py:1050
+#| msgid "No data available for your request"
+msgid "No dataset available"
+msgstr "Aucune donnée disponible"
+
+#: .\frontend\views.py:1058 .\frontend\views.py:1348
+msgid "Unable to retrieve data"
+msgstr "Impossible de récupérer le jeu de données"
+
+#: .\frontend\views.py:1127
+msgid " (copy)"
+msgstr ""
+
+#: .\frontend\views.py:1158
+msgid "Dashboard duplicated successfully"
+msgstr "Le tableau de bord a été dupliqué avec succès"
+
+#: .\frontend\views.py:1287 .\frontend\views.py:1515
+#| msgid "Deleted successfully"
+msgid "Feedback saved successfully"
+msgstr "Le commentaire a été sauvegardé avec succès"
+
+#: .\frontend\views.py:1317 .\visualizations\models.py:536
+msgid "Data Issue"
+msgstr "Problèmes sur les jeux de données"
+
+#: .\frontend\views.py:1321 .\frontend\views.py:1572 .\frontend\views.py:1584
+msgid "General Comment"
+msgstr ""
+
+#: .\frontend\views.py:1324 .\frontend\views.py:1575 .\frontend\views.py:1590
+#: .\visualizations\models.py:534
+#| msgid "Generate Viz"
+msgid "General"
+msgstr "Général"
+
+#: .\frontend\views.py:1568 .\visualizations\models.py:396
+#| msgid "Use External Link"
+msgid "External"
+msgstr "Externe"
+
+#: .\frontend\views.py:1569 .\visualizations\models.py:397
+msgid "Proposed"
+msgstr ""
+
+#: .\frontend\views.py:1585
+#| msgid "Load/Create Project"
+msgid "Update Project Status"
+msgstr "Mise à jour de l'état du projet"
+
+#: .\templates\includes\dashboard_menu.html:9
+msgid "Menu"
+msgstr "Menu"
+
+#: .\templates\includes\dashboard_menu.html:14
+#| msgid "Delete Data"
+msgid "Filter Data"
+msgstr "Filtrer le jeu de  données"
+
+#: .\templates\includes\dashboard_menu.html:16
+msgid "Switch Display Type"
+msgstr ""
+
+#: .\templates\includes\dashboard_menu.html:27
+msgid "Dashboard Information"
+msgstr "Informations sur le tableau de bord"
+
+#: .\templates\includes\dashboard_menu.html:30
+#| msgid "Dashboard"
+msgid "Share Dashboard"
+msgstr "Partager le tableau de bord"
+
+#: .\templates\includes\dashboard_menu.html:58
+#: .\templates\includes\dashboard_menu.html:59
+#: .\templates\includes\menu.html:151 .\templates\includes\menu.html:152
+msgid "Emails (separated by ,)"
+msgstr "Emails (séparés par ,)"
+
+#: .\templates\includes\dashboard_menu.html:71
+msgid "Send Mail"
+msgstr "Envoyer un courrier"
+
+#: .\templates\includes\menu.html:12 .\templates\includes\menu.html:75
+msgid "Home"
+msgstr "Accueil"
+
+#: .\templates\includes\menu.html:15 .\templates\includes\menu.html:78
+msgid "About"
+msgstr "A propos"
+
+#: .\templates\includes\menu.html:18 .\templates\includes\menu.html:81
+msgid "Create Project"
+msgstr "Créer un projet"
+
+#: .\templates\includes\menu.html:22
+msgid "Projects"
+msgstr "Projets"
+
+#: .\templates\includes\menu.html:27
+msgid "Datasets"
+msgstr "Jeux de données"
+
+#: .\templates\includes\menu.html:45 .\templates\includes\menu.html:130
+msgid "Admin Backend"
+msgstr "Administration"
+
+#: .\templates\includes\menu.html:50 .\templates\includes\menu.html:135
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: .\templates\includes\menu.html:84 .\templates\includes\menu.html:312
+msgid "All Projects"
+msgstr "Tous les projets"
+
+#: .\templates\includes\menu.html:87 .\templates\includes\menu.html:315
+msgid "Suggested Projects"
+msgstr "Projets suggérés"
+
+#: .\templates\includes\menu.html:96 .\templates\includes\menu.html:324
+#| msgid "Share Project"
+msgid "Update Project"
+msgstr "Mettre à jour le projet"
+
+#: .\templates\includes\menu.html:109 .\templates\includes\menu.html:339
+msgid "All Data"
+msgstr "Toutes les jeux de données"
+
+#: .\templates\includes\menu.html:146 .\templates\includes\menu.html:165
+msgid "Share"
+msgstr "Partager"
+
+#: .\templates\includes\menu.html:235
+msgid "Data Request"
+msgstr "Demande de données"
+
+#: .\templates\includes\menu.html:238
+msgid "Contact (Name|Email)*"
+msgstr "Contact (Nom|Email)*"
+
+#: .\templates\includes\menu.html:239
+msgid "e.g., peter|peter@test.com"
+msgstr "par exemple, peter|peter@test.com"
+
+#: .\templates\includes\menu.html:242
+msgid "Dataset Title*"
+msgstr "Titre du jeu de données*"
+
+#: .\templates\includes\menu.html:247
+#| msgid "Description"
+msgid "Dataset Description*"
+msgstr "Description du jeu de données"
+
+#: .\templates\includes\menu.html:267
+msgid "Select the domain of the data*"
+msgstr "Sélectionner le domaine des données*"
+
+#: .\utils\data_portal.py:19
+msgid ""
+"Impossible to access the api of the portal. Please make sure your link is "
+"correct or upload your file directly."
+msgstr ""
+"Impossible d'accéder à l'api du portail. Veuillez vous assurer que votre "
+"lien est correct ou téléchargez directement votre fichier."
+
+#: .\utils\data_portal.py:60
+msgid "Impossible to retrieve data. Please try again later."
+msgstr "Impossible de récupérer les données. Veuillez réessayer plus tard."
+
+#: .\utils\data_portal.py:216
+msgid "Add new open data #{}# to project"
+msgstr ""
+
+#: .\utils\data_portal.py:219
+#| msgid "Enter existant project code"
+msgid "Dataset already exists in project"
+msgstr "Le jeu de données existe déjà dans le projet"
+
+#: .\utils\data_portal.py:310
+msgid ""
+"Combination of datasets: {}, {} -- Description of {}: {} -- Description of "
+"{}: {}"
+msgstr ""
+
+#: .\utils\data_portal.py:335
+msgid "Add combined dataset #{}# to project"
+msgstr ""
+
+#: .\utils\data_portal.py:435
+msgid "Deletion columns: {} from {} -- Description of {}: {}"
+msgstr ""
+
+#: .\utils\data_portal.py:457 .\utils\data_portal.py:579
+msgid "Drop columns and add new file #{}# to project"
+msgstr ""
+
+#: .\utils\data_portal.py:562
+msgid ""
+"Search {} and replace by {} in columns: {} of {} -- Description of {}: {}"
+msgstr ""
+
+#: .\utils\data_portal.py:564
+msgid ""
+"Replace null values by {} in columns: {} of {} -- Description of {}: {}"
+msgstr ""
+
+#: .\utils\data_portal.py:635 .\utils\viz.py:1040
+msgid "Unable to load the file"
+msgstr "Impossible de charger le fichier"
+
+#: .\utils\data_portal.py:722
+msgid "Action done successfully"
+msgstr "Action réalisée avec succès"
+
+#: .\utils\data_portal.py:824
+msgid "Aggregate dataset {} using columns: {} -- Description of {}: {}"
+msgstr ""
+
+#: .\utils\data_portal.py:839
+msgid "Aggregate data and add new file #{}# to project"
+msgstr ""
+
+#: .\utils\data_portal.py:930 .\utils\viz.py:687 .\utils\viz.py:688
+#: .\utils\viz.py:1548 .\utils\viz.py:1549 .\utils\viz.py:1560
+#: .\utils\viz.py:1561 .\utils\viz.py:1572 .\utils\viz.py:4106
+msgid "sum of "
+msgstr ""
+
+#: .\utils\data_portal.py:932 .\utils\viz.py:690 .\utils\viz.py:691
+#: .\utils\viz.py:1550 .\utils\viz.py:1551 .\utils\viz.py:1562
+#: .\utils\viz.py:1563 .\utils\viz.py:1574 .\utils\viz.py:4108
+msgid "average of "
+msgstr ""
+
+#: .\utils\data_portal.py:934 .\utils\viz.py:693 .\utils\viz.py:694
+#: .\utils\viz.py:1552 .\utils\viz.py:1553 .\utils\viz.py:1564
+#: .\utils\viz.py:1565 .\utils\viz.py:1576 .\utils\viz.py:4110
+msgid "minimum of "
+msgstr ""
+
+#: .\utils\data_portal.py:936 .\utils\viz.py:696 .\utils\viz.py:697
+#: .\utils\viz.py:1554 .\utils\viz.py:1555 .\utils\viz.py:1566
+#: .\utils\viz.py:1567 .\utils\viz.py:1578 .\utils\viz.py:4112
+msgid "maximum of "
+msgstr ""
+
+#: .\utils\viz.py:129 .\utils\viz.py:202
+#| msgid "Title"
+msgid "Title: "
+msgstr "Titre : "
+
+#: .\utils\viz.py:134 .\utils\viz.py:207
+msgid "Created At: "
+msgstr ""
+
+#: .\utils\viz.py:178
+msgid "Code: "
+msgstr ""
+
+#: .\utils\viz.py:181
+msgid "Dataset Used: "
+msgstr ""
+
+#: .\utils\viz.py:669 .\utils\viz.py:672
+msgid "(bins:"
+msgstr ""
+
+#: .\utils\viz.py:670 .\utils\viz.py:673
+msgid " cut into "
+msgstr ""
+
+#: .\utils\viz.py:670 .\utils\viz.py:673
+msgid " intervals"
+msgstr ""
+
+#: .\utils\viz.py:725 .\utils\viz.py:726
+msgid "year of "
+msgstr ""
+
+#: .\utils\viz.py:728 .\utils\viz.py:729
+msgid "year-month of "
+msgstr ""
+
+#: .\utils\viz.py:731 .\utils\viz.py:732
+msgid "year-month-day of "
+msgstr ""
+
+#: .\utils\viz.py:734 .\utils\viz.py:735
+msgid "hour-minute of "
+msgstr ""
+
+#: .\utils\viz.py:1143
+msgid "Added successfully"
+msgstr "Ajouté avec succès"
+
+#: .\utils\viz.py:1187
+msgid "Deleted successfully"
+msgstr "Supprimé avec succès"
+
+#: .\utils\viz.py:1283
+msgid "Missing Values"
+msgstr "Valeurs manquantes"
+
+#: .\utils\viz.py:1283
+#, python-format
+msgid "% of Missing Values"
+msgstr "% de valeurs manquantes"
+
+#: .\utils\viz.py:1294
+msgid "Please first upload data"
+msgstr "Veuillez d'abord télécharger les données"
+
+#: .\utils\viz.py:1358 .\utils\viz.py:1423
+msgid "Correlation Information"
+msgstr "Informations sur la corrélation"
+
+#: .\utils\viz.py:1360
+msgid "Data Type Information"
+msgstr "Informations sur le type de données"
+
+#: .\utils\viz.py:1362
+msgid "Data contains "
+msgstr ""
+
+#: .\utils\viz.py:1362
+msgid " columns and "
+msgstr ""
+
+#: .\utils\viz.py:1362
+msgid " Rows.\n"
+msgstr ""
+
+#: .\utils\viz.py:1573
+msgid "sum "
+msgstr ""
+
+#: .\utils\viz.py:1575
+msgid "average "
+msgstr ""
+
+#: .\utils\viz.py:1577
+msgid "minimum "
+msgstr ""
+
+#: .\utils\viz.py:1579
+msgid "maximum "
+msgstr ""
+
+#: .\utils\viz.py:2014 .\utils\viz.py:3373
+msgid "No data to plot"
+msgstr "Pas de données à tracer"
+
+#: .\utils\viz.py:2031 .\utils\viz.py:3388
+msgid "Unable to display the plot"
+msgstr "Impossible d'afficher l'intrigue"
+
+#: .\utils\viz.py:2035
+msgid "No data available for your request"
+msgstr "Aucune donnée disponible pour votre demande"
+
+#: .\utils\viz.py:2044 .\utils\viz.py:2045
+msgid "This "
+msgstr "This "
+
+#: .\utils\viz.py:2044 .\utils\viz.py:2045
+msgid " shows "
+msgstr " shows "
+
+#: .\utils\viz.py:2064 .\utils\viz.py:2084
+msgid " group by "
+msgstr ""
+
+#: .\utils\viz.py:2066 .\utils\viz.py:2086
+msgid " where "
+msgstr ""
+
+#: .\utils\viz.py:2598
+#| msgid ""
+#| "On a scale of 1 (very inappropriate) to 10 (very appropriate), what do you "
+#| "think of the visualization used to represent these data?"
+msgid "How appropriate is the visualization used to represent these data?"
+msgstr ""
+"Dans quelle mesure la visualisation utilisée pour représenter ces données "
+"est-elle appropriée ?"
+
+#: .\utils\viz.py:2598
+msgid "Not appriopriate"
+msgstr ""
+
+#: .\utils\viz.py:2598
+msgid "Very appriopriate"
+msgstr ""
+
+#: .\utils\viz.py:2598 .\utils\viz.py:2599
+msgid "Rate this visualization"
+msgstr "Notez cette visualisation"
+
+#: .\utils\viz.py:2605
+msgid "Bad"
+msgstr "Mauvais"
+
+#: .\utils\viz.py:2615
+msgid "Submit rate"
+msgstr "Soumettre votre score"
+
+#: .\utils\viz.py:2636
+msgid "See alternative visualizations"
+msgstr "Voir les visualisations alternatives"
+
+#: .\utils\viz.py:2637
+msgid "Alternative Vizs"
+msgstr "Vizs alternatifs"
+
+#: .\utils\viz.py:2642
+msgid "Zoom visualization"
+msgstr "Agrandir la visualisation"
+
+#: .\utils\viz.py:2643
+msgid "Zoom"
+msgstr "Agrandir"
+
+#: .\utils\viz.py:2647 .\utils\viz.py:2648
+msgid "Add to dashboard"
+msgstr "Ajouter au tableau de bord"
+
+#: .\utils\viz.py:2658
+msgid "Edit rate settings"
+msgstr "Modifier les paramètres de score"
+
+#: .\utils\viz.py:2659
+msgid "Settings"
+msgstr "Paramètres"
+
+#: .\utils\viz.py:2663
+msgid "Rate visualization"
+msgstr "Noter la visualisation"
+
+#: .\utils\viz.py:2664
+msgid "Rate"
+msgstr "Score"
+
+#: .\utils\viz.py:2673
+msgid "Average Score"
+msgstr "Score moyen"
+
+#: .\utils\viz.py:2683
+msgid "Short interpretation of the graph"
+msgstr "Brève interprétation du graphique"
+
+#: .\utils\viz.py:2683
+msgid "Visualisation notes"
+msgstr "Notes de visualisation"
+
+#: .\utils\viz.py:2998
+msgid "Add visualization #{}# to dashboard"
+msgstr ""
+
+#: .\utils\viz.py:3010
+#| msgid " shows "
+msgid "shows"
+msgstr " montre "
+
+#: .\utils\viz.py:3068
+msgid "Drop visualization #{}# from dashboard"
+msgstr ""
+
+#: .\utils\viz.py:3141
+msgid "Please set the filters for the fields inside the dashboard"
+msgstr ""
+
+#: .\utils\viz.py:3143 .\utils\viz.py:3145
+#| msgid "Remove this visualization from dashboard"
+msgid "No Visulization inside the dashboard"
+msgstr "Pas de visulisation à l'intérieur du tableau de bord"
+
+#: .\utils\viz.py:3261
+msgid "Change Setup Dashboard"
+msgstr ""
+
+#: .\utils\viz.py:5055
+msgid "File Upload"
+msgstr ""
+
+#: .\utils\viz.py:5060
+#| msgid "Use External Link"
+msgid "External Link"
+msgstr "Lien externe"
+
+#: .\utils\viz.py:5131
+#| msgid "Correlation Information"
+msgid "General Information"
+msgstr "Informations générales"
+
+#: .\utils\viz.py:5135
+msgid "Provide title of the dataset"
+msgstr ""
+
+#: .\utils\viz.py:5144
+#| msgid "Refresh Timeout"
+msgid "Refresh Timeout (in seconds)"
+msgstr "Délai de rafraîchissement (en secondes)"
+
+#: .\utils\viz.py:5144
+msgid "Provide refresh timeout in seconds"
+msgstr ""
+
+#: .\utils\viz.py:5149
+msgid "Provide description of the dataset"
+msgstr ""
+
+#: .\utils\viz.py:5155
+msgid "Columns Information"
+msgstr "Informations sur les colonnes"
+
+#: .\utils\viz.py:5167
+msgid "Column"
+msgstr "Colonne"
+
+#: .\utils\viz.py:5167
+msgid "Datatype*"
+msgstr "Type de données*"
+
+#: .\utils\viz.py:5334
+msgid "Change datatype of some columns"
+msgstr ""
+
+#: .\utils\viz.py:5630
+msgid "Occurrences"
+msgstr ""
+
+#: .\utils\viz.py:5645
+msgid "Datatype: "
+msgstr "Type de données : "
+
+#: .\utils\viz.py:5647
+#| msgid "Missing Values"
+msgid "Missed Values: "
+msgstr "Valeurs manquées :"
+
+#: .\utils\viz.py:5650
+msgid "Correlation: "
+msgstr "Corrélation : "
+
+#: .\utils\viz.py:5654
+msgid "No data distribution because this column is of type "
+msgstr ""
+
+#: .\visualizations\apps.py:7
+msgid "Visualizations"
+msgstr "Visualisations"
+
+#: .\visualizations\models.py:75
+msgid "Numerical"
+msgstr ""
+
+#: .\visualizations\models.py:76
+msgid "Temporal"
+msgstr ""
+
+#: .\visualizations\models.py:77
+msgid "Geographical"
+msgstr ""
+
+#: .\visualizations\models.py:78
+msgid "Categorical"
+msgstr ""
+
+#~ msgid "Visualization Notes"
+#~ msgstr "Notes de visualisation"
+
+#~ msgid "Upload/Load Data"
+#~ msgstr "Télécharger/charger des données"
+
+#~ msgid "New here? Create a new project"
+#~ msgstr "Vous êtes nouveau ici ? Créer un nouveau projet"
+
+#~ msgid "Already have a project code?"
+#~ msgstr "Vous avez déjà un code de projet ?"
+
+#~ msgid "Select Excel Files from your computer"
+#~ msgstr "Sélectionnez les fichiers Excel de votre ordinateur"
+
+#~ msgid "Choose one of the options below "
+#~ msgstr "Choisissez l'une des options ci-dessous "
+
+#~ msgid "Create visualization yourself"
+#~ msgstr "Créez vous-même la visualisation"
+
+#~ msgid "Get automatically some recommendation visualizations from your data"
+#~ msgstr ""
+#~ "Obtenez automatiquement des visualisations de recommandations à partir de "
+#~ "vos données"
+
+#~ msgid "Get predefined tasks"
+#~ msgstr "Obtenir des tâches prédéfinies"
+
+#~ msgid "Action traceability"
+#~ msgstr "Traçabilité des actions"
+
+#~ msgid "Show action traceability"
+#~ msgstr "Montrer la traçabilité des actions"
+
+#~ msgid "Action Traceability"
+#~ msgstr "Suivi des actions"
+
+#~ msgid "Create new visualization"
+#~ msgstr "Créer une nouvelle visualisation"
+
+#~ msgid "New Visualization"
+#~ msgstr "Nouvelle visualisation"
+
+#~ msgid "View dashboard"
+#~ msgstr "Voir le tableau de bord"
+
+#~ msgid "Return to visualizations"
+#~ msgstr "Retour aux visualisations"
+
+#~ msgid "Distribution Viz"
+#~ msgstr "Distribution Visualisation"
+
+#~ msgid "Analysis Viz"
+#~ msgstr "Analyse Visualisation"
+
+#~ msgid "Drop dimensions or measures here"
+#~ msgstr "Cliquer ici pour les dimensions ou les mesures"
+
+#~ msgid "Which attributes do you want to visualize?"
+#~ msgstr "Quels sont les attributs que vous voulez visualiser ?"
+
+#~ msgid "Visualization Recommendation"
+#~ msgstr "Recommandation sur la visualisation"
+
+#~ msgid "Recommend Viz"
+#~ msgstr "Recommander Viz"
+
+#~ msgid "Edit/Create visualization manually"
+#~ msgstr "Modifier/créer la visualisation manuellement"
+
+#~ msgid "Which orientation do you want to apply for the graph?"
+#~ msgstr "Quelle orientation souhaitez-vous appliquer pour le graphique ?"
+
+#~ msgid "How do you want to group the elements of the graph?"
+#~ msgstr "Comment voulez-vous regrouper les éléments du graphique ?"
+
+#~ msgid "Visualization Results"
+#~ msgstr "Résultats de la visualisation"
+
+#~ msgid "Get graph by using keywords"
+#~ msgstr "Obtenez un graphique en utilisant des mots-clés"
+
+#~ msgid "search your graph among the generated visualisations ...."
+#~ msgstr "recherchez votre graphique parmi les visualisations générées ...."
+
+#~ msgid "Ready to see your dashboard in action? Click on that button"
+#~ msgstr "Prêt à voir votre tableau de bord en action ? Cliquez sur ce bouton"
+
+#~ msgid "Title of your dashboard"
+#~ msgstr "Titre de votre tableau de bord"
+
+#~ msgid "Short description about the content of your dashboard"
+#~ msgstr "Brève description du contenu de votre tableau de bord"
+
+#~ msgid "Select how to display visualizations in dashboard?"
+#~ msgstr ""
+#~ "Sélectionnez comment afficher les visualisations dans le tableau de bord ?"
+
+#~ msgid "1 visualization per column"
+#~ msgstr "1 visualisation par colonne"
+
+#~ msgid "2 visualizations per column"
+#~ msgstr "2 visualisations par colonne"
+
+#~ msgid "Which filters do you want to apply for dashboard?"
+#~ msgstr "Quels filtres voulez-vous appliquer pour le tableau de bord ?"
+
+#~ msgid "Remove from dashboard"
+#~ msgstr "Retirer du tableau de bord"
+
+#~ msgid "Visualisation Notes"
+#~ msgstr "Notes de visualisation"
+
+#~ msgid "2. Select how to display visualizations in dashboard?"
+#~ msgstr ""
+#~ "2. Sélectionnez comment afficher les visualisations dans le tableau de bord "
+#~ "?"
+
+#~ msgid "4. Description"
+#~ msgstr "4. Description"
+
+#~ msgid "Hi, I am working on the project below and thought you might like it."
+#~ msgstr ""
+#~ "Bonjour, je travaille sur le projet ci-dessous et j'ai pensé que vous "
+#~ "pourriez l'apprécier."
+
+#~ msgid " Dashboard Link:"
+#~ msgstr " Lien vers le tableau de bord :"

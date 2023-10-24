@@ -1,0 +1,104 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "About Apps" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/about.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# JQUERY FILE UPLOAD SCRIPTS #}
+  <script src="{% static 'typing/typing.js' %}?v={%settings_value 'VERSION'%}"></script>
+  <script src="{% static 'js/about.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-content">
+  <div class="row">
+    <div class="col col-special s12 m12 l12">
+      <h5 class="center indigo-text darken-4 no-mb" id="text-top">{% trans "About Apps" %}</h5>
+
+      <div class="init-project row">
+        <div class="col col-special s12 m6 l6">
+          <p>
+            {% blocktrans %}
+            The Apps (ODEON, CitizenApps, ODE) aim at providing technical solutions to reduce barriers to Data Storytelling by OGD stakeholders, with a particular focus on the following barriers:
+            <b>B1) lack of awareness of the existence and usefulness of OGD</b> (ODEON, CitizenApps), <b>B2) lack of communication between OGD stakeholders</b> (ODEON) and <b>B3) difficulty of turning OGD into stories</b> (ODE).<br/><br/>
+            <b>ODEON (Open Data Exchange solutiON)</b> is an exchange platform whose objective is to facilitate communication betweeen
+            Open Government Data (OGD) stakeholders: citizens, developers and publishers.<br/>
+            <b>CitizenApps</b> is a mobile and minimal version of ODEON that aims to help citizens to access in one place all OGD reuses in their area.<br/>
+            <b>ODE (Open Data Explorer)</b> helps citizens, developers and publishers to turn their open dataset into stories (mainly dashboards).
+            {% endblocktrans %}
+          </p>
+        </div>
+        <div class="col col-special s12 m6 l6">
+          <img class="zoom" src="{% static 'images/PhDTools.png' %}" style="max-width:99% !important;" title='{% trans "Overview of Apps" %}'/>
+          <h6 class="center black-text darken-4 no-mb" id="text-top">{% trans "Overview of Apps" %}</h6>
+          <div class="clear"></div><br/>
+        </div>
+        <div class="col col-special s12">
+          <h5 class="center indigo-text darken-4 no-marg">{% trans "Worflow between Apps" %}</h5>
+          <p class="center">{% trans "See how the 3 apps interact with each other." %}<br/><br/></p>
+          <div style="height: 500px; overflow-y:scroll; border: 1px solid #DDD;">
+            <img src="{% static 'images/WorflowApps.png' %}" style="max-width:170% !important;" title='{% trans "Worflow between Apps" %}'/>
+          </div>
+          <div class="clear"></div><br/>
+        </div>
+
+        <div class="col col-special s12">
+          <h5 class="center indigo-text darken-4 no-marg">{% trans "Screenshots of Apps" %}</h5>
+          <p class="center">{% trans "See the homepage of each app." %}<br/></p>
+          <div class="row">
+            <div class="col s12 m12 center">
+              <p class="center black-text darken-4 no-mb" id="text-top"><b>{% trans "ODEON Homepage" %}</b></p>
+              <div style="height: 300px; overflow-y:scroll; border: 1px solid #DDD;">
+                <img src="{% static 'images/odeon_homepage.png' %}" style="max-width:100% !important;" title='{% trans "ODEON" %}'/>
+              </div>
+              <br/>
+            </div>
+            <div class="col s12 m3 center">
+              <p class="center black-text darken-4 no-mb" id="text-top"><b>{% trans "CitizenApps Homepage" %}</b></p>
+              <div style="height: 300px; overflow-y:scroll; border: 1px solid #DDD;">
+                <img src="{% static 'images/citizenapps_homepage.jpeg' %}" style="max-width:100% !important;" title='{% trans "CitizenApps" %}'/>
+              </div><br/>
+            </div>
+            <div class="col s12 m9 center">
+              <p class="center black-text darken-4 no-mb" id="text-top"><b>{% trans "ODE Homepage" %}</b></p>
+              <div style="height: 300px; overflow-y:scroll; border: 1px solid #DDD;">
+                <img src="{% static 'images/ode_homepage.png' %}" style="max-width:100% !important;" title='{% trans "ODE" %}'/>
+              </div><br/>
+            </div>
+          </div>
+          <div class="clear"></div><br/>
+        </div>
+
+        <!--<div class="col col-special s12 m12 l12">
+          <div class="row">
+            <div class="col s12">
+              <h5 class="center indigo-text darken-4 no-marg">{% trans "Screenshots" %}</h5>
+              <p class="center">{% trans "See some screenshots of each app." %}<br/></p>
+            </div>
+            <div class="col s12">
+              <ul class="tabs">
+                <li class="tab col s4"><a class="indigo-text darken-4 active" href="#odeon">{% trans "ODEON" %}</a></li>
+                <li class="tab col s4"><a class="indigo-text darken-4" href="#citizenapps">{% trans "CitizenApps" %}</a></li>
+                <li class="tab col s4"><a class="indigo-text darken-4" href="#ode">{% trans "ODE" %}</a></li>
+              </ul>
+            </div>
+            <div id="odeon">
+            </div>
+            <div id="citizenapps">
+            </div>
+            <div id="ode">
+            </div>
+          </div>
+        </div>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

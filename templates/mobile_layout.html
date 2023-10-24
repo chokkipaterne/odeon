@@ -1,0 +1,276 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Compiled and minified CSS -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-html5-1.7.0/fc-3.3.2/fh-3.1.8/r-2.2.7/sc-2.0.3/sp-1.2.2/sl-1.3.3/datatables.min.css"/>
+    -->
+    <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/b-1.7.1/b-colvis-1.7.1/b-html5-1.7.1/b-print-1.7.1/fc-3.3.3/fh-3.1.9/r-2.2.9/rg-1.1.3/datatables.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/4.0.0/material-components-web.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.material.min.css">-->
+
+    <!--<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.9/css/fixedHeader.dataTables.min.css">-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v={%settings_value 'VERSION'%}">
+    <link rel="stylesheet" href="{% static 'css/mobile.css' %}?v={%settings_value 'VERSION'%}">
+    <!-- Compiled and minified JavaScript for Materialize CSS -->
+    {% block custom_css %}
+    {% endblock %}
+    <title>
+      {% block title %}
+      {% endblock %}
+    </title>
+  </head>
+  <body>
+    <main>
+      <div class="main-content">
+        <div class="spacer"></div>
+        <!--form to search states based on country-->
+        <form id="state-form" action="{% url 'frontend:get_states' %}" method="POST" style="display: none;">
+          {% csrf_token %}
+          <input type="hidden" name="sch_country" id="sch_country" value="">
+        </form>
+        <div id="modalcountry" class="modal modal-fixed-footer">
+        	<div class="modal-content">
+        	  <div class="row">
+        		<div class="col m12 s12">
+        		  <h6 class="modalheader-about sm-marg">{% trans "Select Country" %}</h6>
+        		</div>
+        	  </div>
+        		<div class="row">
+        			<div class="col m12 s12">
+                <form method="GET" action="{% url 'frontend:home_mobile' %}" id="pickct-form">
+                    <div class="searchdiv no-marg">
+                      <div class="row">
+                        <div class="col m12 l12 s12">
+                          <h6>{% trans "Pick your country of interest" %}</h6>
+                          <select class="browser-default tooltippedf" name="home_country" id="home_country" data-position="top" data-tooltip='{% trans "Country" %}'>
+
+                            {% for ct in request.session.used_countries %}
+                              {% if ct == home_country %}
+                              <option value='{{ct}}' selected='selected'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                              {% else %}
+                              <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                              {% endif %}
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                </form>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="modal-footer">
+        	  <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+        	</div>
+        </div>
+
+        <div id="modalabout" class="modal modal-fixed-footer">
+        	<div class="modal-content">
+        	  <div class="row">
+          		<div class="col s8">
+          		  <h6 class="modalheader-about sm-marg">{% trans "App Information" %}</h6>
+          		</div>
+              <div class="col s4">
+                <a class="dropdown-trigger" id="dplang" href="#" data-target="dropdown-languages">
+                    <i class="material-icons right">language</i>
+                </a>
+          	  </div>
+        	  </div>
+        		<div class="row">
+        			<div class="col m12 s12">
+                <div class="center">
+                  <img class="img_icon" src="/static/images/citizenapps_icon.png" />
+                </div>
+        				<p>
+                  {% blocktrans %}
+                  <b>CitizenApps</b> is a federating mobile application whose main mission is to help <b>citizens in any country</b> to <b>access in one place</b> all the <b>applications</b> that can make their <b>daily life easier</b>.
+                  These applications are mainly developed using Open Government Data (OGD).<br/>
+                  <br/>
+                  <b>Open Government Data</b> consists of data published by government to be freely reused or distributed by anyone.<br/><br/>
+                  <b>Example of OGD</b><br/>
+                  {% endblocktrans %}
+                </p>
+                <div class="center">
+                  <img style="max-width: 100% !important; border-radius: 20px;" src="/static/images/parkings.jpg" />
+                  <div style="width: 100% !important;"><small>List of parkings in a city with information about the locations and number of available places.</small></div>
+                </div>
+                <p class="center"><b>{% trans "Version: 1.0" %}</b><br/><br/>
+          © 2021 Copyright CitizenApps - Unamur</p>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="modal-footer">
+        	  <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+        	</div>
+        </div>
+        <!--end form to search states based on country-->
+        <div id="modalfilter" class="modal modal-fixed-footer">
+          <form method="GET" action="{% url 'frontend:projects_mobile' %}" id="search-form">
+            <div class="modal-content">
+              <div class="row">
+                <div class="col m12 l12 s12">
+                  <h6 class="modalheader-filter sm-marg">{% trans "Filter Apps" %}</h6>
+                </div>
+              </div>
+              <div class="searchdiv no-marg">
+                <div class="row">
+                  <div class="col m6 l6 s12">
+                    <label>{% trans "Country" %}</label>
+                    <select class="browser-default tooltippedf" name="country" id="country" data-position="top" data-tooltip='{% trans "Country" %}'>
+                      <!--<option value=''>{% trans "All" %}</option>-->
+                      {% for ct in request.session.used_countries %}
+                        {% if ct == country %}
+                        <option value='{{ct}}' selected='selected'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                        {% else %}
+                        <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="col m6 l6 s12" style="position: relative;height: 47px;">
+                    <label>{% trans "State/City" %}</label>
+                    <input placeholder='{% trans "State/City" %}' id="state" name="state" value="{{state}}" type="text" class="browser-default handle-input autocomplete tooltippedf" data-position="top" data-tooltip='{% trans "State" %}'>
+                  </div>
+                  <div class="clear hide-on-med-and-up show-on-small"><br/></div>
+                  <div class="col m12 l12 s12">
+                    <label>{% trans "Topic" %}</label>
+                    <select class="browser-default tooltippedf" name="topic" id="topic" data-position="top" data-tooltip='{% trans "Topic" %}'>
+                      <option value=''>{% trans "All" %}</option>
+                      {% for key, theme in request.session.list_themes_mobile.items %}
+                        {% if theme.name_en == topic %}
+                        <option value='{{theme.name_en}}' selected='selected'>{{theme.name}}</option>
+                        {% else %}
+                        <option value='{{theme.name_en}}'>{{theme.name}}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="col m12 l12 s12 keywords">
+                      <label>{% trans "Keywords" %}</label>
+                      <input placeholder='{% trans "Search App title or description" %}' value="{{search}}" id="search" name="search" type="text" class="browser-default special-input tooltippedf" data-position="top" data-tooltip='{% trans "Keywords" %}'>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+              <button class="btn waves-effect waves-green btn indigo darken-1 lower rounded"
+               type="submit" name="action">{% trans "Filter" %}
+              </button>
+            </div>
+          </form>
+        </div>
+        {% block content %}
+        {% endblock %}
+      </div>
+    </main>
+    <footer class="mobile-bottom-nav">
+      <!--mobile-bottom-nav__item--active-->
+      <div class="mobile-bottom-nav__item {{request.get_full_path|active_menu:3}}">
+    		<div class="mobile-bottom-nav__item-content" onclick="location.href='{% url 'frontend:home_mobile' %}';">
+    			<i class="material-icons">home</i>
+    			{% trans "Home" %}
+    		</div>
+    	</div>
+    	<div class="mobile-bottom-nav__item {{request.get_full_path|active_menu:1}}">
+    		<div class="mobile-bottom-nav__item-content" onclick="location.href='{% url 'frontend:projects_mobile' %}?country={{country}}';">
+    			<i class="material-icons">grid_view</i>
+    			{% trans "Apps" %}
+    		</div>
+    	</div>
+      <div class="mobile-bottom-nav__item {{request.get_full_path|active_menu:6}}">
+    		<div class="mobile-bottom-nav__item-content" onclick="showModalFilt();">
+    			<i class="material-icons">search</i>
+    			{% trans "Search" %}
+    		</div>
+    	</div>
+      <div class="mobile-bottom-nav__item {{request.get_full_path|active_menu:2}}">
+    		<div class="mobile-bottom-nav__item-content" onclick="location.href='{% url 'frontend:topics_mobile' %}?country={{country}}';">
+    			<i class="material-icons">topic</i>
+    			{% trans "Topics" %}
+    		</div>
+    	</div>
+      <div class="mobile-bottom-nav__item {{request.get_full_path|active_menu:4}}">
+    		<div class="mobile-bottom-nav__item-content" onclick="location.href='{% url 'frontend:favorites_mobile' %}';">
+    			<i class="material-icons">favorite</i>
+    			{% trans "Favorites" %}
+    		</div>
+    	</div>
+      {% if user.is_authenticated %}
+    	<div class="mobile-bottom-nav__item">
+        <form class="site-form hide" id="logout-form" action="{% url 'frontend:logout_mobile' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn-flat waves-effect waves-light btn-logout">{% trans 'Logout' %}</button>
+        </form>
+    		<div class="mobile-bottom-nav__item-content" onclick="$('#logout-form').submit();">
+    			<i class="material-icons">logout</i>
+    			{% trans "Logout" %}
+    		</div>
+    	</div>
+      {% else %}
+      <div class="mobile-bottom-nav__item {{request.get_full_path|active_menu:5}}">
+    		<div class="mobile-bottom-nav__item-content" onclick="location.href='{% url 'frontend:login_mobile' %}';">
+    			<i class="material-icons">person</i>
+    			{% trans "Account" %}
+    		</div>
+    	</div>
+      {% endif %}
+    </footer>
+    <ul id="dropdown-languages" class="dropdown-content">
+      {% get_current_language as LANGUAGE_CODE %}
+      {% get_available_languages as languages %}
+      {% for lang_code, lang_name in languages %}
+        {% language lang_code %}
+          <li class="lang-item" data-code="{{ lang_code }}" onclick="changelang('{{ lang_code }}')">
+            <span class="dropdown-item preview-item">{{ lang_name }}</span>
+          </li>
+        {% endlanguage %}
+      {% endfor %}
+    </ul>
+    <ul id="dropdown-languages1" class="dropdown-content">
+      {% get_current_language as LANGUAGE_CODE %}
+      {% get_available_languages as languages %}
+      {% for lang_code, lang_name in languages %}
+        {% language lang_code %}
+          <li class="lang-item" data-code="{{ lang_code }}" onclick="changelang('{{ lang_code }}')">
+            <span class="dropdown-item preview-item">{{ lang_name }}</span>
+          </li>
+        {% endlanguage %}
+      {% endfor %}
+    </ul>
+    <form id="language-form" action="{% url 'frontend:set_language' %}" method="POST" style="display: none;">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.path }}">
+      <input type="hidden" name="locale" value="{{ LANGUAGE_CODE }}"  id="id_locale">
+    </form>
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!--<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-html5-1.7.0/fc-3.3.2/fh-3.1.8/r-2.2.7/sc-2.0.3/sp-1.2.2/sl-1.3.3/datatables.min.js"></script>
+    -->
+
+    <!--<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/b-1.7.1/b-colvis-1.7.1/b-html5-1.7.1/b-print-1.7.1/fc-3.3.3/fh-3.1.9/r-2.2.9/rg-1.1.3/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.material.min.js"></script>-->
+
+    <!--<script src="https://cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js"></script>-->
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+    <script src="{% static 'js/mobile.js' %}?v={%settings_value 'VERSION'%}"></script>
+    {% include 'includes/notification.html' %}
+    {% block custom_js %}
+    {% endblock %}
+  </body>
+
+</html>

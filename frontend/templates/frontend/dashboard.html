@@ -1,0 +1,155 @@
+{% extends 'dashboard_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Dashboard" %} - {% trans 'ODE' %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v={%settings_value 'VERSION'%}">
+  {% if is_mobile %}
+  <style type="text/css">
+    .bdrad{
+    	border-radius: 0px 0px 30% 20px !important;
+    }
+  </style>
+  {% endif %}
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+{% block custom_js %}
+  {# PHOTOS PAGE SCRIPTS #}
+  <script src="{% static 'js/dashboard.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="mt-content">
+  <div class="row">
+    <div class="col s12 m12 l12 center">
+      <form id="infodash-form" action="{% url 'frontend:customize_dashboard' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="dash_code" value="{{project.dash_code}}" id="dash_code">
+      </form>
+      <!-- Modal modalConfirm -->
+      <div id="modalConfirm" class="modal modal-fixed-footer">
+        <div class="modal-content">
+          <h5>{% trans "Confirmation" %}</h5>
+          <p>{% trans "Are you sure that you want to customize that dashboard?" %}</p>
+        </div>
+        <div class="modal-footer">
+          <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "No" %}</a>
+          <a href="javascript:void(0)" class="modal-yes waves-effect waves-green btn blue darken-1 lower rounded">{% trans "Yes" %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul id="filter-out" class="sidenav">
+    <div class="row">
+      <div class="col s12 m12 l12">
+        <form id="dash-form" action="{% url 'frontend:update_dashboard' code=code %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="dash_file" value="{{project|dash_info:'dash_file'}}" id="dash_file">
+          <input type="hidden" name="nb_params" value="{{project|dash_info:'nb_params'}}" id="nb_params">
+          <div id="dash-filt">
+            <div class="center">
+              <button class="btn waves-effect waves-light indigo darken-1 rounded lower"
+              data-position="top" data-tooltip='{% trans "Apply Filters" %}'
+               type="button" name="action" id="update-dash"><i class="material-icons left">update</i><span>{% trans "Apply Filters" %}</span>
+              </button>
+            </div>
+            {% with form=project|dash_info:"form" %}
+            {{form|safe}}
+            {% endwith %}
+          </div>
+        </form>
+      </div>
+    </div>
+  </ul>
+  <div>
+      <div class="col s12 m12 l12 sm-pad for-dash">
+          <div class="main-right-content">
+            {% if trans_code != "" %}
+            <div class="row">
+              <div class="col col-special s12 m6 l6">
+                  <a href="{% url 'frontend:home_trans' %}">{% trans "Home" %}</a>
+                  {% if trans_code == "" %}
+                   > <a href="{% url 'frontend:view_trans_init' %}">{% trans "View Project" %}</a>
+                  {% else %}
+                   > <a href="{% url 'frontend:view_trans' code=trans_code %}">{% trans "View Project" %} [{{trans_code}}]</a>
+                  {% endif %}
+                  {% if mytheme %}
+                   > <a href="{% url 'frontend:view_trans_theme' code=trans_code theme=current_theme %}">{{mytheme.name}}</a>
+                  {% endif %}
+              </div>
+              <div class="col col-special s12 m6 l6">
+                  <div class="right hide-on-large-only show-on-medium-and-down">
+                    <a class="tooltipped" data-position="top" data-tooltip='{% trans "Info" %}' title='{% trans "Info" %}' href="{% url 'frontend:detail_project' code=project.dash_code %}" style="margin: 0 3px !important;padding: 0 5px !important;"><i class="material-icons">info</i></a>
+                    <a class="tooltipped" data-position="top" data-tooltip='{% trans "Comment" %}' title='{% trans "Comment" %}' href="{% url 'frontend:detail_project' code=project.dash_code %}?goto=feedback" style="margin: 0 3px !important;padding: 0 5px !important;"><i class="material-icons">comment</i></a>
+                    <a class="tooltipped" data-position="top" data-tooltip='{% trans "Embed" %}' title='{% trans "Embed" %}' href="javascript:void(0)" onclick="copyToClipboard('{{embed_link}}')" style="margin: 0 3px !important;padding: 0 5px !important;"><i class="material-icons">code</i></a>
+                    <a class="tooltipped" data-position="top" data-tooltip='{% trans "Share" %}' title='{% trans "Share" %}' href="javascript:void(0)" onclick="share_dash('{{project.dash_code}}')" style="margin: 0 3px !important;padding: 0 5px !important;"><i class="material-icons">share</i></a>
+
+                  </div>
+              </div>
+            </div>
+            {% endif %}
+
+            <div class="col s12 m12 l12 sm-pad-in viz-filters">
+              <ul class="collapsible expandable" style="margin-bottom: 15px !important;">
+                <li>
+                  <div class="collapsible-header" style="font-weight: 500 !important; font-size: 120% !important;"><i class="material-icons">leaderboard</i><span>{{project.title}}</span></div>
+                  <div class="collapsible-body">
+                    <div class="row">
+                      <div class="col s12 m12">
+                        <p class="left">{{project.notes}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="row">
+                {% with showhide=project|dash_info:showhide_display %}
+                {% for viz_code, viz in project|dash_info:"vizs" %}
+                  {% with vzshde=viz|dash_info:vzshde_display %}
+                  {% if vzshde %}
+                  <div class="center dhviz col s12 {{viz.width}}" data-file="{{viz.file_code}}" id="{{viz_code}}{{viz.suffix}}" data-id="{{viz_code}}" data-suffix="{{viz.suffix}}">
+                      <div class="boxed">
+                        <div class="tpvizheader" style="max-height: 200px;">
+                          {% if showhide.shviztit or showhide.shvizmark %}
+                          <p id="vizft{{viz_code}}{{viz.suffix}}"><b>{% if showhide.shvizmark %}<a data-position="top" data-tooltip='{% trans "Visualization Information" %}' name="viznotes" class="tooltipped" href="javascript:void(0)" onclick="info_viz('{{viz_code}}')"><i class="material-icons" style="font-size:13pt;font-weight:bold;">keyboard_arrow_down</i></a>{% endif %} {{viz.viz_final_title}}</b></p>
+                          {% endif %}
+                          {% if showhide.shvizdes %}
+                          <p id="viznotes{{viz_code}}{{viz.suffix}}">{{viz.viz_notes}}</p>
+                          {% endif %}
+                          {% if showhide.shvizmark %}
+                          <div style="max-width: 500px; margin: 0 auto; margin-bottom:15px;" class="center responsive-table hide" id="info{{viz_code}}">
+                            <table style="font-size: 10pt !important;" class="responsive-table">
+                              <tbody>
+                                <tr>
+                                  <td style="padding: 5px 5px;"><b>{% trans "Visual Marks" %}</b></td>
+                                  <td style="padding: 5px 5px;">{{viz.viz_encodings|safe}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          {% endif %}
+                        </div>
+                        <div class="clear"></div>
+                        <div class="plot-div" id="plot{{viz_code}}{{viz.suffix}}" >{{viz.plot_div|safe}}</div>
+                        <div class="clear"></div>
+                        <div class="sm-marg source" style="height: 50px;overflow: hidden !important;">
+                          <div style="text-align:left !important;"><small>{{viz.data_title|safe}}</small></div>
+                        </div>
+                      </div>
+                    <div class="clear"></div>
+                  </div>
+                  {% endif %}
+                  {% endwith %}
+                {% endfor %}
+                {% endwith %}
+              </div>
+              <div class="clear"></div>
+  		      </div>
+  	     </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

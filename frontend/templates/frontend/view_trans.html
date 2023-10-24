@@ -1,0 +1,150 @@
+{% extends 'trans_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Transparency Project" %} - ODETRANS
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/view-trans.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# JQUERY FILE UPLOAD SCRIPTS #}
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  {# PHOTOS PAGE SCRIPTS #}
+  <script src="{% static 'js/view-trans.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-content">
+  <div class="row">
+    <div class="col col-special s10 m10 l10">
+        <div class="row">
+          <a href="{% url 'frontend:home_trans' %}">{% trans "Home" %}</a>
+          {% if code == "" %}
+           > <a href="{% url 'frontend:view_trans_init' %}">{% trans "View Project" %}</a>
+          {% else %}
+           > <a href="{% url 'frontend:view_trans' code=code %}">{% trans "View Project" %} [{{code}}]</a>
+          {% endif %}
+          {% if mytheme %}
+           > <a href="{% url 'frontend:view_trans_theme' code=code theme=current_theme %}">{{mytheme.name}}</a>
+          {% endif %}
+        </div>
+    </div>
+    <div class="col col-special s2 m2 l2">
+        <div class="row right">
+          <a href="javascript:void(0);" onclick="share_info()" class="tooltipped" data-position="top" data-tooltip='{% trans "Share By Email" %}'><span class="material-icons">share</span></a>
+
+        </div>
+    </div>
+    <div class="col col-special s12 m12 l12">
+      <div class="init-project center row">
+
+        <div class="search-box-w-buttons">
+          <div class="searchdiv" style="padding-top:0px !important;">
+            {% if code == "" and not transprojects %}
+            <p class="sm-marg">{% trans "Select your region to view insights." %}</p>
+            {% endif %}
+            <form method="POST" action="{% url 'frontend:view_trans_init' %}" id="search-form">
+              {% csrf_token %}
+              <div class="row" style="margin-bottom: 10px;">
+                <div class="col l5 m12 s12">
+                  <select class="browser-default tooltipped" name="country" id="country" data-position="top" data-tooltip='{% trans "Country" %}'>
+                    <option value=''>{% trans "Country" %}</option>
+                    {% for ct in request.session.used_transcountries %}
+                    {% if ct == country %}
+                    <option value='{{ct}}' selected='selected'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                    {% else %}
+                    <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col l7 m12 s12">
+                  <input placeholder='{% trans "State/City" %}' id="schstate"  name="state" type="text" value="{{state}}" class="browser-default handle-input autocomplete tooltipped" data-position="top" data-tooltip='{% trans "State/City" %}'>
+                  <button type="submit" class="mt-2 sub-search waves-effect waves-green btn black darken-1 lower rounded" style="float: right !important;">{% trans "EXPLORE" %}</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        {% if code == "" %}
+        {% if transprojects %}
+        <div id="transprojects">
+          <h5 class="sm-marg" style="font-size:1.4rem;text-align:left;">{% trans 'Many projects have been found for your region. Please select one of the options below' %}</h5><br/>
+          <div class="row" style="margin-bottom: 10px;">
+            {% for proj in transprojects %}
+            <div class="col l2 m4 s6 center" onclick="location.href=$(this).children('div:first').children('a:first').attr('href');">
+              <div class="topic-link z-depth-2" onclick="location.href=$(this).children('a:first').attr('href');">
+                <a href="{% url 'frontend:view_trans' code=proj.code %}">
+                  <h5 class="topic-title">{{proj.code}}</h5>
+                  <p class="sm-marg">{% trans 'By' %} {{proj.user.username}}</p>
+                </a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% if code != "" %}
+        {% if not projects %}
+        <div class="center" id="topic">
+          <h5 class="sm-marg" style="font-size:1.4rem;text-align:left;">{% trans 'Explore Data by Topic' %}</h5><br/>
+          <div class="row" style="margin-bottom: 10px;">
+            {% for key, theme in request.session.list_transthemes.items %}
+            {% with valproj=proj.transproject_settings|get_from_dict:key %}
+            {% if valproj != "" and valproj|length == 1 %}
+            <div class="col l2 m4 s6 center" onclick="location.href=$(this).children('div:first').children('a:first').attr('href');">
+              <div class="topic-link z-depth-2 {% if theme_id == key %} activetopic {% endif %}" onclick="location.href=$(this).children('a:first').attr('href');">
+                <a target="_blank" href="{% url 'frontend:dashboard_trans' code=valproj.0 theme=theme.name|slugifytext:key trans_code=code %}">
+                  <img class="hover-on" src="{{theme.image}}">
+                  <h5 class="topic-title">{{theme.name}}</h5>
+                </a>
+              </div>
+            </div>
+            {% elif valproj != "" and valproj|length > 1 %}
+            <div class="col l2 m4 s6 center" onclick="location.href=$(this).children('div:first').children('a:first').attr('href');">
+              <div class="topic-link z-depth-2 {% if theme_id == key %} activetopic {% endif %}" onclick="location.href=$(this).children('a:first').attr('href');">
+                <a href="{% url 'frontend:view_trans_theme' code=code theme=theme.name|slugifytext:key %}">
+                  <img class="hover-on" src="{{theme.image}}">
+                  <h5 class="topic-title">{{theme.name}}</h5>
+                </a>
+              </div>
+            </div>
+            {% endif %}
+            {% endwith %}
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        {% if projects %}
+        <div id="projects">
+          <h5 class="sm-marg" style="font-size:1.4rem;text-align:left;">{% trans 'Please select one of the options below' %}</h5><br/>
+          <div class="row" style="margin-bottom: 10px;">
+            {% for k, projt in projects.items %}
+            <div class="col s6 m4 l3">
+              <div class="card" onclick="location.href=$(this).children('div').eq(1).children('a:first').attr('href');">
+                <div class="card-image center">
+                  <img src="{{projt.image}}">
+                </div>
+                <div class="card-content" style="background: #EEE;">
+                  {% if projt.title %}
+                  <a target="_blank" href="{% url 'frontend:dashboard_trans' code=projt.dash_code theme=current_theme trans_code=code %}" style="color:black">{{ projt.title|truncatechars:70 }}</a>
+                  {% else %}
+                  <a target="_blank" href="{% url 'frontend:dashboard_trans' code=projt.dash_code theme=current_theme trans_code=code %}" style="color:black">{% trans "No title" %}</a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

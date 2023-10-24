@@ -1,0 +1,55 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Compiled and minified CSS -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-html5-1.7.0/fc-3.3.2/fh-3.1.8/r-2.2.7/sc-2.0.3/sp-1.2.2/sl-1.3.3/datatables.min.css"/>
+    -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/b-1.7.1/b-colvis-1.7.1/b-html5-1.7.1/b-print-1.7.1/fc-3.3.3/fh-3.1.9/r-2.2.9/rg-1.1.3/datatables.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/4.0.0/material-components-web.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.material.min.css">
+    <!--<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.9/css/fixedHeader.dataTables.min.css">-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v={%settings_value 'VERSION'%}">
+    <!-- Compiled and minified JavaScript for Materialize CSS -->
+    {% block custom_css %}
+    {% endblock %}
+    <title>
+      {% block title %}
+      {% endblock %}
+    </title>
+  </head>
+  <body>
+    <main>
+      <div class="main-content">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </main>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!--<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-html5-1.7.0/fc-3.3.2/fh-3.1.8/r-2.2.7/sc-2.0.3/sp-1.2.2/sl-1.3.3/datatables.min.js"></script>
+    -->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/b-1.7.1/b-colvis-1.7.1/b-html5-1.7.1/b-print-1.7.1/fc-3.3.3/fh-3.1.9/r-2.2.9/rg-1.1.3/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.material.min.js"></script>
+    <!--<script src="https://cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js"></script>-->
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+
+    <script src="{% static 'js/app.js' %}?v={%settings_value 'VERSION'%}"></script>
+    {% include 'includes/notification.html' %}
+    {% block custom_js %}
+    {% endblock %}
+  </body>
+
+</html>

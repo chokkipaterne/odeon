@@ -1,0 +1,148 @@
+{% extends 'mobile_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "CitizenApps" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/home-mobile.css' %}?v={%settings_value 'VERSION'%}">
+  {% if not is_mobile %}
+  <style type="text/css">
+  main, footer, .bdrad{
+  	max-width: 400px !important;
+  }
+  .modal{
+  	max-width: 370px !important;
+  }
+  </style>
+  {% endif %}
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <!--<script src="{% static 'js/projects.js' %}?v={%settings_value 'VERSION'%}"></script>-->
+{% endblock %}
+
+{% block content %}
+<div class="z-depth-2 p5 bdrad" style="background: white !important;">
+  <div class="bdinside">
+    <div class="row sm-marg">
+      <div class="col s8">
+        <h5 class="sm-marg"><b>{% trans "CitizenApps" %}</b></h5>
+      </div>
+      <div class="col s4">
+        <h5 class="sm-marg"><a class='dropdown-trigger right' href='javascript:void(0)' onclick="showModalAbout();"><i class="material-icons right" style="color: #3F51B5">info</i></a></h5>
+        <h5 class="sm-marg"><a class='dropdown-trigger right' href='javascript:void(0)' onclick="showModalCountry();"><i class="material-icons right" style="color: #3F51B5">room</i></a></h5>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clear"><br/></div>
+<div class="content-top" style="background-color: white !important;">
+  <div class="site-header center" style="background-image: url(/static/images/citizenapps_banner.png)">
+
+  </div>
+</div>
+<div class="container mt-content">
+  <h5 class="hsubtitle bdinside">{% trans "Top Topics" %}</h5>
+  <div class="topics-section bdinside">
+      <div class="topics-row">
+        {% for theme in themes_popular %}
+          <div class="topic-container">
+            <a class="ga-topic-selector" href="{% url 'frontend:projects_mobile' %}?topic={{theme.name}}&country={{home_country}}">
+            <div class="topic-link-container">
+              <div class="topic-link">
+                <img class="hover-on" src="{{theme.image.url}}">
+                <h5 class="topic-title">{{theme.name}}</h5>
+              </div>
+            </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+  </div>
+  <div class="row no-mb">
+    <div class="col m12 l12 s12">
+        {% if projects_popular %}
+        <div class="row no-mb" style="display: flex;flex-wrap: wrap;flex-direction: row;">
+          <h5 class="hsubtitle bdinside no-mt" style="margin-top: 0px !important;">{% trans "Popular Apps" %} {% trans "In" %} {{home_country}} <a href="{% url 'frontend:projects_mobile' %}?sort=popular&country={{home_country}}" class="right"><small>{% trans 'See All' %}</small></a></h5>
+          {% for projt in projects_popular %}
+          <div class="col s6 m6 l6 projt projtvert">
+            <div class="card">
+              <div class="card-image center">
+                {% if projt.image %}
+                <img src="{{projt.image.url}}">
+                {% else %}
+                <img src="/static/images/nopreview.jpg">
+                {% endif %}
+                <a class="btn-floating halfway-fab waves-effect waves-light indigo tooltipped" data-position="top" data-tooltip="{% trans 'More Details' %}" href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}"><i class="material-icons">add</i></a>
+              </div>
+              <div class="card-content">
+                <p style="margin-top: 10px;"><small>{{ projt.theme.name }}</small><small class="right"><span class="nbfv">{{ projt.nb_favorites }}</span> <span class="material-icons" style="font-size: 0.65rem;color:#1A237E;">favorite</span></small></p>
+                {% if projt.project_type == 'external' %}
+                <p><a target="_blank" href="{{ projt.link }}">{{ projt.title|truncatechars:70 }}</a></p>
+                {% elif projt.project_type == 'internal' %}
+                <p><a target="_blank" href="{% url 'frontend:dashboard' code=projt.dash_code %}">{{ projt.title|truncatechars:70 }}</a></p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+        {% else %}
+        <div class="row no-mb">
+          <h5 class="hsubtitle bdinside">{% trans "Popular Apps" %} {% trans "In" %} {{home_country}}</h5>
+          <p class="center">{% trans "There are no popular apps matching your request. Please modify your request." %}</p>
+        </div>
+        {% endif %}
+    </div>
+  </div>
+  <div class="row no-mb">
+    <div class="col m12 l12 s12">
+        {% if projects_new %}
+        <div class="row no-mb" style="display: flex;flex-wrap: wrap;flex-direction: row;">
+          <h5 class="hsubtitle bdinside">{% trans "New Apps" %} {% trans "In" %} {{home_country}} <a href="{% url 'frontend:projects_mobile' %}?sort=new&country={{home_country}}" class="right"><small>{% trans 'See All' %}</small></a></h5>
+          {% for projt in projects_new %}
+          <div class="col s12 m12 l12 projt projthoriz">
+            <div class="card horizontal">
+              <div class="card-image center">
+                {% if projt.image %}
+                <img src="{{projt.image.url}}">
+                {% else %}
+                <img src="/static/images/nopreview.jpg">
+                {% endif %}
+
+              </div>
+              <div class="card-stacked">
+                <div class="card-content">
+                  <a class="btn-floating halfway-fab waves-effect waves-light indigo tooltipped" data-position="top" data-tooltip="{% trans 'More Details' %}" href="{% url 'frontend:detail_project_mobile' code=projt.dash_code %}"><i class="material-icons">add</i></a>
+                  {% if projt.project_type == 'external' %}
+                  <p><a target="_blank" href="{{ projt.link }}">{{ projt.title|truncatechars:70 }}</a></p>
+                  {% elif projt.project_type == 'internal' %}
+                  <p><a target="_blank" href="{% url 'frontend:dashboard' code=projt.dash_code %}">{{ projt.title|truncatechars:70 }}</a></p>
+                  {% endif %}
+                  {% if projt.notes %}
+                  <p>{{ projt.notes|truncatechars:100 }}</p>
+                  {% else %}
+                  <p>{% trans "No description" %}</p>
+                  {% endif %}
+                  <p style="margin-top: 10px;"><small>{{ projt.theme.name }}</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+        {% else %}
+        <div class="row no-mb">
+          <h5 class="hsubtitle bdinside">{% trans "New Apps" %} {% trans "In" %} {{home_country}}</h5>
+          <p class="center">{% trans "There are no new apps matching your request. Please modify your request." %}</p>
+        </div>
+        {% endif %}
+        <div class="clear"></div><br/>
+    </div>
+  </div><br/>
+</div>
+
+{% endblock %}

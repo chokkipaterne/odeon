@@ -1,0 +1,73 @@
+{% extends 'proto_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "How It Works?" %} - {% trans "ODE" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/about.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# JQUERY FILE UPLOAD SCRIPTS #}
+  <script src="{% static 'typing/typing.js' %}?v={%settings_value 'VERSION'%}"></script>
+  <script src="{% static 'js/about.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-content">
+  <div class="row">
+    <div class="col col-special s12 m12 l12">
+      <h5 class="center green-text darken-4 no-mb" id="text-top">{% trans "About ODE" %}</h5>
+      <p class="headline container center">
+        <a href="javascript:void(0)" class="typewrite black-text" data-period="2000" data-type='["{% trans "Get an overview of any open dataset." %}", "{% trans "Get an estimated data quality of any open dataset." %}", "{% trans "Get multiple recommendation visualizations from any open dataset." %}", "{% trans "Connect your project with datasets from different open data portals." %}", "{% trans "Combine and aggregate multiple open datasets." %}", "{% trans "Get recommendation visualizations from your open dataset." %}", "{% trans "Create visualization using open datasets." %}", "{% trans "Build and share your dashbaord using open datasets." %}" ]'>
+          <span class="wrap"></span>
+        </a>
+      </p>
+      <div class="init-project row">
+        <div class="col col-special s12 m6 l6">
+          <h6 class="center black-text darken-4 no-mb" id="text-top">{% trans "Guide to create visulization" %}</h6>
+          <ul class="collapsible">
+            {% blocktrans %}
+            <li class="active">
+              <div class="collapsible-header"><i class="material-icons">add</i>How to add attribute?</div>
+              <div class="collapsible-body"><i>Option 1.</i> Click on icon '+' of any attribute from 'Data' section (left side)
+	  <br/><i>Option 2.</i> Drag & Drop any attribute from 'Data' section (left side)</div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">add</i>How to add filter?</div>
+              <div class="collapsible-body"><i>Option 1.</i> Click on icon 'filter' of any attribute from 'Data' section (left side)
+	<br/><i>Option 2.</i> Drag & Drop any attribute from 'Data' section (left side)</div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">delete</i>How to remove attribute/filter?</div>
+              <div class="collapsible-body"><span>Just drag the attribute/filter to remove</span></div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">whatshot</i>How to edit attribute/filter?</div>
+              <div class="collapsible-body">1. Click on the attribute/filter to modify
+	  <br/>2. Make your changes
+	  <br/>3. Click on 'apply' button to save your changes</div>
+            </li>
+            {% endblocktrans %}
+        </ul>
+        </div>
+        <div class="col col-special s12 m6 l6">
+          <h6 class="center black-text darken-4 no-mb" id="text-top">{% trans "Tutoriel to turn data into stories" %}</h6>
+          <video width="100%" height="300" controls>
+            <source src="{% static 'images/ode_video_tutorial.mp4' %}" type="video/mp4">
+              {% trans "Your browser does not support the video tag." %}
+          </video>
+          <div class="clear"></div><br/>
+        </div>
+        <div class="col col-special s12 m12 l12">
+          <br/>
+          {% include 'includes/ode_features.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

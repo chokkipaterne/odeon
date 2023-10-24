@@ -1,0 +1,783 @@
+{% extends current_template %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% if not add_data %}
+{% trans "Create/Load Project" %} - {{title_platform}}
+{% else %}
+{% trans "Add Data" %} - {{title_platform}}
+{% endif %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/get-started.css' %}?v={%settings_value 'VERSION'%}">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+{% block custom_js %}
+  {# JQUERY FILE UPLOAD SCRIPTS #}
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="{% static 'js/vendor/jquery-file-upload/jquery.ui.widget.js' %}?v={%settings_value 'VERSION'%}"></script>
+  <script src="{% static 'js/vendor/jquery-file-upload/jquery.iframe-transport.js' %}?v={%settings_value 'VERSION'%}"></script>
+  <script src="{% static 'js/vendor/jquery-file-upload/jquery.fileupload.js' %}?v={%settings_value 'VERSION'%}"></script>
+
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+  <script src="https://code.highcharts.com/modules/histogram-bellcurve.js"></script>
+  <script src="https://code.highcharts.com/modules/wordcloud.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+  {# PHOTOS PAGE SCRIPTS #}
+  <script src="{% static 'js/get-started.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-content">
+  <input id="current_project_type" type="hidden" value="{{project_type}}"/>
+  <input id="user_type" type="hidden" value="{% if request.session.current_user_type %}{{request.session.current_user_type}}{% endif %}"/>
+
+  <form method="POST" id="createproject-form" action="{% url 'frontend:load_project' %}" class="hide">
+    {% csrf_token %}
+    <input name="new_project" type="hidden" value="1"/>
+  </form>
+  {% if not add_data %}
+  <div class="row">
+    <div class="col col-special s12 m12 l12">
+      <h5 class="center indigo-text darken-4 {% if project_type == 'internal' %} hide {% endif %}">{% trans "Create/Load Project" %}</h5>
+      {% if project_type == 'internal' %} <br/>{% endif %}
+      <div class="init-project center row">
+        <div class="center col l6 m6 s12">
+          <div>
+            <!--<b><i>{% trans "New here?" %} <a href="{% url 'frontend:get_started_type' code='create' %}">{% trans 'Create a new project' %}</a></i></b><br/>
+            <p><small>{% trans "Create project will allow you to save your changes for future use or allow others users who have the project code to edit it." %}</small></p>-->
+            <p class="sm-marg" style="color:red; float:right;">{% trans "All fields marked with * are required" %}</p>
+            <form method="POST" enctype="multipart/form-data" id="formproj">
+              {% csrf_token %}
+              <input id="p_code" type="hidden" name="p_code" value="{{p_code}}"/>
+              <input id="user_request_type" type="hidden" name="user_request_type" value="{{user_request_type}}"/>
+              <div class="row">
+                <div class="clear"></div>
+                <div class="col m6 l6 s12 fproj {% if project_type == 'internal' %} hide {% endif %}">
+                  <label>{% trans "Choose your project type*" %}</label>
+                  <select class="browser-default" name="project_type" id="project_type" required>
+                    <option value=''>{% trans "Select the project type" %}</option>
+                    {% for ptyp in project_types %}
+                    {% if ptyp.0 == project_type %}
+                    <option value='{{ptyp.0}}' selected='selected'>{{ptyp.1}}</option>
+                    {% else %}
+                    <option value='{{ptyp.0}}'>{{ptyp.1}}</option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col m6 l6 s12 fproj {% if project_type == 'internal' %} hide {% endif %}">
+                  <label>{% trans "Choose your project status*" %}</label>
+                  <select class="browser-default" name="status" id="status" required>
+                    <option value=''>{% trans "Select the project status" %}</option>
+                    {% for st in request.session.statuses %}
+                      {% if st.id == status %}
+                      <option class="opths {%if st.for_suggested_project %} sp {% endif %} {% if st.for_existing_project %} ep {% endif %}" value='{{st.id}}' selected='selected'>{{st.name}} ({{st.abbreviation}})</option>
+                      {% else %}
+                      <option class="opths {%if st.for_suggested_project %} sp {% endif %} {% if st.for_existing_project %} ep {% endif %}" value='{{st.id}}'>{{st.name}} ({{st.abbreviation}})</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col l6 m6 s12 fproj">
+                  <label>{% trans "Country*" %}</label>
+                  <select class="browser-default" name="country" id="country" required>
+                    <option value=''>{% trans "Select the country of the project" %}</option>
+                    {% for ct in request.session.countries %}
+                      {% if ct == country %}
+                      <option value='{{ct}}' selected='selected'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                      {% else %}
+                      <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col l6 m6 s12 fproj" style="position: relative;height: 55px;">
+                  <label>{% trans "State/City*" %}</label>
+                  <input placeholder='{% trans "Enter the state/city of the project" %}' id="project_state" name="project_state" value="{{project_state}}" type="text" class="browser-default special-input autocomplete" required>
+                </div>
+                <div style="clear: both;"></div>
+                <div class="col l4 m4 s12 fproj">
+                  <label>{% trans "Domain*" %}</label>
+                  <select class="browser-default" name="project_theme" id="project_theme" required>
+                    <option value=''>{% trans "Select the domain of the project" %}</option>
+                    {% for key, theme in request.session.list_themes.items %}
+                      {% if key == project_theme %}
+                      <option value='{{key}}' selected='selected'>{{theme.name}}</option>
+                      {% else %}
+                      <option value='{{key}}'>{{theme.name}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col l8 m8 s12 fproj" style="position: relative;height: 55px;">
+                  <label>{% trans "Title*" %}</label>
+                  <input placeholder='{% trans "Project title" %}' value="{{project_title}}" id="project_title" name="project_title" type="text" class="browser-default special-input" required>
+                </div>
+                <div class="col l12 m12 s12 fproj hide" id="plink">
+                  <label>{% trans "Access Link*" %}</label>
+                  <input placeholder='{% trans "E.g., https://example.com" %}' value="{{project_link}}" id="project_link" name="project_link" type="url" class="browser-default special-input" required>
+                </div>
+                <div class="col l12 m12 s12 fproj">
+                  <label>{% trans "Description*" %}</label>
+                  <textarea rows="7" id="project_notes" placeholder='{% trans "Description of the project" %}' name="project_notes" required>{{project_notes}}</textarea>
+                </div>
+                <div class="col l12 m12 s12 fproj" id="ldt">
+                  <label>{% trans "List of datasets used in the project" %}</label>
+                  <textarea id="list_datasets" placeholder='{% trans "Add manually the list of datasets used in this project. Only use this option if the dataset is not available as structured data." %}' name="list_datasets">{{list_datasets}}</textarea>
+                </div>
+                <div class="col l12 m12 s12 fproj">
+                  <label>{% trans "Contact Information (Name & Email)*" %}</label>
+                  <input placeholder='{% trans "e.g., Peter|peter@gmail.com" %}' value="{{project_contact}}" id="project_contact" name="project_contact" type="text" class="browser-default special-input" required>
+                </div>
+                <div class="col l5 m5 s12 fproj hide"><br/>
+                  <label class="tooltipped" data-position="top" data-tooltip='{% trans "Developed using ODE." %}'><input type='checkbox' id='developed_internally' name='developed_internally' {%if developed_internally %} checked {% endif %}/><span style="font-size:0.85rem;">{% trans "Developed using ODE?" %}</span></label>
+                  <label class="tooltipped" data-position="top" data-tooltip='{% trans "Enable it to make your project public (other users can access/duplicate it)." %}'><input type='checkbox' id='shared' name='shared' {%if shared %} checked {% endif %}/><span style="font-size:0.85rem;">{% trans "Share with all users?" %}</span></label>
+                </div>
+                <div class="col l12 m6 s12 fproj">
+                  <label>{% trans "Logo or Screnshot to present your project" %}</label><br/>
+                  <input id="image" name="image" type="file">
+                  {% if image %}
+                  <div style="width:100% !important;">
+                    <img src="{{image}}" alt="connect" style="max-height:150px">
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+              <button class="btn waves-effect waves-light rounded lower green" type="submit" name="action">{% if p_code %}{% trans "Save Changes" %}{% else %}{% trans "Create New Project" %}{% endif %}</button>
+            </form>
+            </div>
+        </div>
+        <div class="center col l1 m1 s12">
+          <h6 class="no-marg"><br/><b><i>{% trans "OR" %}</i></b><br/></h6><br/>
+        </div>
+        <div class="center col l5 m5 s12">
+          <b><i>{% trans "Load the project using a project code?" %}</i></b><br/>
+          <div class="center">
+            <form method="POST" id="loadproject-form" action="{% url 'frontend:load_project' %}">
+              {% csrf_token %}
+              <input placeholder='{% trans "Enter existant project code" %}' id="project_code" name="project_code" type="text" class="browser-default special-input autocomplete" required style="height:35px !important; border-radius:35px !important;">
+              <button type="submit" class="mt-2 waves-effect waves-green btn indigo darken-1 lower rounded" style="margin-top:-35px;float: right !important;"><i class="material-icons left">search</i></button>
+            </form>
+            {%if request.session.my_projects %}
+            <div class="row">
+                <div class="col s12"><br/>
+                  <b><i>{% trans "My Projects" %}</i></b>
+                  <ul class="collection" style="max-height: 500px; overflow-y: auto;">
+                    {% for key, prj in request.session.my_projects.items %}
+                      <li class="collection-item avatar" style="text-align: left !important;" onclick="loadP('{{prj.code}}');">
+                        <img src="{{prj.image}}" alt="" class="circle">
+                        <span class="title ptitle">{{prj.title}} <small>({{prj.code}})</small></span>
+                        <p onclick="togglepdesc('{{key}}')" id="pdesc1_{{key}}" class="pdesc pdesc1 tooltipped" data-position="top" data-tooltip='{% trans "Click for more details" %}' style="text-align: left !important;">{{prj.notes |truncatechars:60}}</p>
+                        <p onclick="togglepdesc('{{key}}')" id="pdesc2_{{key}}" class="pdesc pdesc2 hide tooltipped" data-position="top" data-tooltip='{% trans "Click for less details" %}' style="text-align: left !important;">{{prj.notes}}</p>
+                        <p style="margin-top: 10px;"><small><b>{% trans "Type: " %}{%get_project_type prj.project_type %}</b></small></p>
+                        <a href="javascript:void(0)" onclick="loadP('{{prj.code}}')" class="secondary-content"><i class="material-icons tooltipped" data-position="top" data-tooltip='{% trans "Load project" %}'>refresh</i></a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="clear"></div>
+        {% if p_code %}
+          {% if project_type != "internal" %}
+          <div class="center col l12 m12 s12" id="adddts">
+            <div class="row center" style="max-width: 850px;margin: 0 auto !important;">
+              <div class="clear"></div>
+              <h5 class="center indigo-text darken-4">{% trans "What's next?" %} {% if project_type != "internal" %}<small>(Optional)</small>{% endif %}</h5>
+              <p class="center">{% trans "Add the datasets used or to be used by the project, if you know them." %}<br/><br/></p>
+              <div class="col s12 m6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+                <div class="card">
+                  <div class="card-image">
+                    <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:get_started' %}"><i class="material-icons">add</i></a>
+                  </div>
+                  <div class="card-content">
+                    <span class="card-title">{% trans "Add related data" %}</span>
+                    <p>{% trans "Integrate the data used by the project. Select the data directly from OGD portals or use other options (upload file or external link)." %}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col s12 m6">
+                <div class="card" style="cursor: pointer" onclick="modal_resquest_data('{{p_code}}');">
+                  <div class="card-image">
+                    <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="javascript:void(0)" onclick="modal_resquest_data('{{p_code}}')"><i class="material-icons">chat</i></a>
+                  </div>
+                  <div class="card-content">
+                    <span class="card-title">{% trans "Request data" %}</span>
+                    <p>{% trans "Need a dataset for a project? If so, provide the data details and the community will help you." %}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="row">
+    <div class="col col-special s12 m12 l12">
+      <h5 class="center indigo-text darken-4 {% if project_type == 'internal' %} hide {% endif %}" id="text-top">
+        {% if nbfiles > 0 and request.session.current_user_type == 'non-expert' %}
+        {% trans "Add Data to Project" %}
+        {% else %}
+        {% trans "Add Data to Project" %}
+        {% endif %}
+      </h5>
+      <input type="hidden" name="current_project_code" value="{{ request.session.project_code }}" id="current_project_code"/>
+      <div id="opendata">
+        <p class="center"><b><i>{% trans "Please give us the information about the open data portal and the dataset." %}</i></b>
+          <br/><small style="font-size:90%" class="tooltipped" data-position="top" data-tooltip='{% trans "Use this code to edit the project in the future or to send to other users for colloboration." %}'>{% trans "Project code: " %} <a href="{% url 'frontend:detail_project' code=request.session.dash_code %}"><span class="code">{{ request.session.project_code }}</span></a></small>
+          <br/><small style="font-size:95%"><a href="javascript:void(0)" onclick="interface_switch('2')">{%trans "Other options" %}</a></small>
+          <br/>
+        </p>
+        <div class="op-data">
+          <div class="row">
+            <form method="POST" id="opd-form" action="{% url 'frontend:load_opdaset' %}" class="hide">
+              {% csrf_token %}
+              <input name="portal" id="portal" type="hidden" value=""/>
+              <input name="dataset" id="dataset" type="hidden" value=""/>
+            </form>
+            <form method="POST" id="next-form" action="{% url 'frontend:load_more_opdaset' %}" class="hide">
+              {% csrf_token %}
+              <input name="link_next" id="link_next" type="hidden" value=""/>
+            </form>
+            <form method="POST" id="getopd-form" action="{% url 'frontend:get_whole_dataset' %}" class="hide">
+              {% csrf_token %}
+              <input name="dataset_id" id="dataset_id" type="hidden" value=""/>
+              <input name="dataset_inc" id="dataset_inc" type="hidden" value=""/>
+            </form>
+            <div class="col l6 m6 s12">
+              <select class="browser-default" name="obj_portal" id="obj_portal">
+                <option value=''>{% trans "Select/Enter Portal" %}</option>
+                {% for key, dataportal in request.session.list_dataportals.items %}
+              	<option value='{{key}}'>{{dataportal.name}}</option>
+                {% endfor %}
+              </select>
+              <small>{% trans "Eg. https://data.namur.be/" %}</small>
+            </div>
+            <div class="col l6 m6 s12">
+              <input class="browser-default special-input1 validate" id="obj_dataset" name="obj_dataset" type="text" placeholder="{% trans "Provide dataset information and press enter" %}" />
+              <small>{% trans "Eg. covid and press enter" %}</small>
+            </div>
+          </div>
+          <div class="row" id="opd-cont">
+          </div>
+          <div class="center" id="opd-more">
+          </div>
+          <div class="hide" id="opd-back">
+          </div>
+        </div>
+      </div>
+      <div class="select-files hide" id="spec-files">
+        <p class="center"><b><i>{% trans "Please clean up your data before uploading it to the system. Your data must have column names in the header." %}</i></b>
+          <br/><small style="font-size:90%" class="tooltipped" data-position="top" data-tooltip='{% trans "Use this code to edit the project in the future or to send to other users for colloboration." %}'>{% trans "Project code: " %} <a href="{% url 'frontend:detail_project' code=request.session.dash_code %}"><span class="code">{{ request.session.project_code }}</span></a></small>
+          <br/><small style="font-size:95%"><a href="javascript:void(0)" onclick="interface_switch('1')">{%trans "Other options" %}</a></small>
+        </p>
+        <div class="upload-data center">
+          <div id="modalLoad" class="modal modal-fixed-footer">
+            <form method="POST" id="loaddata-form" action="{% url 'frontend:select_file' %}">
+                {% csrf_token %}
+                <input type="hidden" name="file_selected" value="" id="file_selected">
+              <div class="modal-content">
+                <h5>{% trans "Select Online Resources" %}</h5>
+                <ul class="collection with-header">
+                  {% for key, demo_file in request.session.list_demofiles.items %}
+                  <li class="collection-item" onclick="selectFile('{{ demo_file.code }}')" title="{{ demo_file.full_title }}"><div>{{ demo_file.full_title|truncatechars:60 }}<a href="javascript:void(0)" class="secondary-content"><i class="material-icons tooltipped" data-position="top" data-tooltip='{% trans "Select" %}'>send</i></a></div></li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+              </div>
+            </form>
+          </div>
+          <!---Modal External Link -->
+          <div id="modalExternal" class="modal modal-fixed-footer">
+            <form method="POST" id="external-form" action="{% url 'frontend:external_link' %}">
+              {% csrf_token %}
+            <div class="modal-content">
+              <h5 class="center">{% trans "Use External Link" %}</h5>
+              {{externalForm.as_p}}
+            </div>
+            <div class="modal-footer">
+              <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+              <a href="javascript:void(0)" onclick="externalLink()" class="waves-effect waves-green btn blue darken-1 lower rounded">{% trans "Submit Data" %}</a>
+            </div>
+            </form>
+          </div>
+  		<!---Modal Project -->
+          <!--<div id="modalLoadProject" class="modal modal-fixed-footer">
+            <form method="POST" id="loadproject-form" action="{% url 'frontend:load_project' %}">
+              {% csrf_token %}
+            <div class="modal-content">
+              <h5>{% trans "Enter Project Code" %}</h5>
+              <input placeholder='{% trans "Enter project code" %}' id="project_code" name="project_code" type="text" class="browser-default special-input autocomplete" required>
+            </div>
+            <div class="modal-footer">
+              <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+              <button type="submit" class="modal-loadproj waves-effect waves-green btn blue darken-1 lower rounded">{% trans "Load Project" %}</button>
+            </div>
+            </form>
+          </div>-->
+
+          <div id="progress-file" class="progress-content hide">
+            <div class="center" id="progress-file-text">0%</div>
+            <div class="progress">
+                <div class="determinate" id="progress-file-percent" style="width: 0%">0%</div>
+            </div>
+          </div>
+          <div class="clear"></div>
+          {% if request.session.current_user_type != 'non-expert' %}
+          <p class="bigger no-mb" style="font-size:0.9rem">{% trans "Drop your files here (csv, json, xls, xlsx only)" %}</p>
+          {% else %}
+          <p class="bigger no-mb" style="font-size:0.9rem">{% trans "Drop your excel files here" %}</p>
+          {% endif %}
+          <p><i>{% trans "or" %}</i></p>
+          <p>
+            <button class="btn waves-effect waves-light indigo darken-1 rounded lower js-upload-photos"
+            data-position="top" data-tooltip='{% trans "Upload your files" %}'
+             type="button" name="action">{% trans "Select Files from your computer" %}
+            </button>
+            <input id="fileupload" type="file" name="file_name" multiple
+                   style="display: none;"
+                 data-url="{% url 'frontend:file_upload' %}"
+                 data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+          </p>
+          <p class="no-marg"><i>{% trans "You can also" %}</i></p>
+          <p>
+            <button data-target="modalLoad" class="hide btn waves-effect waves-light green darken-1 rounded lower modal-trigger load-data"
+            data-position="bottom" data-tooltip='{% trans "Use existing data in the system" %}'
+             type="button" name="action">{% trans "Use Existing Data" %}
+            </button>
+            <button data-target="modalExternal" class="btn waves-effect waves-light purple darken-1 rounded lower modal-trigger"
+              data-position="top" data-tooltip='{% trans "Get data from external link" %}'
+               type="button" name="action">{% trans "Use External Link" %}
+            </button>
+            <!-- Dropdown Trigger -->
+            <!--<a class='dropdown-trigger btn waves-effect waves-light red darken-1 rounded lower' data-position="bottom" data-tooltip='{% trans "Load/Create Project" %}' href='#' data-target='dropdown-project'>{% trans "Project" %}</a>-->
+            <!-- Dropdown Structure -->
+            <!--<ul id='dropdown-project' class='dropdown-content'>
+              <li><a href="javascript:void(0)" onclick="openModalProject()">{% trans "Load Existant Project" %}</a></li>
+              <li><a href="javascript:void(0)" onclick="createProject()">{% trans "Create New Project" %}</a></li>
+            </ul>-->
+          </p>
+        </div>
+      </div>
+      <ul class="collapsible expandable data list_data checkhide hide">
+        <li id="list-data" class="{% if nbfiles > 0 %} active {% endif %}">
+          <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>
+          <b>{% trans "List Data Selected" %} (<span id="nbfiles">{{ nbfiles }}</span>)</b></div>
+          <div class="collapsible-body">
+            <form id="delete-file-form" action="{% url 'frontend:delete_file' %}" method="POST" style="display: none;">
+              {% csrf_token %}
+              <input type="hidden" name="file_code" value="" id="file_code">
+            </form>
+            <form id="edit-file-form" action="{% url 'frontend:edit_dataform' %}" method="POST" style="display: none;">
+              {% csrf_token %}
+              <input type="hidden" name="edit_file_code" value="" id="edit_file_code">
+            </form>
+            <ul class="collection" id="list-files">
+              {% for key, file in request.session.list_selectedfiles.items %}
+              <li id="{{ file.code }}" class='collection-item file no-pad'>
+                  <div class='truncate'>
+                    <a target='_blank' href='{{ file.file_link }}'>{{ file.full_title }}</a> <small class="{% if project_type != 'internal' %} hide {% endif %}">{% trans "(Data Quality: " %} {{ file.quality }}%)</small>
+                    <a onclick="deleteFile('{{ file.code }}')" href='javascript:void(0)' data-code="{{ file.code  }}" class='btn-flat waves-effect waves-light red darken-1 rounded lower secondary-content delete tooltipped white-text' data-position='top' data-tooltip='{% trans "Delete Data" %}'><i class='material-icons left'>delete</i> {% trans "Delete" %}</a>
+                    <a href="{% url 'frontend:get_started' %}?explore_file={{file.code}}" class='btn-flat waves-effect waves-light green darken-1 rounded lower secondary-content view tooltipped white-text' data-position='top' data-tooltip='{% trans "Explore Data" %}' data-code="{{ file.code  }}" href='javascript:void(0)'><i class='material-icons left'>info</i> {% trans "Explore" %}</a>
+                  </div>
+              </li>
+              {% endfor %}
+            </ul>
+            <div>
+              <div class="sm-seperator preprocess hide"></div>
+              <p class="center {% if project_type != 'internal' %} hide {% endif %}"><a id="pre-btn" class="btn waves-effect waves-light green darken-1 rounded lower white-text preprocess" href="javascript:void(0)" onclick="toogle_preprocess()" style="font-size:90%">{% trans "Filter options" %}</a></p>
+              <div class="row hide" id="pre-cont">
+                <form id="alldata-form" action="{% url 'frontend:get_all_datasets' %}" method="POST">
+                  {% csrf_token %}
+                </form>
+                <form id="datacol-form" action="{% url 'frontend:get_dataset_columns' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="data_code" value="" id="data_code">
+                  <input type="hidden" name="col_code" value="" id="col_code">
+                </form>
+                <div class="input-field col s12 m4">
+                  <label><b><i>{% trans "Which transformation to apply?" %}</i></b></label><br/><br/>
+                  <select class="browser-default" name="obj_transf" id="obj_transf">
+                    <option value=''>{% trans "Select transformation" %}</option>
+                  	<option value='dropcol'>{% trans "Drop/Keep Columns" %}</option>
+                  	<option value='repval'>{% trans "Search & Replace Values" %}</option>
+                  	<option value='aggdata'>{% trans "Aggregate Data" %}</option>
+                  	<option value='combdata' class="{% if nbfiles < 2 %} hide {% endif %}" id="cmbdat">{% trans "Combine Data" %}</option>
+                  </select>
+                </div>
+                <div class="input-field col s12 m8">
+                  <div class="dotted">
+                    <p class="center" id="text-trans"><i>{% trans "Get started by choosing your transformation" %}</i></p>
+                    <div class="transf hide" id="dropcol">
+                      <i class="right"><small>* denotes mandatory information.</small></i>
+                      <div class="clear"></div>
+                      <form id="dropcol-form" action="{% url 'frontend:dropcol' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                          <div class="col s12 m12">
+                            <label class="black-text"><b><i>{% trans "Dataset*" %}</i></b></label>
+                            <select class="browser-default" name="dropcol_dt" id="dropcol_dt">
+                              <option value=''>{% trans "Select Data" %}</option>
+                            </select>
+                          </div>
+                          <div class="col s12 m6">
+                            <input type="hidden" name="h_dropcol_col" value="" id="h_dropcol_col">
+                            <label class="black-text"><b><i>{% trans "Columns*" %}</i></b></label>
+                            <select class="browser-default" name="dropcol_col" id="dropcol_col" multiple="multiple">
+                              <option value=''>{% trans "Select Columns" %}</option>
+                            </select>
+                          </div>
+                          <div class="col s12 m6"><br/>
+                            <label class="tooltipped" style="margin-top:7px; margin-bottom:7px;" data-position="top" data-tooltip='{% trans "Check if you want to keep the selected columns." %}'><input type='checkbox' id='dropcol_keep' name='dropcol_keep'/><span style="font-size:0.85rem;">{% trans "Keep selected columns" %}</span></label>
+                          </div>
+                          <div class="col s12 m12">
+                            <label class="black-text"><b><i>{% trans "New Dataset Name" %}</i></b></label>
+                            <input class="browser-default special-input1 validate" id="dropcol_dtname" name="dropcol_dtname" type="text" placeholder="{% trans "Dataset Title" %}" />
+                            <small>{% trans "Leave empty if you wish to overwrite the current dataset. Putting a title different from the current is recommended." %}</small>
+                          </div>
+                          <div class="col s12 m12 center"><br/>
+                            <button id="drcol-btn" type="button" class="btn-flat waves-effect waves-light green darken-1 rounded lower white-text" onclick="dropcol()" style="font-size:90%">{% trans "Execute" %}</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="transf hide" id="repval">
+                      <i class="right"><small>* denotes mandatory information.</small></i>
+                      <div class="clear"></div>
+                      <form id="repval-form" action="{% url 'frontend:repval' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                          <div class="col s12 m6">
+                            <label class="black-text"><b><i>{% trans "Dataset*" %}</i></b></label>
+                            <select class="browser-default" name="repval_dt" id="repval_dt">
+                              <option value=''>{% trans "Select Data" %}</option>
+                            </select>
+                          </div>
+                          <div class="col s12 m6">
+                            <input type="hidden" name="h_repval_col" value="" id="h_repval_col">
+                            <label class="black-text"><b><i>{% trans "Columns*" %}</i></b></label>
+                            <select class="browser-default" name="repval_col" id="repval_col" multiple="multiple">
+                              <option value=''>{% trans "Select Columns" %}</option>
+                            </select>
+                          </div>
+                          <div class="col s12 m6">
+                            <label class="black-text"><b><i>{% trans "Search" %}</i></b></label>
+                            <input class="browser-default special-input1 validate" id="repval_search" name="repval_search" type="text" placeholder="{% trans "Search ..." %}" />
+                            <small>{% trans "Leave empty if you wish to search for empty cells." %}</small>
+                          </div>
+                          <div class="col s12 m6">
+                            <label class="black-text"><b><i>{% trans "Replace*" %}</i></b></label>
+                            <input class="browser-default special-input1 validate" id="repval_rep" name="repval_rep" type="text" placeholder="{% trans "Replace by ..." %}" />
+                          </div>
+                          <div class="col s12 m12">
+                            <label class="black-text"><b><i>{% trans "New Dataset Name" %}</i></b></label>
+                            <input class="browser-default special-input1 validate" id="repval_dtname" name="repval_dtname" type="text" placeholder="{% trans "Dataset Title" %}" />
+                            <small>{% trans "Leave empty if you wish to overwrite the current dataset. Putting a title different from the current is recommended." %}</small>
+                          </div>
+                          <div class="col s12 m12 center"><br/>
+                            <button id="repval-btn" type="button" class="btn-flat waves-effect waves-light green darken-1 rounded lower white-text" onclick="repval()" style="font-size:90%">{% trans "Execute" %}</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="transf hide" id="aggdata">
+                      <i class="right"><small>* denotes mandatory information.</small></i>
+                      <div class="clear"></div>
+                      <form id="aggdata-form" action="{% url 'frontend:aggdata' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                          <div class="col s12 m6">
+                            <label class="black-text"><b><i>{% trans "Dataset*" %}</i></b></label>
+                            <select class="browser-default" name="aggdata_dt" id="aggdata_dt">
+                              <option value=''>{% trans "Select Data" %}</option>
+                            </select>
+                          </div>
+                          <div class="col s12 m6">
+                            <input type="hidden" name="h_aggdata_col" value="" id="h_aggdata_col">
+                            <label class="black-text"><b><i>{% trans "Columns*" %}</i></b></label>
+                            <select class="browser-default" name="aggdata_col" id="aggdata_col" multiple="multiple">
+                              <option value=''>{% trans "Select Columns" %}</option>
+                            </select>
+                          </div>
+                          <div class="col s12 m12">
+                            <label class="black-text"><b><i>{% trans "New Dataset Name" %}</i></b></label>
+                            <input class="browser-default special-input1 validate" id="aggdata_dtname" name="aggdata_dtname" type="text" placeholder="{% trans "Dataset Title" %}" />
+                            <small>{% trans "Leave empty if you wish to overwrite the current dataset. Putting a title different from the current is recommended." %}</small>
+                          </div>
+                          <div class="col s12 m12 center"><br/>
+                            <button id="drcol-btn" type="button" class="btn-flat waves-effect waves-light green darken-1 rounded lower white-text" onclick="aggdata()" style="font-size:90%">{% trans "Execute" %}</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="transf hide" id="combdata">
+                      <i class="right"><small>* denotes mandatory information.</small></i>
+                      <div class="clear"></div>
+                      <form id="combdata-form" action="{% url 'frontend:combata' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                          <div class="col s12 m6">
+                            <label class="black-text"><b><i>{% trans "Dataset 1*" %}</i></b></label>
+                            <select class="browser-default" name="combdata_dt1" id="combdata_dt1">
+                              <option value=''>{% trans "Select Data" %}</option>
+                            </select>
+                          </div>
+                          <div class="col s12 m6">
+                            <input type="hidden" name="h_combdata_col1" value="" id="h_combdata_col1">
+                            <label class="black-text"><b><i>{% trans "Column 1*" %}</i></b></label>
+                            <select class="browser-default" name="combdata_col1" id="combdata_col1" multiple="multiple">
+                              <option value=''>{% trans "Select Column" %}</option>
+                            </select>
+                          </div>
+                          <div class="col s12 m12 hide">
+                            <label class="black-text"><b><i>{% trans "Relation Type*" %}</i></b></label>
+                            <select class="browser-default" name="combdata_rel" id="combdata_rel">
+                              <option value='INNER JOIN'>{% trans "Inner Join" %}</option>
+                              <option value='LEFT JOIN'>{% trans "Left Join" %}</option>
+                              <option value='RIGHT JOIN'>{% trans "Right Join" %}</option>
+                              <option value='FULL JOIN'>{% trans "Full Join" %}</option>
+                            </select>
+                          </div>
+                          <div class="col s12 m6">
+                            <label class="black-text"><b><i>{% trans "Dataset 2" %}</i></b></label>
+                            <select class="browser-default" name="combdata_dt2" id="combdata_dt2">
+                              <option value=''>{% trans "Select Data" %}</option>
+                            </select>
+                          </div>
+                          <div class="col s12 m6">
+                            <input type="hidden" name="h_combdata_col2" value="" id="h_combdata_col2">
+                            <label class="black-text"><b><i>{% trans "Column 2*" %}</i></b></label>
+                            <select class="browser-default" name="combdata_col2" id="combdata_col2" multiple="multiple">
+                              <option value=''>{% trans "Select Column" %}</option>
+                            </select>
+                          </div>
+                          <div class="col s12 m12">
+                            <label class="black-text"><b><i>{% trans "New Dataset Name*" %}</i></b></label>
+                            <input class="browser-default special-input1 validate" id="combdata_dtname" name="combdata_dtname" type="text" placeholder="{% trans "Dataset Title" %}" />
+                            <small>{% trans "Putting a title different from the current is recommended." %}</small>
+                          </div>
+                          <div class="col s12 m12 center"><br/>
+                            <button id="combdata-btn" type="button" class="btn-flat waves-effect waves-light green darken-1 rounded lower white-text" onclick="combdata()" style="font-size:90%">{% trans "Execute" %}</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <ul class="collapsible expandable data {% if not current_file %} hide {% endif %}" id="view_file">
+        {% if current_file %}
+        <li class="{% if project_type != "internal" %} active {% endif %}">
+          <div class="collapsible-header"><i class="material-icons">edit</i><b><span id="file_name">{{current_file.full_title}}</span></b></div>
+          <div class="collapsible-body">
+            <div class="col s12">
+              <ul class="tabs">
+            	<li class="tab col s3"><a class="black-text darken-4 active" href="#dtcontent">{% trans "Data Content" %}</a></li>
+            	<li class="tab col s3 {% if request.session.current_user_type == 'non-expert' %} hide {% endif %}"><a class="black-text darken-4" href="#qcoverv">{% trans "Quick Column Overview" %}</a></li>
+              {% if current_file.data_quality %}
+            	<li class="tab col s3 {% if request.session.current_user_type == 'non-expert' %} hide {% endif %}" onclick="window.dispatchEvent(new Event('resize'));"><a class="black-text darken-4" href="#dtquality">{% trans "Data Quality & Correlation" %}</a></li>
+              {% endif %}
+              {% if project_type == "internal" %}
+              <li class="tab col s3" onclick="editDataInfo('{{ current_file.code }}');"><a class="black-text darken-4" href="#adjmeta" onclick="">{% trans "Adjust MetaData" %}</a></li>
+              {% endif %}
+              </ul>
+            </div>
+            <div class="clear"></div>
+            <div id="dtcontent">
+              <p class="sm-marg center {% if request.session.current_user_type == 'non-expert' %} hide {% endif %}"><b>Click on any column to get a quick overview of its content.</b></p><br/>
+              <div id="tablect" style="overflow: auto !important;">
+                {{script|safe}}
+              </div>
+            </div>
+            <div id="qcoverv">
+              <p class="sm-marg center"><b>{% trans "Select a column to get a quick overview of it." %}</b><br/>
+                <small>{% trans "Four columns are displayed as default but you can display more by using the option below." %}</small></p><br/>
+              <form id="explore-form" action="{% url 'frontend:explore_column' %}" method="POST">
+                {% csrf_token %}
+                <input id="project_code" name="project_code" type="hidden" value="{{project_code}}"/>
+                <input id="file_code" name="file_code" type="hidden" value="{{file_code}}"/>
+                <input id="final_query" name="final_query" type="hidden" value="{{final_query}}"/>
+                <div style="margin: 0 auto !important; max-width: 500px;">
+                  <select id="col" name="col" class="browser-default">
+                    <option value="">{% trans "Select column to start exploration" %}</option>
+                    {% for column in dropdown_columns %}
+                    <option value="{{column.col}}">{{column.title}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </form>
+              <div id="col-explore" class="row">
+              </div>
+            </div>
+            {% if current_file.data_quality %}
+            <div id="dtquality">
+              <div class="row">
+                <div class="col s12 m4">
+                  <p class="sm-marg center"><b>{% trans "Data Quality" %}</b><br/>
+                  <a href="javascript:void(0)" onclick="togglediv()"><small>{% trans "More Details" %}</small></a></p>
+                  <div id="dqlt" style="width:100%">
+                    {{gauge_quality|safe}}
+                  </div>
+                  <div style="clear: both;"></div>
+                  <div id="tqlt" class="table-responsive hide" style="width:100%">
+                    <table class="table-sm">
+                      <tr>
+                        <td colspan="2"><b>{% trans "Dataset Quality" %}</b></td>
+                      </tr>
+                      <tr>
+                        <td><b>{% trans "Metrics" %}</b></td>
+                        <td><b>{% trans "%" %}</b></td>
+                      </tr>
+                      <tr>
+                        <td><b class="tooltipped" data-position='top' data-tooltip='{% trans "Check if the title, description and last update are provided" %}'>{% trans "Dataset Information" %}</b></td>
+                        <td>{{current_file.data_quality|get_from_dict:'data_info'}}</td>
+                      </tr>
+                      <tr>
+                        <td><b class="tooltipped" data-position='top' data-tooltip='{% trans "Check if all column labels are provided" %}'>{% trans "Column Labels" %}</b></td>
+                        <td>{{current_file.data_quality|get_from_dict:'column_labels'}}</td>
+                      </tr>
+                      <tr>
+                        <td><b class="tooltipped" data-position='top' data-tooltip='{% trans "Check if all column descriptions are provided" %}'>{% trans "Column descriptions" %}</b></td>
+                        <td>{{current_file.data_quality|get_from_dict:'column_descriptions'}}</td>
+                      </tr>
+                      <tr>
+                        <td><b class="tooltipped" data-position='top' data-tooltip='{% trans "Check if all cells have values" %}'>{% trans "Complete cells" %}</b></td>
+                        <td>{{current_file.data_quality|get_from_dict:'complete_data'}}</td>
+                      </tr>
+                      <tr>
+                        <td><b class="tooltipped" data-position='top' data-tooltip='{% trans "Average of dataset quality" %}'>{% trans "Average" %}</b></td>
+                        <td><b>{{current_file.data_quality|get_from_dict:'average'}}</b></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="col s12 m8">
+                  {{corr|safe}}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% if project_type == "internal" %}
+            <div id="adjmeta">
+              <!--for edit data info-->
+              <div class="row infoData">
+                <form class="col s12" id="edit-datainfo" action="{% url 'frontend:edit_datainfo' %}" method="POST">
+                    {% csrf_token %}
+                    <div id="content_editdata" style="overflow:auto !important;">
+                    </div>
+                    <div class="input-field col s12 m12 center">
+                      <button class="btn waves-effect waves-light blue darken-1 rounded lower saveDataInfo"
+                      data-position="top" data-tooltip='{% trans "Save Changes" %}'
+                       type="button" name="action">{% trans "Save Changes" %}
+                        <i class="material-icons right">send</i>
+                      </button>
+                    </div>
+                </form>
+              </div>
+
+              <!--begin for view file (obsolete)-->
+              <div class="center hide">
+                <button class="btn waves-effect waves-light green darken-1 tooltipped rounded lower datasummary"
+                data-position="top" data-tooltip='{% trans "Hide/Show Data Information" %}'
+                 type="button" name="action">{% trans "See Data Info" %}
+                </button>
+              </div>
+              <div class="transformData hide">
+                <div class="row" style="margin-bottom:0px !important;">
+                  <p class="center"><b><i>{% trans "Is the auto-detection of datatype wrong? If yes, correct the wrong detection" %}</i></b></p>
+                  <form class="col s12" id="view-file-form" action="{% url 'frontend:view_file' %}" method="POST">
+                      {% csrf_token %}
+                      <input type="hidden" name="file_code" value="{{file_code}}" id="view_file_code">
+                      <input type="hidden" name="action_type" value="" id="action_type">
+                      <div class="row" style="margin-bottom:0px !important;">
+                        <div class="input-field col s12 m5">
+                          <label><b><i>{% trans "Which attribute has wrong datatype?" %}</i></b></label><br/><br/>
+                          <select id="column_data" name="column_data" class="browser-default">
+                          </select>
+                        </div>
+                        <div class="input-field col s7 m5">
+                          <label><b><i>{% trans "Choose the correct datatype" %}</i></b></label><br/><br/>
+                          <select id="type_data" name="type_data" class="browser-default">
+                            <option value="">{% trans "Select Type" %}</option>
+                            {% for key, datatype in request.session.list_datatypes.items %}
+                            <option value="{{datatype.id}}">{{datatype.name}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="input-field col s5 m2 center"><br/><br/>
+                          <button class="btn waves-effect waves-light blue darken-1 rounded lower changeType"
+                          data-position="top" data-tooltip='{% trans "Process" %}'
+                           type="button" name="action">{% trans "Process" %}
+                            <i class="material-icons right">send</i>
+                          </button>
+                        </div>
+                      </div>
+                  </form>
+                </div>
+              </div>
+              <div id="content_view_file">
+              </div>
+              <!--end for view file (obsolete)-->
+            </div>
+            {% endif %}
+          </div>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="started row center checkhide hide" style="max-width: 800px;">
+    {% if project_type == "internal" %}
+    <div class="clear"></div>
+    <h5 class="center green-text darken-4">{% trans "What's next?" %}</h5>
+    <div class="col s12 m6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+      <div class="card">
+        <div class="card-image">
+          <a class="btn-floating halfway-fab waves-effect waves-light green" href="{% url 'frontend:visualization' %}"><i class="material-icons">add</i></a>
+        </div>
+        <div class="card-content">
+          <span class="card-title">{% trans "Create visualization" %}</span>
+          <p>{% trans "ODE will suggest you some visualisations after selection of columns and purpose of the visualization(not mandatory)." %}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col s12 m6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+      <div class="card">
+        <div class="card-image">
+          <a class="btn-floating halfway-fab waves-effect waves-light green" href="{% url 'frontend:special_visualization' code='get-recommendations' %}"><i class="material-icons">multiline_chart</i></a>
+        </div>
+        <div class="card-content">
+          <span class="card-title">{% trans "Get recommendations" %}</span>
+          <p>{% trans "ODE will automatically suggest you multiple visualizations that you can easily modify if needed and add them to your dashboard." %}</p>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <p>{% trans "You're done. Thank you for sharing your project with us." %}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

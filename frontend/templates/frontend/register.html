@@ -1,0 +1,40 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "Register" %} - {% trans "ODEON" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/account.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-content">
+  <div class="row">
+    <div class="col col-special s12 m12 l12">
+      <h5 class="center indigo-text darken-4">{% trans "Register" %}</h5>
+      <p>{% trans "Registration is not required, but it will give you easy access to our previous projects." %}</p>
+      <div class="account-data">
+        <div id="register">
+          <form method="POST">
+              {% csrf_token %}
+              {{form.as_p}}
+              <div class="center">
+                <div class="clear"></div>
+                <button class="btn waves-effect waves-light indigo darken-1 sm-rounded"
+                data-position="top" data-tooltip='{% trans "Sign Up" %}'
+                 type="submit" name="action">{% trans "Sign Up" %}
+                  <i class="material-icons right">send</i>
+                </button>
+              </div>
+          </form>
+          <p class="center">
+            {% trans "If you already have an account" %}, <a href="{% url 'frontend:login' %}"><strong>{% trans "login" %}</strong></a> {% trans "instead" %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,166 @@
+{% load static %}
+{% load i18n %}
+<div class="about" id="about">
+  <div class="row">
+    <div class="col s12">
+      <h5 class="center indigo-text darken-4 no-marg">{% trans "Let Us Guide You" %}</h5>
+      <p class="center">{% trans "Select the user type that suits you best to see the related features." %}<br/><br/></p>
+    </div>
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s4"><a class="indigo-text darken-4 active" href="#citizens">{% trans "Citizen" %}</a></li>
+        <li class="tab col s4"><a class="indigo-text darken-4" href="#developers">{% trans "Developer" %}</a></li>
+        <li class="tab col s4"><a class="indigo-text darken-4" href="#publishers">{% trans "Open Data Publisher" %}</a></li>
+      </ul>
+    </div>
+    <div id="citizens">
+      <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:projects' %}?type=external&sort=modified"><i class="material-icons">visibility</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "Explore OGD reuses" %}</span>
+            <p>{% trans "Discover all the applications/services that have been developed using the OGD." %}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:projects' %}?type=proposed&sort=nblikes"><i class="material-icons">visibility</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "Explore suggested projects" %}</span>
+            <p>{% trans "Discover all the applications/services that are suggested by users." %}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:get_started_type' code='proposed' %}?user_type=citizen"><i class="material-icons">add</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "Suggest a project" %}</span>
+            <p>{% trans "Have an idea? if so drop it here and the community will work on that as soon as possible." %}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:get_started_type' code='external' %}"><i class="material-icons">add</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "Register an OGD reuse" %}</span>
+            <p>{% trans "Register an existing application or service developed using OGD in the system." %}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="developers">
+      <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:projects' %}?type=proposed&sort=nblikes"><i class="material-icons">visibility</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "Explore suggested projects" %}</span>
+            <p>{% trans "Discover all the applications/services that are suggested by users." %}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:projects' %}?type=external&sort=modified"><i class="material-icons">visibility</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "Explore OGD reuses" %}</span>
+            <p>{% trans "Discover all the applications/services that have been developed using the OGD." %}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:get_started_type' code='external' %}"><i class="material-icons">add</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "Register an OGD reuse" %}</span>
+            <p>{% trans "Register an existing application or service developed using OGD in the system." %}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:get_started_type' code='proposed' %}?user_type=developer"><i class="material-icons">add</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "Suggest a project" %}</span>
+            <p>{% trans "Have an idea and want to check if it is relevant for citizens? if so drop it here and the community will give you their feedback." %}</p>
+          </div>
+        </div>
+      </div>
+      <!--<div class="col s12 m12 l12" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:home_proto' %}"><i class="material-icons">add</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "Rapid prototyping of your project idea" %}</span>
+            <p>{% trans "You have a project to develop but you don't want to write code, use the ODE platform to create in less than 10min a prototype of your project without coding." %}</p>
+          </div>
+        </div>
+      </div>-->
+    </div>
+    <div id="publishers">
+      <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:projects' %}"><i class="material-icons">visibility</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "Explore projects" %}</span>
+            <p>{% trans "Discover all the existing and suggested applications/services using the OGD." %}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:datasets' %}?type=requested"><i class="material-icons">visibility</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "View requested data" %}</span>
+            <p>{% trans "View all the requested data by developers and respond to them." %}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l6" style="cursor: pointer" onclick="location.href=$(this).children('div:first').children('div:first').children('a:first').attr('href');">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="{% url 'frontend:issues' %}"><i class="material-icons">visibility</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "View data issues" %}</span>
+            <p>{% trans "View and respond to all issues related to a specific dataset." %}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l6" style="cursor: pointer" onclick="modal_subscribe_data();">
+        <div class="card">
+          <div class="card-image">
+            <a class="btn-floating halfway-fab waves-effect waves-light indigo" href="javascript:void(0)" onclick="modal_subscribe_data()"><i class="material-icons">email</i></a>
+          </div>
+          <div class="card-content">
+            <span class="card-title">{% trans "Subscribe to a weekly report" %}</span>
+            <p>{% trans "Get a weekly report on requested data and data issues." %}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

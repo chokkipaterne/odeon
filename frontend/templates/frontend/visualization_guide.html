@@ -1,0 +1,950 @@
+{% extends 'proto_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% if class_dash == '' %}
+{% trans "Dashboard" %} - {% trans 'ODE' %}
+{% else %}
+{% trans "Visualization" %} - {% trans 'ODE' %}
+{% endif %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/visualization-guide.css' %}?v={%settings_value 'VERSION'%}" />
+  <link rel="stylesheet" href="{% static 'css/vendor/font-awesome/css/font-awesome.min.css' %}?v={%settings_value 'VERSION'%}" />
+  <link rel="stylesheet" href="{% static 'css/vendor/starrr.css' %}?v={%settings_value 'VERSION'%}" />
+  <link rel="stylesheet" href="{% static 'colorpicker/css/colorpicker.css' %}?v={%settings_value 'VERSION'%}" />
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+{% block custom_js %}
+  {# PHOTOS PAGE SCRIPTS #}
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="{% static 'js/vendor/starrr.js' %}?v={%settings_value 'VERSION'%}"></script>
+  <script src="{% static 'colorpicker/js/colorpicker.js' %}?v={%settings_value 'VERSION'%}"></script>
+  <script src="{% static 'js/utils-visualization-guide.js' %}?v={%settings_value 'VERSION'%}"></script>
+  <script src="{% static 'js/visualization-guide.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="mt-content">
+  <div class="row">
+    <!--<div class="col s12 m12 l12 sm-pad-in for-viz {{class_viz}}">
+
+    </div>-->
+    <!--<div class="col s12 m12 l12 sm-pad-in for-dash {{class_dash}}">
+      <div class="center headdivtop">
+        <h5 class="center green-text darken-4">{% trans "Setup Dashboard" %}</h5>
+        <p><b>{% trans "Project Code: " %}</b><span class="tooltipped" data-position="top" data-tooltip='{% trans "Send this code to your team to collaborate on this project." %}'>{{request.session.current_project|dash_info:'code'}}</span></p>
+        <a class="btn waves-effect waves-light blue darken-1 rounded lower"
+         href="{% url 'frontend:visualization' %}"><span>{% trans "Add Visulization to Dashboard" %}</span>
+        </a>
+      </div>
+    </div>-->
+    <div class="col s12 m12 l2 sm-pad">
+      <input id="bad_rate" type="hidden" value="{%settings_value 'BAD_VIZ_SCORE'%}"/>
+      <input id="max_viz_shown" type="hidden" value="{%settings_value 'MAX_VIZ_SHOWN'%}"/>
+      <input id="code_viz_init" type="hidden" value="{{code_viz_init}}"/>
+      <input id="nbfiles" type="hidden" value="{{nbfiles}}"/>
+      <input id="user_type" type="hidden" value="{% if request.session.current_user_type %} {{request.session.current_user_type}} {% endif %}"/>
+
+      <ul class="collapsible left-options" id="leftopt">
+        <li id="list-data" class="active">
+          <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>
+          {% trans "Data" %}</div>
+          <div class="collapsible-body max-height">
+            <div class="input-field s12">
+              <input class="browser-default special-input validate" id="search_dim" type="text" placeholder="{% trans "search dimension or measure ..." %}" />
+            </div>
+            <p class="sm-marg red-text"><small><b><i>{% trans "(Drag elements below to create visualization)" %}</i></b></small></p>
+            {% for keyfile, file in request.session.list_selectedfiles.items %}
+            <div class='truncate' id="{{ keyfile }}">
+              <a href='#' class="dropdown-trigger link-title" data-target='dr{{keyfile}}'><i class="material-icons for-viz {{class_viz}}" style="font-size:90% !important;">keyboard_arrow_down</i>&nbsp;{{ file.title }}</a>
+              <ul id='dr{{keyfile}}' class='dropdown-content for-viz {{class_viz}}'>
+                <li class="tooltipped" data-position="top" data-tooltip='{% trans "Data Distribution" %}'><a id="distviz{{ forloop.counter0 }}" data-keyfile="{{keyfile}}" href="javascript:void(0)" onclick="dist_recommend_viz('{{keyfile}}')">{% trans "Data Distribution" %}</a></li>
+                <li class="tooltipped" data-position="bottom" data-tooltip='{% trans "Get Recommendation" %}'><a id="recomdviz{{ forloop.counter0 }}" data-keyfile="{{keyfile}}" href="javascript:void(0)" onclick="empty_recommend_viz('{{keyfile}}')">{% trans "Get Recommendations" %}</a></li>
+              </ul>
+              <div class="dim-content">
+                {% if request.session.current_user_type != 'non-expert' %}
+                <p class="sm-marg"><small><b>{% trans "Dimensions" %}</b></small></p>
+                {% endif %}
+                <ul class="collection">
+                {% for col, dim in request.session.dimensions|get_item:keyfile %}
+                  <li class='collection-item no-pad dim mycol' draggable="true" ondragstart="drag(event)" id="{{ dim.id }}" class="{{ dim.dt_parent }}" data-dt="{{dim.dt_id}}" data-realtype="{{ dim.dt_abbr }}" data-ty="dim" data-type="{{ dim.dt_pd }}" data-name="{{ col }}" data-file="{{ keyfile }}">
+                    <div class='truncate'>
+                      <i class="material-icons">{{dim.dt_icon}}</i>
+                      <span title="{{ dim.fulllabel }}">{{ col|truncatechars:15 }}</span>
+                      <a href="javascript:void(0)" onclick="move('{{ dim.id }}','vatt')" class="secondary-content tooltipped for-viz {{class_viz}}" data-position="top" data-tooltip='{% trans "Add to attributes" %}'><i class="material-icons">add</i></a>
+                      <a href="javascript:void(0)" onclick="move('{{ dim.id }}','data-filt')" class="secondary-content tooltipped for-viz {{class_viz}}" data-position="top" data-tooltip='{% trans "Add to filters" %}'><i class="material-icons">filter_alt</i></a>
+                      <a href="javascript:void(0)" onclick="move('{{ dim.id }}','dash-filt')" class="secondary-content tooltipped fdh for-dash {{class_dash}}" data-position="top" data-tooltip='{% trans "Add to dashboard filters" %}'><i class="material-icons">filter_alt</i></a>
+                    </div>
+                  </li>
+                {% endfor %}
+                </ul>
+                {% if request.session.current_user_type != 'non-expert' %}
+                <p class="sm-marg"><small><b>{% trans "Measures" %}</b></small></p>
+                {% endif %}
+                <ul class="collection">
+                {% for col, meas in request.session.measures|get_item:keyfile %}
+                {% if meas.dt_abbr == 'auto' %}
+                  <li class='collection-item no-pad meas mycol for-viz {{class_viz}}' draggable="true" ondragstart="drag(event)" id="{{ meas.id }}" class="{{ meas.dt_parent }}" data-dt="{{meas.dt_id}}" data-realtype="{{ meas.dt_abbr }}" data-ty="meas" data-type="{{ meas.dt_pd }}" data-name="{{ col }}" data-file="{{ keyfile }}">
+                {% else %}
+                  <li class='collection-item no-pad meas mycol' draggable="true" ondragstart="drag(event)" id="{{ meas.id }}" class="{{ meas.dt_parent }}" data-dt="{{meas.dt_id}}" data-realtype="{{ meas.dt_abbr }}" data-ty="meas" data-type="{{ meas.dt_pd }}" data-name="{{ col }}" data-file="{{ keyfile }}">
+                {% endif %}
+                    <div class='truncate'>
+                      <i class="material-icons">{{meas.dt_icon}}</i>
+                      <span title="{{ meas.fulllabel }}">{{ col|truncatechars:15 }}</span>
+                      <a href="javascript:void(0)" onclick="move('{{ meas.id }}','vatt')" class="secondary-content tooltipped for-viz {{class_viz}}" data-position="top" data-tooltip='{% trans "Add to attributes" %}'><i class="material-icons">add</i></a>
+                      <a href="javascript:void(0)" onclick="move('{{ meas.id }}','data-filt')" class="secondary-content tooltipped for-viz {{class_viz}}" data-position="top" data-tooltip='{% trans "Add to filters" %}'><i class="material-icons">filter_alt</i></a>
+                      <a href="javascript:void(0)" onclick="move('{{ meas.id }}','dash-filt')" class="secondary-content tooltipped for-dash {{class_dash}}" data-position="top" data-tooltip='{% trans "Add to dashboard filters" %}'><i class="material-icons">filter_alt</i></a>
+                    </div>
+                  </li>
+                {% endfor %}
+                </ul>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col s12 m12 l10 sm-pad-in for-viz {{class_viz}}">
+      <div class="main-right-content">
+        <form id="viz-form" action="{% url 'frontend:create_visualization' %}" method="POST">
+          {% csrf_token %}
+
+        <div class="col s12 m12 sm-pad-in" id="allmarks">
+          <ul id="list-viztypes" class="sidenav">
+            <p class="center sm-mb">{% trans "Choose one or multiple visualization type" %}</p>
+            <div class="col s12">
+              <input class="browser-default special-input validate" id="search_viztype" name="search_viztype" type="text" placeholder="{% trans "search visualization type ..." %}" />
+            </div>
+            {% for key, viztype in request.session.list_viztypes.items %}
+              <div id="viztype{{viztype.id}}" data-marks="{{viztype.include_marks}}" data-id="{{viztype.id}}" class="col s4 center tooltipped viztype truncate" data-position="top" data-tooltip="{% if viztype.description %} {{viztype.description}}  {% else %} {{viztype.name}} {% endif %}">
+                <p class="no-mb">
+                  <img src="{{viztype.image}}" style="width:30px; height: 30px; border-radius:40px;"/><br/>
+                  <small>{{viztype.name}}</small>
+                </p>
+              </div>
+            {% endfor %}
+          </ul>
+          <!--<ul id="alternviztypes" class="sidenav">
+            <p class="center sm-mb">{% trans "Alternative visualizations" %}</p>
+            <div class="seperator no-mb"></div>
+            <div id="alter-content-viz" style="overflow: auto !important">
+            </div>
+            <div class="clear"></div>
+            <div id="alter-load-more" class="center hide">
+              <button class="btn waves-effect waves-light green darken-1 tooltipped rounded lower"
+              data-position="top" data-tooltip='{% trans "Load More" %}'
+               type="button" name="action" id="alter-ld-more" onclick="alter_load_more_graph()">{% trans "Load More" %}</button>
+            </div>
+            <div class="clear"></div>
+          </ul>-->
+          <ul class="collapsible {% if request.path != '/visualization' %} hide  {% endif %}" id="vizmarks-att">
+            <li class="active">
+              <div class="collapsible-header"><i class="material-icons">info</i>
+              <span id="textvizu">{% trans "Create Visualization" %}</span></div>
+              <div class="collapsible-body">
+                  <input type="text" name="viz_title" value="" id="viz_title" class="hide">
+                  <textarea id="viz_notes" name="viz_notes" class="hide"></textarea>
+                  <input type="hidden" name="files" value="" id="files_viz">
+                  <input type="hidden" name="data_filters" value="" id="data_filters_viz">
+                  <input type="hidden" name="data_operator" value="and" id="data_operator">
+                  <input type="hidden" name="datakeep_operator" value="keep" id="datakeep_operator">
+                  <input type="hidden" name="visualization_code" value="" id="visualization_code">
+                  <input type="hidden" name="visualization_action" value="" id="visualization_action">
+                  <input type="hidden" name="type_viz" value="" id="type_viz">
+                  <input type="hidden" name="nb_viz" value="" id="nb_viz">
+                  <input type="hidden" name="attribs" value="" id="attribs_viz">
+                  <input type="hidden" name="submit_full_data" value="1" id="submit_full_data">
+                  <input type="hidden" name="is_task" value="0" id="is_task">
+                  <input type="hidden" name="alter_data" value="" id="alter_data">
+                  <div>
+                    <div class="row sm-mb">
+                      <div class="col s12">
+                        <ul class="tabs">
+                      	<li class="tab col s3 adv hide"><a class="black-text darken-4 active" href="#mymarks">{% trans "Viz Marks" %}</a></li>
+                      	<li class="tab col s3 notadv"><a class="black-text darken-4" href="#adv-att">{% trans "Attributes" %}</a></li>
+                      	<li class="tab col s3"><a class="black-text darken-4" href="#adv-filt">{% trans "Filters" %}</a></li>
+                      	<li class="tab col s3 notadv"><a class="black-text darken-4" href="#adv-obj">{% trans "Viz Task" %}</a></li>
+                        </ul>
+                      </div>
+                      <div class="clear"></div>
+
+                      <div class="col s12" id="mymarks">
+                        <div class="row sm-mb">
+                          <div class="col s12 l2 hide-on-med-and-down show-on-large center" style="padding-top: 70px;">
+                            <small style="position:relative; top:10px;">{% trans "Drag and Drop here" %}</small>
+                            <img src="{% static 'images/arrow.png' %}" style="max-width:97% !important;"/>
+                          </div>
+                            <div class="col s12 l10">
+                        <div class="row sm-mb">
+                          <center><b><i>{% trans "1. Setup your visualization marks" %}</i></b><span style="font-size: 11pt !important;" class="material-icons tooltipped" data-position="top"
+                          data-tooltip="<b>A. How to add attribute?</b><br/>Drag & Drop any attribute from 'Data' section (left side)<br/><br/>B. How to remove attribute?</b><br/>Just drag the attribute to remove<br/><br/>C. How to edit attribute?</b><br/>1. Click on the attribute to modify<br/>2. Make your changes<br/>3. Click on 'apply' button to save your changes">help</span><br/></center><br/>
+
+                          <div class="col s12 m4 l4">
+                            <p class="no-marg center sm-mb">
+                              <label style="color:black;">{% trans "Which visualization type do you want?" %}</label><br/>
+                              <button data-target="list-viztypes" class="btn-flat waves-effect waves-light toolti rounded lower sidenav-trigger sm-mb"
+                              data-position="top" data-tooltip='{% trans "Choose Visualization Type" %}'
+                               type="button" name="action" id="choose-viztype"><i class="material-icons left">bar_chart</i><span>{% trans "Viz Type" %}</span>
+                              </button>
+                            </p>
+                          </div>
+                          <input type="hidden" name="chviz" value="" id="chviz">
+                        {% for key, vizmark in request.session.list_vizmarks.items %}
+                          {% if not vizmark.is_orientation and not vizmark.is_grouping %}
+                          <div class="col s6 m4 l4" id="divvm{{vizmark.id}}">
+                            <div id="vm{{vizmark.id}}" ondrop="drop(event)" ondragover="allowDrop(event)" class="border-dotted vizmark"
+                            data-maxelements="{{vizmark.max_elements}}" >
+                              <small><i>{{vizmark.name}}</i> <span style="font-size: 11pt !important;" class="material-icons tooltipped" data-position="top"
+                              data-tooltip="{% if vizmark.description %} {{vizmark.description}}  {% else %} {% trans 'Drop attributes here' %} {% endif %}">help</span></small>
+                              <p id="vm{{vizmark.id}}drop" class="center sm-marg"><i>{% trans "Drop attributes here" %}</i></p>
+                            </div>
+                          </div>
+                          <input type="hidden" name="vzm{{vizmark.id}}" value="" id="vzm{{vizmark.id}}" data-id="{{vizmark.id}}" class="vzmark">
+                          {% elif vizmark.is_orientation %}
+                          <div class="col s12 m4 l4" id="divvm{{vizmark.id}}">
+                          <div class="sm-mb vms{{vizmark.id}}">
+                            <label style="color:black;">{% trans "Which orientation to apply for the graph?" %} <span style="font-size: 11pt !important;" class="material-icons tooltipped" data-position="top"
+                            data-tooltip="{% if vizmark.description %} {{vizmark.description}}  {% else %} {% trans 'Visualization orientation' %} {% endif %}">help</span></label>
+                            <select id="viz_orientation" name="viz_orientation" class="browser-default" data-id="{{vizmark.id}}">
+                              <option value="">{% trans "Select Viz Orientation" %}</option>
+                              <option value="h">{% trans "Horizontal" %}</option>
+                              <option value="v">{% trans "Vertical" %}</option>
+                            </select>
+                          </div>
+                          </div>
+                          <div class="clear"></div>
+                          {% elif vizmark.is_grouping %}
+                          <div class="col s12 m4 l4" id="divvm{{vizmark.id}}">
+                          <div class="sm-mb vms{{vizmark.id}}">
+                            <label style="color:black;">{% trans "How to group the elements of the graph?" %} <span style="font-size: 11pt !important;" class="material-icons tooltipped" data-position="top"
+                            data-tooltip="{% if vizmark.description %} {{vizmark.description}}  {% else %} {% trans 'Visualization grouping' %} {% endif %}">help</span></label>
+                            <select id="viz_grouping" name="viz_grouping" class="browser-default" data-id="{{vizmark.id}}">
+                              <option value="">{% trans "Select Viz Grouping" %}</option>
+                              <option value="group">{% trans "Group" %}</option>
+                              <option value="stack">{% trans "Stacked (only bar chart)" %}</option>
+                              <option value="overlay">{% trans "Overlay" %}</option>
+                            </select>
+                          </div>
+                          </div>
+                          {% endif %}
+                        {% endfor %}
+                        <div class="col s12 m8 l8 hide">
+                          <div class="row sm-mb">
+                            <div class="col s12">
+                              <p class="sm-marg"><small>{% trans "Weights(%) & Min score" %}</small></p>
+                            </div>
+                            <div class="sm-mb col s4">
+                              <input placeholder='{% trans "expert" %}' id="expert" name="expert" type="text" class="browser-default special-input1 validate tooltipped"
+                              data-position="top" data-tooltip='{% trans "weight for experts" %}' value="{%settings_value 'WEIGHT_EXPERT'%}">
+                            </div>
+                            <div class="sm-mb col s4 hide">
+                              <input placeholder='{% trans "intermediate" %}' id="intermediate" name="intermediate" type="text" class="browser-default special-input1 validate tooltipped"
+                              data-position="top" data-tooltip='{% trans "weight for intermediates" %}' value="{%settings_value 'WEIGHT_INTERMEDIATE'%}">
+                            </div>
+                            <div class="sm-mb col s4">
+                              <input placeholder='{% trans "non-expert" %}' id="non-expert" name="non-expert" type="text" class="browser-default special-input1 validate tooltipped"
+                              data-position="top" data-tooltip='{% trans "weight for non-experts" %}' value="{%settings_value 'WEIGHT_NON_EXPERT'%}">
+                            </div>
+                            <div class="sm-mb col s4">
+                              <input placeholder='{% trans "threshold" %}' id="threshold" name="threshold" type="text" class="browser-default special-input1 validate tooltipped"
+                              data-position="top" data-tooltip='{% trans "Min score used to decide if the visualization is acceptable or not" %}' value="{%settings_value 'MIN_SCORE_THRESHOLD'%}">
+                              <i><small>must be less than 10</small></i>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                      </div>
+                      <div class="col m12 s12" id="adv-att">
+                        <div class="row sm-mb">
+                          <div class="col s12 l2 hide-on-med-and-down show-on-large center" style="padding-top: 30px;">
+                            <small style="position:relative; top:10px;">{% trans "Drag and Drop here" %}</small>
+                            <img src="{% static 'images/arrow.png' %}" style="max-width:97% !important;"/>
+                          </div>
+                          <div class="col s12 l10">
+                            <center><b><i>{% trans "1. Which attributes do you want to visualize?" %}</i></b><span style="font-size: 11pt !important;" class="material-icons tooltipped" data-position="top"
+                            data-tooltip="<b>A. How to add attribute?</b><br/>Option 1. Click on icon '+' of any attribute from 'Data' section (left side)<br/>Option 2. Drag & Drop any attribute from 'Data' section (left side)<br/><br/>B. How to remove attribute?</b><br/>Just drag the attribute to remove<br/><br/>C. How to edit attribute?</b><br/>1. Click on the attribute to modify<br/>2. Make your changes<br/>3. Click on 'apply' button to save your changes">help</span><br/></center>
+                            <center><i><label style="color:black;">{% trans "Drop attributes or Click on " %} <b><i class="material-icons" style="font-size:9pt !important;">add</i></b>{% trans " nearby the wanted attributes" %}</label></i><br/></center><br/>
+
+                            <div id="vatt" ondrop="drop(event)" ondragover="allowDrop(event)" class="border-dotted tooltip" style="min-height: 60px !important;"
+                            data-position="top" data-tooltip='{% trans "This feature helps you to generate the visualization without specifying the visualization marks" %}'>
+                              <small><i>{% trans "Attributes" %}</i></small>
+                              <p id="vattdrop" class="center sm-marg"><i>{% trans "Drop attributes you want to visualize here" %}</i></p>
+                            </div>
+                            <div class="center">
+                              <button class="btn waves-effect waves-light blue-grey darken-1 tooltipped rounded lower {% if request.session.current_user_type == 'non-expert' %} hide {% endif %}"
+                              data-position="top" data-tooltip='{% trans "Confident in data visualization, click on button below to see more options" %}'
+                               type="button" name="action" id="adv-opt"><span>{% trans "Advanced Options" %}</span>
+                              </button>
+                              <button class="btn waves-effect waves-light red darken-1 rounded lower"
+                               type="button" name="action" id="finish1"><i class="material-icons right">done</i><span>{% trans "Generate Viz" %}</span>
+                              </button>
+                              <button class="btn waves-effect waves-light green darken-1 rounded lower hide"
+                               type="button" name="action" id="step2"><i class="material-icons right">skip_next</i><span>{% trans "Next" %}</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="sm-mb col m12 s12" id="adv-filt">
+                        <div class="row sm-mb">
+                            <div class="col s12 l2 hide-on-med-and-down show-on-large center" style="padding-top: 30px;">
+                              <small style="position:relative; top:10px;">{% trans "Drag and Drop here" %}</small>
+                              <img src="{% static 'images/arrow.png' %}" style="max-width:97% !important;"/>
+                            </div>
+                            <div class="col s12 l10">
+                              <center><b><i>{% trans "2. Which filters do you want to apply?" %} <small>{% trans "(optional)" %}</small></i></b><span style="font-size: 11pt !important;" class="material-icons tooltipped" data-position="top"
+                              data-tooltip="<b>A. How to add filter?</b><br/>Option 1. Click on icon 'filter' of any attribute from 'Data' section (left side)<br/>Option 2. Drag & Drop any attribute from 'Data' section (left side)<br/><br/>B. How to remove filter?</b><br/>Just drag the filter to remove<br/><br/>C. How to edit filter?</b><br/>1. Click on the filter to modify<br/>2. Make your changes<br/>3. Click on 'apply' button to save your changes">help</span><br/></center>
+                              <center><i><label style="color:black;">{% trans "Drop attributes or Click on " %} <b><i class="material-icons" style="font-size:9pt !important;">filter_alt</i></b>{% trans " nearby the wanted attributes" %}</label></i><br/></center><br/>
+                              <div id="data-filt" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px dotted black;">
+                                <p class="sm-marg operator_sm center hide"><i>{% trans "Choose the operator to use " %}:</i><br/>
+                                  <button class="btn-flat waves-effect waves-light tooltipped rounded lower data-operator active-viz"
+                                  data-position="top" data-tooltip='{% trans "AND" %}'
+                                   type="button" name="action" data-id="and" id="dataand">{% trans "AND" %}</span>
+                                  </button>
+                                  <button class="btn-flat waves-effect waves-light tooltipped rounded lower data-operator"
+                                  data-position="top" data-tooltip='{% trans "OR" %}'
+                                   type="button" name="action" data-id="or" id="dataor">{% trans "OR" %}</span>
+                                  </button>
+                                  <br/>
+                                  <button class="btn-flat waves-effect waves-light tooltipped rounded lower datakeep-operator active-viz hide"
+                                  data-position="top" data-tooltip='{% trans "Keep data from filters" %}'
+                                   type="button" name="action" data-id="keep" id="datakeep">{% trans "Keep" %}</span>
+                                  </button>
+                                  <button class="btn-flat waves-effect waves-light tooltipped rounded lower datakeep-operator hide"
+                                  data-position="top" data-tooltip='{% trans "Exclude data from filters" %}'
+                                   type="button" name="action" data-id="notkeep" id="datanotkeep">{% trans "Exclude" %}</span>
+                                  </button>
+                                </p>
+                                <p id="data-filtdrop" class="center sm-marg" style="min-height: 70px;"><i>{% trans "Drop attributes here" %}</i></p>
+                              </div>
+                              <div class="notadv center" style="margin-top:10px; margin-bottom:10px;">
+                                <button class="btn waves-effect waves-light blue-grey darken-1 tooltipped rounded lower {% if request.session.current_user_type == 'non-expert' %} hide {% endif %}"
+                                data-position="top" data-tooltip='{% trans "Confident in data visualization, click on button below to see more options" %}'
+                                 type="button" name="action" id="adv-opt"><span>{% trans "Advanced Options" %}</span>
+                                </button>
+                                <button class="btn waves-effect waves-light red darken-1 rounded lower"
+                                 type="button" name="action" id="finish2"><i class="material-icons right">done</i><span>{% trans "Generate Viz" %}</span>
+                                </button>
+                                <button class="btn waves-effect waves-light light-blue darken-1 rounded lower hide"
+                                 type="button" name="action" id="step1"><i class="material-icons left">skip_previous</i><span>{% trans "Previous" %}</span>
+                                </button>
+                                <button class="btn waves-effect waves-light green darken-1 rounded lower hide"
+                                 type="button" name="action" id="step3"><i class="material-icons right">skip_next</i><span>{% trans "Next" %}</span>
+                                </button>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col m12 s12" id="adv-obj">
+                        <center><b><i>{% trans "3. What is your visualization objective?" %} <small>{% trans "(optional)" %}</small></i></b><br/></center>
+                        <center><i><label style="color:black;">{% trans "That option will help to affine the results " %} </label></i><br/></center><br/>
+                        <select class="multi-options" name="obj_select[]" id="obj_select" multiple="multiple">
+                          {% for key, vizgoal in request.session.list_vizgoals.items %}
+                            <option value='{{vizgoal.viz_types}}'>{{vizgoal.name}}</option>
+                          {% endfor %}
+                        </select>
+                        <input type="hidden" name="obj_data" value="" id="obj_data">
+                        <div class="center" style="margin-top:10px; margin-bottom:10px;">
+                          <button class="btn waves-effect waves-light light-blue darken-1 rounded lower step2 hide"
+                           type="button" name="action" id="step2a"><i class="material-icons left">skip_previous</i><span>{% trans "Previous" %}</span>
+                          </button>
+                          <button class="btn waves-effect waves-light blue-grey darken-1 tooltipped rounded lower {% if request.session.current_user_type == 'non-expert' %} hide {% endif %}"
+                          data-position="top" data-tooltip='{% trans "Confident in data visualization, click on button below to see more options" %}'
+                           type="button" name="action" id="adv-opt"><span>{% trans "Advanced Options" %}</span>
+                          </button>
+                          <button class="btn waves-effect waves-light red darken-1 rounded lower"
+                           type="button" name="action" id="viz-recommend"><i class="material-icons right">done</i><span>{% trans "Generate Viz" %}</span>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="clear"></div>
+                      <!--<div class="sm-seperator"></div>-->
+                      <div class="col m1 s1 hide">
+                        <center><br/><br/><b><i>{% trans "OR" %}</i></b><br/></center>
+                      </div>
+                      <div class="col m5 s5 hide">
+                        <center><i><label style="color:black;">{% trans "Select attributes" %}</label></i><br/></center>
+                        <select class="multi-options" name="attr_select[]" id="attr_select" multiple="multiple">
+                          {% for opti  in request.session.all_options %}
+                            <option value='{{opti}}'>{{opti.optionname}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="no-marg center sm-mb adv hide">
+                      <center><i><label style="color:black;" id="lab-update">{% trans "Click on 'Generate Viz' when you are done with the above settings" %}</label></i><br/></center>
+                      <button class="btn waves-effect waves-light blue-grey darken-1 tooltip rounded lower"
+                      data-position="top" data-tooltip='{% trans "Advanced Options" %}'
+                       type="button" name="action" id="notadv-opt"><span>{% trans "Less Options" %}</span>
+                      </button>
+                      <button class="btn waves-effect waves-light green darken-1 toolti rounded lower"
+                      data-position="top" data-tooltip='{% trans "Generate Visualization based on marks" %}'
+                       type="button" name="action" id="viz-update">{% trans "Generate Viz" %}
+                      </button>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col s12 m4 hide" id="vizedit">
+        </div>
+        </form>
+        <div class="col s12 m12 l12 sm-pad-in viz-filters hide" id="vizresults">
+          <ul class="collapsible expandable">
+            <li class="active">
+              <div class="collapsible-header"><i class="material-icons">bar_chart</i><span id="res-title">{% trans "Visualizations" %}</span>
+              </div>
+              <div class="collapsible-body">
+                <div id="viz-menu" class="no-viz hide">
+                  <form id="adddash-form" action="{% url 'frontend:addto_dash' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="add_code" value="" id="add_code">
+                    <input type="hidden" name="add_viz_notes" value="" id="add_viz_notes">
+                    <input type="hidden" name="add_type_viz" value="" id="add_type_viz">
+                    <input type="hidden" name="add_plot_div" value="" id="add_plot_div">
+                    <input type="hidden" name="add_viz_data" value="" id="add_viz_data">
+                  </form>
+                  <form id="embed-form" action="{% url 'frontend:addto_embed' %}" method="POST">
+                  	{% csrf_token %}
+                  	<input type="hidden" name="embed_code" value="" id="embed_code">
+                  	<input type="hidden" name="embed_viz_notes" value="" id="embed_viz_notes">
+                  	<input type="hidden" name="embed_type_viz" value="" id="embed_type_viz">
+                  	<input type="hidden" name="embed_plot_div" value="" id="embed_plot_div">
+                  	<input type="hidden" name="embed_viz_data" value="" id="embed_viz_data">
+                  </form>
+                  <form id="score-form" action="{% url 'frontend:save_score' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="viz_codes" value="" id="viz_codes">
+                    <input type="hidden" name="viz_types" value="" id="viz_types">
+                    <input type="hidden" name="viz_type_marks" value="" id="viz_type_marks">
+                    <input type="hidden" name="viz_scores" value="" id="viz_scores">
+                    <input type="hidden" name="viz_score_settings" value="" id="viz_score_settings">
+                  </form>
+                  <div class="center">
+                    <button class="btn waves-effect waves-light black darken-1 tooltipped rounded lower hide"
+                    data-position="top" data-tooltip='{% trans "Back" %}'
+                     type="button" name="action" id="back-viz"><i class="material-icons left">undo</i><span class="hide-on-med-and-down">{% trans "Back" %}</span>
+                    </button>
+                    {% if request.session.current_user_type != 'non-expert' %}
+                    <button class="btn waves-effect waves-light red darken-1 tooltipped rounded lower hide"
+                    data-position="top" data-tooltip='{% trans "Empty rates" %}'
+                     type="button" name="action" id="empty-score"><i class="material-icons left">save_alt</i><span class="hide-on-med-and-down">{% trans "Empty Rates" %}</span>
+                    </button>
+                    <button class="btn waves-effect waves-light blue-grey darken-1 tooltipped rounded lower hide"
+                    data-position="top" data-tooltip='{% trans "Reorder visualizations based on the different rates" %}'
+                     type="button" name="action" id="reorder-score"><i class="material-icons left">reorder</i><span class="hide-on-med-and-down">{% trans "Reorder Viz" %}</span>
+                    </button>
+                    <button class="btn waves-effect waves-light green darken-1 tooltipped rounded lower hide"
+                    data-position="top" data-tooltip='{% trans "Submit the different rates" %}'
+                     type="button" name="action" id="save-score"><i class="material-icons left">save_alt</i><span class="hide-on-med-and-down">{% trans "Submit Rates" %}</span>
+                    </button>
+                    {% endif %}
+                  </div>
+                  <div>
+                    <div class="s12" id="graph-search"><br/>
+                      <div class="col s8 m8">
+                        <label class="left black-text"><b>{% trans "Search by keywords your graph among the listed visualizations" %}</b></label>
+                        <select class="multi-options" name="search_select[]" id="search_select" multiple="multiple">
+                          {% for sch in request.session.all_options_filters %}
+                            <option value='{{sch}}'>{{sch}}</option>
+                          {% endfor %}
+                        </select>
+                        <input class="browser-default special-input validate" id="search_graph" type="hidden" placeholder="{% trans "search your graph among the listed visualizations ...." %}" />
+                        </div>
+                      <div class="col s4 m4">
+                        <label class="left">&nbsp;</label>
+                        <label><br/>
+                          <input type="checkbox" id="exact_search"/>
+                          <span class="sm-font">{% trans "Exact Search?" %}</span>
+                        </label>
+                      </div>
+                      <div class="clear"></div>
+                      <div class="seperator no-mb"></div>
+                      <div class="col s12"><center><label class="black-text">{% trans "Don't find what you are looking for?" %}&nbsp;<a href="{% url 'frontend:visualization' %}">{% trans "Create your visualization" %}</a></label></center></div>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="seperator no-viz hide"></div>
+                <div id="cont-viz">
+                  <div id="viz-loader" style="display:none">
+                    <img src="{% static 'images/load.gif' %}" class="loader"/>
+                  </div>
+                  <div id="content-viz">
+                    {{plot_div|safe}}
+                    <div class="clear"></div>
+                  </div>
+                  <div class="clear"></div>
+                  <div id="load-more" class="center hide">
+                    <button class="btn waves-effect waves-light green darken-1 tooltipped rounded lower"
+                    data-position="top" data-tooltip='{% trans "Load More" %}'
+                     type="button" name="action" id="ld-more" onclick="load_more_graph()">{% trans "Load More" %}</button>
+                  </div>
+                  <div class="clear"></div>
+                  <div id="content-back">
+                  </div>
+                  <div class="clear"></div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div id="alternviztypes" class="col s12 m4 l4 sm-pad hide">
+          <div id="icon-alt"><span class="material-icons" onclick="closeAlt()">highlight_off</span></div>
+        	<p class="center no-marg"><b>{% trans "Alternative visualizations" %}</b> <b><span id="nbalt"></span></b></p>
+        	<div class="seperator no-mb"></div>
+        	<div id="alter-content-viz" style="overflow: auto !important">
+        	</div>
+        	<div class="clear"></div>
+        	<div id="alter-load-more" class="center hide">
+        	  <button class="btn waves-effect waves-light green darken-1 tooltipped rounded lower"
+        	  data-position="top" data-tooltip='{% trans "Load More" %}'
+        	   type="button" name="action" id="alter-ld-more" onclick="alter_load_more_graph()">{% trans "Load More" %}</button>
+        	</div>
+        	<div class="clear"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- For dash --->
+    <div class="col s12 m12 l10 sm-pad for-dash {{class_dash}}">
+    <div class="for-dash {{class_dash}}">
+      <form id="dashb-form" action="{% url 'frontend:save_dashboard' %}" method="POST">
+        {% csrf_token %}
+        <ul class="collapsible expandable" id="dashinfo">
+          <li class="active">
+            <div class="collapsible-header"><i class="material-icons">info</i>
+            {% trans "Dashboard Settings" %} &nbsp; <small>{% trans "(The default settings will be used if no configuration is made.)" %}</small></div>
+            <div class="collapsible-body" style="padding-top: 0.2rem !important;">
+
+              <div class="clear"></div>
+              <div class="row sm-mb">
+                <div class="col s12 l2 hide-on-med-and-down show-on-large center" style="padding-top: 20px;">
+                  <small style="position:relative; top:10px;">{% trans "Drag and Drop here" %}</small>
+                  <img src="{% static 'images/arrow.png' %}" style="max-width:97% !important;"/>
+                </div>
+                <div class="col {% if request.session.current_user_type == 'non-expert' %} m10 l10 s12 {% else %} m4 l4 s12 {% endif %}">
+                    <label style="color:black;"><b><i>{% trans "Which filters do you want to apply for dashboard?" %}</i></b><span style="font-size: 11pt !important;" class="material-icons tooltipped" data-position="top"
+                    data-tooltip="<b>A. How to add filter?</b><br/>Option 1. Click on icon 'filter' of any attribute from 'Data' section (left side)<br/>Option 2. Drag & Drop any attribute from 'Data' section (left side)<br/><br/>B. How to remove filter?</b><br/>Just drag the filter to remove<br/><br/>C. How to edit filter?</b><br/>1. Click on the filter to modify<br/>2. Make your changes<br/>3. Click on 'apply' button to save your changes">help</span></label>
+                    <div id="dash-filts">
+                      <center><i><label style="color:black;">{% trans "Drop attributes or Click on " %} <b><i class="material-icons" style="font-size:9pt !important;">filter_alt</i></b>{% trans " nearby the wanted attributes" %}</label></i><br/></center>
+                      <div id="dash-filt" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 1px dotted black;">
+                        <p class="sm-marg operator_sm center hide">&nbsp;</p>
+                        {% with nb_params=request.session.current_project|dash_info:'nb_params' %}
+                        {%if nb_params > 0 %}
+                        {% for filt in request.session.current_project|dash_info:"filters" %}
+                        <a data-target="{{filt.target}}" id="{{filt.target}}manu{{forloop.counter}}" href="javascript:void(0)"
+                        onclick="customizeField(event)" draggable="true" ondragstart="removeElem(event)" class="chosen {{filt.target}} down" data-ty="{{filt.ty}}"
+                        data-type="{{filt.type}}" data-name="{{filt.name}}" data-realtype="{{filt.realtype}}" data-dt="{{filt.dt}}"
+                        data-file="{{filt.file}}" data-labelfilt="{{filt.labelfilt}}" data-valuefilt="{{filt.valuefilt}}"
+                        data-dimmeasopt="{{filt.dimmeasopt}}" data-optionfilt="{{filt.optionfilt}}" data-fulltext="{{filt.fulltext}}">{{filt.fulltext}}</a>
+                        {% endfor %}
+                        <p id="dash-filthelp" class="center sm-marg"><i>{% trans "Drag to remove element or click on the element to setup some options" %}</i></p>
+                        <p id="dash-filtdrop" class="center sm-marg" style="min-height: 70px;display:none;"><i>{% trans "Drop attributes here" %}</i></p>
+                        {% else %}
+                        <p id="dash-filtdrop" class="center sm-marg" style="min-height: 70px;"><i>{% trans "Drop attributes here" %}</i></p>
+                        {% endif %}
+                        {% endwith %}
+                      </div>
+                    </div>
+                    <p>{% with shared=request.session.current_project.shared %}
+                    <label class="tooltipped" data-position="top" data-tooltip="{% trans 'Enable it to make your project public (other users can access/duplicate it).' %}"><input type='checkbox' id='shared' name='shared' {%if shared %} checked {% endif %}/><span style="font-size:0.85rem;">{% trans "Make your project public?" %}</span></label>
+                    {% endwith %}</p>
+                    <div class="center">
+                    <button class="btn waves-effect waves-light green darken-1 rounded lower"
+                      data-position="top" data-tooltip='{% trans "Ready to see your dashboard in action? Click on this button" %}'
+                       type="button" name="action" id="dash-update"><i class="material-icons left">update</i><span>{% trans "Save Changes & Run Dashboard" %}</span>
+                      </button></div>
+                </div>
+                <div class="col m6 l6 s12 {% if request.session.current_user_type == 'non-expert' %} hide {% endif %}">
+                  <label style="color:black;"><b><i>{% trans "Configure dashboard based on display type" %}</i></b></label>
+                  <div class="ifviz">
+                    <label><input type='checkbox' id='shdsp_typ' name='shdsp_typ' {%if request.session.current_project|dash_info:"shdsp_typ" %} checked {% endif %}/><span style="font-size:0.85rem;">{% trans "Configure dashboard based on display type?" %}</span></label>
+                    <table style="border: 0px" class='svdt {%if not request.session.current_project|dash_info:"shdsp_typ" %} hide {% endif %}'>
+                      <tr>
+                        <td>&nbsp;</td>
+                        <td><label><span>{% trans "Novice" %}</span></label></td>
+                        <td><label><span>{% trans "Less Advanced" %}</span></label></td>
+                        <td><label><span>{% trans "Advanced" %}</span></label></td>
+                      </tr>
+                      <tr>
+                        <td colspan="4"><label><b><span>{% trans "Visulization Settings" %}<span><b></label></td>
+                      </tr>
+                      <tr>
+                        <td><label class="tooltipped" data-position="top" data-tooltip="Show visulization title based on display type"><span>{% trans "Show Title" %}</span></label></td>
+                        <td><label><input type='checkbox' id='shviztit_nov' name='shviztit_nov' {%if request.session.current_project|dash_info:"shviztit_nov" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                        <td><label><input type='checkbox' id='shviztit_less' name='shviztit_less' {%if request.session.current_project|dash_info:"shviztit_less" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                        <td><label><input type='checkbox' id='shviztit_adv' name='shviztit_adv' {%if request.session.current_project|dash_info:"shviztit_adv" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                      </tr>
+                      <tr>
+                        <td><label class="tooltipped" data-position="top" data-tooltip="Show visulization description based on display type"><span>{% trans "Show Description" %}</span></label></td>
+                        <td><label><input type='checkbox' id='shvizdes_nov' name='shvizdes_nov' {%if request.session.current_project|dash_info:"shvizdes_nov" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                        <td><label><input type='checkbox' id='shvizdes_less' name='shvizdes_less' {%if request.session.current_project|dash_info:"shvizdes_less" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                        <td><label><input type='checkbox' id='shvizdes_adv' name='shvizdes_adv' {%if request.session.current_project|dash_info:"shvizdes_adv" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                      </tr>
+                      <tr>
+                        <td><label><span class="tooltipped" data-position="top" data-tooltip="Show visualization marks (how to reproduce visualization) based on display type">{% trans "Show Marks" %}</span></label></td>
+                        <td><label><input type='checkbox' id='shvizmark_nov' name='shvizmark_nov' {%if request.session.current_project|dash_info:"shvizmark_nov" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                        <td><label><input type='checkbox' id='shvizmark_less' name='shvizmark_less' {%if request.session.current_project|dash_info:"shvizmark_less" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                        <td><label><input type='checkbox' id='shvizmark_adv' name='shvizmark_adv' {%if request.session.current_project|dash_info:"shvizmark_adv" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                      </tr>
+                      <tr>
+                        <td><label><span class="tooltipped" data-position="top" data-tooltip="Show data source used for visualization based on display type">{% trans "Show Data Source" %}</span></label></td>
+                        <td><label><input type='checkbox' id='shdtsource_nov' name='shdtsource_nov' {%if request.session.current_project|dash_info:"shdtsource_nov" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                        <td><label><input type='checkbox' id='shdtsource_less' name='shdtsource_less' {%if request.session.current_project|dash_info:"shdtsource_less" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                        <td><label><input type='checkbox' id='shdtsource_adv' name='shdtsource_adv' {%if request.session.current_project|dash_info:"shdtsource_adv" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                      </tr>
+                      <tr>
+                        <td colspan="4"><label><b><span>{% trans "Dashboard Settings" %}<span><b></td>
+                      </tr>
+                      <tr>
+                        <td><label class="tooltipped" data-position="top" data-tooltip="Show customization menu based on display type"><span>{% trans "Show Customization Menu" %}</span></label></td>
+                        <td><label><input type='checkbox' id='shcstmen_nov' name='shcstmen_nov' {%if request.session.current_project|dash_info:"shcstmen_nov" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                        <td><label><input type='checkbox' id='shcstmen_less' name='shcstmen_less' {%if request.session.current_project|dash_info:"shcstmen_less" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                        <td><label><input type='checkbox' id='shcstmen_adv' name='shcstmen_adv' {%if request.session.current_project|dash_info:"shcstmen_adv" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                      </tr>
+                      <tr>
+                        <td><label class="tooltipped" data-position="top" data-tooltip="Show filters based on display type"><span>{% trans "Show Filters" %}</span></label></td>
+                        <td><label><input type='checkbox' id='shfilt_nov' name='shfilt_nov' {%if request.session.current_project|dash_info:"shfilt_nov" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                        <td><label><input type='checkbox' id='shfilt_less' name='shfilt_less' {%if request.session.current_project|dash_info:"shfilt_less" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                        <td><label><input type='checkbox' id='shfilt_adv' name='shfilt_adv' {%if request.session.current_project|dash_info:"shfilt_adv" %} checked {% endif %}/><span>&nbsp;</span></label></td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div>
+                      <select id="dash_layout" name="dash_layout" class="browser-default hide">
+                        <option value="12" selected>{% trans "1 Column" %}</option>
+                        <option value="6">{% trans "2 Columns" %}</option>
+                      </select>
+                    </div>
+
+                </div>
+              </div>
+              <input type="hidden" name="files_dash" value="" id="files_dash">
+              <input type="hidden" name="dash_filters" value="" id="dash_filters">
+              <input type="hidden" name="allviz_notes" value="" id="allviz_notes">
+            </div>
+          </li>
+        </ul>
+
+    </div>
+    <!--for dash -->
+    <div class="for-dash {{class_dash}}">
+        <div class="main-right-content">
+          <div class="viz-filters">
+            <ul class="collapsible expandable">
+              <li class="active">
+                <div class="collapsible-header"><i class="material-icons">bar_chart</i>{% trans "Dashboard Visualizations" %}
+                </div>
+                <div class="collapsible-body">
+                  <div id="dash-menu">
+                    <div class="center">
+                      <!--<p class="center" style="margin-bottom:0px;"><button class="btn waves-effect waves-light green darken-1 tooltipped rounded lower"
+                      data-position="top" data-tooltip='{% trans "Ready to see your dashboard in action? Click on this button" %}'
+                       type="button" name="action" id="dash-update"><i class="material-icons left">update</i><span>{% trans "Run Dashboard" %}</span>
+                      </button></p>-->
+                      </form>
+                      <!--<div class="seperator"></div>-->
+                      <form id="vizdrop-form" action="{% url 'frontend:drop_visualization' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="drop_code" value="" id="drop_code">
+                      </form>
+                      <!-- Modal modalConfirm -->
+                      <div id="modalConfirm" class="modal modal-fixed-footer">
+                        <div class="modal-content">
+                          <h5>{% trans "Confirmation" %}</h5>
+                          <p>{% trans "Are you sure that you want to delete that visualization?" %}</p>
+                        </div>
+                        <div class="modal-footer">
+                          <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "No" %}</a>
+                          <a href="javascript:void(0)" class="modal-yes waves-effect waves-green btn blue darken-1 lower rounded">{% trans "Yes" %}</a>
+                        </div>
+                      </div>
+                      <a class="btn waves-effect waves-light green darken-1 tooltipped rounded lower hide"
+                      data-position="top" data-tooltip='{% trans "Run Dashboard. Make sure you save your changes first." %}' target="_blank"
+                       href="{% url 'frontend:dashboard' code=request.session.dash_code %}" name="action" id="dash-view"><i class="material-icons left">play_arrow</i><span>{% trans "Run Dashboard" %}</span>
+                      </a>
+			              </div>
+                    <!--<div class="seperator"></div>-->
+                		<div id="cont-dash">
+                		  <div id="content-dash">
+                          {% for viz_code, viz in request.session.current_project|dash_info:"vizs" %}
+                            <div class="dhviz col m12 s12" id="{{viz_code}}{{viz.suffix}}" data-id="{{viz_code}}" data-suffix="{{viz.suffix}}">
+                              <textarea class="hide" id="vd{{viz_code}}">{{viz.viz_data}}</textarea>
+                              <textarea class="hide" id="vznd{{viz_code}}">{{viz.vztype}}</textarea>
+                              <button class="btn waves-effect waves-light blue darken-1 tooltipped rounded lower remov-viz"
+data-position="top" data-tooltip="{% trans 'Edit visualization' %}"
+type="button" name="action" data-id="{{viz_code}}" id="specViz{{viz_code}}" onclick="loadFieldsDashViz('{{viz_code}}')"><i class="material-icons left">create</i> {% trans 'Edit' %}</button>
+                              <button class="btn waves-effect waves-light red darken-1 tooltipped rounded lower remov-viz" data-position="top" data-tooltip="{% trans 'Remove this visualization from dashboard' %}"
+                              type="button" name="action" data-id="{{viz_code}}" id="rm{{viz_code}}" onclick="rm_from_dash('{{viz_code}}')"><i class="material-icons left">delete</i> {% trans 'Remove' %}</button>
+                                <div class="row">
+                                  <div class="col s12 m6 l6 ifviz">
+                                    <label>{% trans "Title" %}</label>
+                                    <input placeholder="Visualization title" value="{{viz.viz_final_title}}" id="viztit{{viz_code}}{{viz.suffix}}" name="viztit{{viz_code}}{{viz.suffix}}" type="text" class="browser-default special-input">
+                                    <label>{% trans "Description" %}</label>
+                                    <textarea id="viznotes{{viz_code}}{{viz.suffix}}" name="viznotes{{viz_code}}{{viz.suffix}}">{{viz.viz_notes}}</textarea>
+                                  </div>
+                                  <div class="col s12 m6 l6 ifviz">
+                                    <div class="row" style="margin-bottom: 5px;">
+                                      <div class="col s12 m6 l6 ifviz">
+                                        <label>{% trans "Width(%)" %}</label>
+                                        <select id="vizwi{{viz_code}}{{viz.suffix}}" name="vizwi{{viz_code}}{{viz.suffix}}" class="browser-default">
+                                          <option value="m12 l12" {%if viz.width == "m12 l12" %} selected {% endif %}>{% trans "100%" %}</option>
+                                          <option value="m6 l6" {%if viz.width == "m6 l6" %} selected {% endif %}>{% trans "50%" %}</option>
+                                          <option value="m4 l4" {%if viz.width == "m4 l4" %} selected {% endif %}>{% trans "33%" %}</option>
+                                          <option value="m3 l3" {%if viz.width == "m3 l3" %} selected {% endif %}>{% trans "25%" %}</option>
+                                        </select>
+                                      </div>
+                                      <div class="col s12 m6 l6 ifviz hide">
+                                        <label>{% trans "Height(px)" %}</label>
+                                        <input placeholder="Visualization height" value="{{viz.height}}" id="vizht{{viz_code}}{{viz.suffix}}" name="vizht{{viz_code}}{{viz.suffix}}" type="text" class="browser-default special-input">
+                                      </div>
+                                    </div>
+
+                                    <table style="border: 0px" class='svdt {%if not request.session.current_project|dash_info:"shdsp_typ" %} hide {% endif %}'>
+                                      <tr>
+                                        <td colspan="3"><label>{% trans "Show Visulization based on display type" %}</label></td>
+                                      </tr>
+                                      <tr>
+                                        <td><label><input type='checkbox' id='shnov{{viz_code}}{{viz.suffix}}' name='shnov{{viz_code}}{{viz.suffix}}' {%if viz.show_nov %} checked {% endif %}/><span>{% trans "Novice" %}</span></label></td>
+                                        <td><label><input type='checkbox' id='shless{{viz_code}}{{viz.suffix}}' name='shless{{viz_code}}{{viz.suffix}}' {%if viz.show_less %} checked {% endif %}/><span>{% trans "Less Advanced" %}</span></label></td>
+                                        <td><label><input type='checkbox' id='shadv{{viz_code}}{{viz.suffix}}' name='shadv{{viz_code}}{{viz.suffix}}' {%if viz.show_adv %} checked {% endif %}/><span>{% trans "Advanced" %}</span></label></td>
+                                      </tr>
+                                    </table>
+                                  </div>
+                                </div>
+                                <div class="plot-div" id="plotd{{viz_code}}">
+                                  {{viz.plot_div|safe}}
+                                </div>
+                  			        <div class="clear"></div>
+                            </div>
+                          {% endfor %}
+                		  </div>
+                		  <div class="clear"></div>
+                		</div>
+                    <div class="center">
+                    <button class="btn waves-effect waves-light green darken-1 rounded lower"
+                      data-position="top" data-tooltip='{% trans "Ready to see your dashboard in action? Click on this button" %}'
+                       type="button" name="action" id="dash-update1"><i class="material-icons left">update</i><span>{% trans "Save Changes & Run Dashboard" %}</span>
+                      </button>
+                    </div>
+			            </div>
+		           </div>
+		        </li>
+		      </ul>
+  		</div>
+  	</div>
+  </div>
+  </div>
+    <!--end for dash -->
+    <!---modal content --->
+    <!--Start Modal-->
+    <div id="modalFeature" class="modal bottom-sheet modal-fixed-footer">
+      <div class="modal-content">
+        <input type="hidden" id="modal-related" value=""/>
+        <h5 id="modal-header" class="title-feat">&nbsp;</h5>
+        <div id="dim-meas-options">
+          <div class="input-field sm-mb col s12 m12 for-graph" id="graph-label">
+            <input placeholder='{% trans "Label" %}' id="graph_label" name="graph_label" type="text" class="validate">
+            <label for="graph_label">{% trans "Label on Graph (optional)" %}</label>
+          </div>
+          <div class="input-field sm-mb col s6 for-graph mt-sm" id="graph-color">
+            <label for="graph_color" style="margin-bottom: 7px !important;position:relative !important;left: 0rem !important;font-size: 0.75rem;">{% trans "Color on Graph (optional)" %}</label>
+            <input placeholder='{% trans "Color on Graph (optional)" %}' id="graph_color" name="graph_color" type="text" class="browser-default special-input validate">
+          </div>
+          <div class="input-field sm-mb col s6 for-graph mt-sm" id="graph-order">
+            <label for="graph_order" style="margin-bottom: 7px !important;position:relative !important;left: 0rem !important;font-size: 0.75rem;">{% trans "Order on Graph (optional)" %}</label>
+            <select id="graph_order" name="graph_order" class="browser-default">
+              	<option value="">{% trans "Order on Graph (optional)" %}</option>
+              	<option value="asc">{% trans "Ascending" %}</option>
+              	<option value="desc">{% trans "Descending" %}</option>
+            </select>
+          </div>
+          <div class="clear"></div>
+          <p id="pdim">{% trans "Please choose an option for the element" %}</p>
+          <p class="row-opt for-numerical for-date col s6 m4 sm-marg">
+            <label>
+              <input class="with-gap" name="dim-meas-opt" type="radio" id="valexact" />
+              <span>{% trans "-" %}
+            </label>
+          </p>
+          <p class="row-opt for-numerical not-filt col s6 m4 sm-marg for-not-yz">
+            <label>
+              <input class="with-gap" name="dim-meas-opt" type="radio" id="bins" />
+              <span>{% trans "Bins" %}</span><input type="text" id="val-bins" value="5" class="browser-default"/>
+            </label>
+          </p>
+          <p class="col-opt for-numerical col s6 m4 sm-marg for-yz">
+            <label>
+              <input class="with-gap" name="dim-meas-opt" type="radio" id="sum" />
+              <span>{% trans "Sum" %}</span>
+            </label>
+          </p>
+          <p class="col-opt for-numerical col s6 m4 sm-marg for-yz">
+            <label>
+              <input class="with-gap" name="dim-meas-opt" type="radio" id="avg" />
+              <span>{% trans "Mean" %}</span>
+            </label>
+          </p>
+          <p class="col-opt for-numerical col s6 m4 sm-marg for-yz">
+            <label>
+              <input class="with-gap" name="dim-meas-opt" type="radio" id="max" />
+              <span>{% trans "Maximum" %}</span>
+            </label>
+          </p>
+          <p class="col-opt for-numerical col s6 m4 sm-marg for-yz">
+            <label>
+              <input class="with-gap" name="dim-meas-opt" type="radio" id="min" />
+              <span>{% trans "Minimum" %}</span>
+            </label>
+          </p>
+          <p class="col-opt for-date col s6 m4 sm-marg">
+            <label>
+              <input class="with-gap" name="dim-meas-opt" type="radio" id="y" />
+              <span>{% trans "yyyy" %}</span>
+            </label>
+          </p>
+          <p class="col-opt for-date col s6 m4 sm-marg">
+            <label>
+              <input class="with-gap" name="dim-meas-opt" type="radio" id="ym" />
+              <span>{% trans "yyyy-mm" %}</span>
+            </label>
+          </p>
+          <p class="col-opt for-date col s6 m4 sm-marg">
+            <label>
+              <input class="with-gap" name="dim-meas-opt" type="radio" id="ymd" />
+              <span>{% trans "yyyy-mm-dd" %}</span>
+            </label>
+          </p>
+          <p class="col-opt for-date col s6 m4 sm-marg">
+            <label>
+              <input class="with-gap" name="dim-meas-opt" type="radio" id="hi" />
+              <span>{% trans "hh:ii" %}</span>
+            </label>
+          </p>
+        </div>
+        <div class="clear"></div>
+        <div id="filter">
+          <div>
+            <p>{% trans "Please specify a filter" %}</p>
+            <div class="input-field sm-mb col s12" id="filter-label">
+              <input placeholder='{% trans "Label" %}' id="dash_label" name="dash_label" type="text" class="validate">
+              <label for="dash_label">{% trans "Name of this attribute in dashbaord" %}</label>
+            </div>
+            <div class="input-field col s6" id="filter-option">
+              <select id="option-filt" name="option-filt" class="browser-default">
+                <option value="" class="default">{% trans "Option" %}</option>
+                <option class="for-string need-value1" value="contains">{% trans "contains" %}</option>
+                <option class="for-string need-value1" value="notcontains">{% trans "doesn't contain" %}</option>
+                <option class="for-string for-numerical need-value1 for-date" value="equalto">{% trans "is equal to" %}</option>
+                <option class="for-string for-numerical need-value1 for-date" value="notequalto">{% trans "isn't equal to" %}</option>
+                <option class="for-string for-numerical for-date not-dash" value="set">{% trans "is set" %}</option>
+                <option class="for-string for-numerical for-date not-dash" value="notset">{% trans "is not set" %}</option>
+
+                <option class="for-numerical need-value1 for-date" value="greaterthan">{% trans "greater than" %}</option>
+                <option class="for-numerical need-value1 for-date" value="lessthan">{% trans "less than" %}</option>
+                <option class="for-numerical need-value1 for-date" value="greaterequalthan">{% trans "greater and equal than" %}</option>
+                <option class="for-numerical need-value1 for-date" value="lessequalthan">{% trans "less and equal than" %}</option>
+                <option class="for-numerical need-value2 for-date" value="isbetween">{% trans "is between" %}</option>
+
+                <option class="for-categorical need-in" value="in">{% trans "in" %}</option>
+                <option class="for-categorical need-in" value="notin">{% trans "not in" %}</option>
+
+                <option class="for-bool not-dash" value="istrue">{% trans "is true" %}</option>
+                <option class="for-bool not-dash" value="isfalse">{% trans "is false" %}</option>
+              </select>
+            </div>
+            <div class="input-field col s3" id="filter-value1">
+              <input placeholder='{% trans "Value" %}' id="value-filt1" name="value-filt1" type="text" class="browser-default special-input1 validate" value="">
+            </div>
+            <div class="input-field col s3" id="filter-value2">
+              <input placeholder='{% trans "Value" %}' id="value-filt2" name="value-filt2" type="text" class="browser-default special-input1 validate" value="">
+            </div>
+            <div class="clear"></div>
+            <form id="unique-form" action="{% url 'frontend:get_unique_values' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="un_column" value="" id="un_column">
+              <input type="hidden" name="un_file" value="" id="un_file">
+            </form>
+            <div id="categories">
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+        <a href="javascript:void(0)" class="modal-apply waves-effect waves-green btn blue darken-1 lower rounded">{% trans "Apply" %}</a>
+      </div>
+    </div>
+    <!--End Modal-->
+    <!--Start Modal-->
+    <div id="modalScoreSettings" class="modal bottom-sheet modal-fixed-footer">
+      <div class="modal-content">
+        <h5 class="modal-header">{% trans "Score settings" %}</h5>
+        <input type="hidden" id="viz-code" name="viz-code" value=""/>
+        <div class="row">
+          {% for key, feature in request.session.list_features.items %}
+          <input type="hidden" name="featid" value="{{feature.id}}"/>
+          <div class="col s12 tooltipped label myfeat" data-id="{{feature.id}}" data-position="top" data-tooltip="{% if feature.description %} {{feature.description}}  {% else %} {{feature.name}} {% endif %}" id="set-label{{feature.id}}">
+            {{feature.name}}
+          </div>
+          <div class="input-field col s6" id="seto{{feature.id}}">
+            <select id="setopt{{feature.id}}" data-id="{{feature.id}}" name="set-opt" class="browser-default setopt">
+              <option value="" class="default">{% trans "Option" %}</option>
+              {% if feature.is_num == 1 %}
+              <option class="for-numerical need-value1" value="equalto">{% trans "is equal to" %}</option>
+              <option class="for-numerical need-value1" value="notequalto">{% trans "isn't equal to" %}</option>
+              <option class="for-numerical need-value1" value="greaterthan">{% trans "greater than" %}</option>
+              <option class="for-numerical need-value1" value="lessthan">{% trans "less than" %}</option>
+              <option class="for-numerical need-value1" value="greaterequalthan">{% trans "greater and equal than" %}</option>
+              <option class="for-numerical need-value1" value="lessequalthan">{% trans "less and equal than" %}</option>
+              <option class="for-numerical need-value2" value="isbetween">{% trans "is between" %}</option>
+              {% else %}
+              <option class="for-bool" value="istrue">{% trans "is true" %}</option>
+              <option class="for-bool" value="isfalse">{% trans "is false" %}</option>
+              {% endif %}
+            </select>
+          </div>
+          {% if feature.is_num == 1 %}
+          <div class="input-field col s3" id="setv1{{feature.id}}">
+            <input placeholder='{% trans "Value" %}' id="set1{{feature.id}}" name="set-filt1" type="text" class="browser-default special-input1 validate" value="">
+          </div>
+          <div class="input-field col s3" id="setv2{{feature.id}}">
+            <input placeholder='{% trans "Value" %}' id="set2{{feature.id}}" name="set-filt2" type="text" class="browser-default special-input1 validate" value="">
+          </div>
+          {% endif %}
+          <div class="clear"></div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+        <a href="javascript:void(0)" class="modal-setapply waves-effect waves-green btn blue darken-1 lower rounded">{% trans "Apply" %}</a>
+      </div>
+    </div>
+    <!-- Modal modalZoom to be implemented -->
+    <div id="modalZoom" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <h5 id="zoom-title" class="modal-header">&nbsp;</h5>
+        <div id="zoom-viz">&nbsp;</div>
+      </div>
+      <div class="modal-footer">
+        <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+      </div>
+    </div>
+    <!---end modal content --->
+
+  </div>
+</div>
+{% endblock %}

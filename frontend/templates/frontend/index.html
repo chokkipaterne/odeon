@@ -1,0 +1,121 @@
+{% extends 'frontend_layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+{% trans "ODEON" %}
+{% endblock %}
+{% block custom_css %}
+  {# PAGE CSS #}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}?v={%settings_value 'VERSION'%}">
+{% endblock %}
+{% block custom_js %}
+  {# PAGE SCRIPTS #}
+  <!--<script src="{% static 'js/vendor/particles.min.js' %}"></script>-->
+  <script src="{% static 'js/index.js' %}?v={%settings_value 'VERSION'%}"></script>
+{% endblock %}
+
+{% block content %}
+  <!-- particles.js container -->
+  <!--<div id="particles-js"></div>-->
+  <div class="content-top" style="background-color: white !important;">
+    <div class="site-header center" style="background-image: url(/static/images/central-repository-dark.jpg)">
+      <h1 class="headline container center">{% trans "Colloborative platform between Open Government Data stakeholders: citizens, developers and open data publishers" %}<br/><small>ODEON: Open Data Exchange solutiON</small></h1>
+      <div class="container">
+        <div class="search-box-w-buttons">
+          <div class="searchdiv">
+            <p>{% trans "Search among proposed project ideas or existing OGD reuses." %}</p>
+            <form method="GET" action="{% url 'frontend:projects' %}" id="search-form">
+              <div class="row" style="margin-bottom: 10px;">
+                <div class="col l4 m12 s12">
+                  <select class="browser-default tooltipped" name="country" id="country" data-position="top" data-tooltip='{% trans "Country" %}'>
+                    <option value=''>{% trans "Country" %}</option>
+                    {% for ct in request.session.used_countries %}
+                    <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col l4 m12 s12" style="position: relative;height: 47px;">
+                  <input placeholder='{% trans "State/City" %}' id="schstate"  name="state" type="text" value="" class="browser-default handle-input autocomplete tooltipped" data-position="top" data-tooltip='{% trans "State/City" %}'>
+                </div>
+                <div class="col l4 m12 s12">
+                  <input placeholder='{% trans "Search project by code, title, description" %}' id="search" name="search" type="text" class="browser-default special-input autocomplete tooltipped" data-position="top" data-tooltip='{% trans "Keywords" %}'>
+                  <button type="submit" class="mt-2 sub-search waves-effect waves-green btn indigo darken-1 lower rounded" style="float: right !important;"><i class="material-icons">search</i></button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="search-buttons">
+            <a class="btn waves-effect waves-light indigo darken-1" style="text-transform:none !important;" href="{% url 'frontend:projects' %}">{% trans "View All Projects" %}
+            <i class="material-icons left">visibility</i></a>
+            <a class="btn waves-effect waves-light black darken-1 tooltipped" target="_blank" style="text-transform:none !important;" data-position="top" data-tooltip='{% trans "Access in one place many OGD apps that can make your daily life easier." %}' href="https://play.google.com/store/apps/details?id=com.ogd.citizenapps">{% trans "CitizenApps" %} <small>{% trans " (Android)" %}</small>
+            <i class="material-icons left">play_arrow</i></a>
+            <a class="btn waves-effect waves-light green darken-1 tooltipped" style="text-transform:none !important;" data-position="top" data-tooltip='{% trans "Explore easily datasets from any open data portals" %}' href="{% url 'frontend:home_proto' %}">{% trans "Open Data Explorer" %} <small>{% trans " (ODE)" %}</small>
+            <i class="material-icons left">leaderboard</i></a>
+            <!--<a class="btn waves-effect waves-light green darken-1 tooltipped" target="_blank" data-position="top" data-tooltip='{% trans "Create the prototype of your project idea in less than 10 min" %}' href="{% url 'frontend:get_started_type' code='internal' %}">{% trans "Start your project prototype" %}
+            <i class="material-icons left">add</i></a>-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="topics-section">
+      <div class="container">
+        <div class="topics-row">
+          {% for key, theme in request.session.list_themes.items %}
+            <div class="topic-container">
+              <a class="ga-topic-selector" href="{% url 'frontend:projects' %}?topic={{theme.name_en}}">
+              <div class="topic-link-container">
+                <div class="topic-link">
+                  <img class="hover-on" src="{{theme.image}}">
+                  <h5 class="topic-title">{{theme.name}}</h5>
+                </div>
+              </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div>
+    </div>
+    <div class="index-spacer" style="background: #eee !important;">
+      {% include 'includes/guide.html' %}
+    </div>
+
+    <div class="index-spacer contactdiv">
+      <div class="row">
+        <div class="col s12">
+          <h5 class="center indigo-text darken-4 no-marg">{% trans "Contact Us" %}</h5>
+          <p class="center">{% trans "Do not hesitate to contact us if you have any suggestions to improve the system or if you have any questions." %}<br/><br/></p>
+        </div>
+      </div>
+      <form method="POST" id="contact-form">
+          {% csrf_token %}
+          <div class="row no-mb">
+            <div class="input-field sm-mb col m6 l6 s12">
+              <input placeholder='{% trans "Full Name" %}' id="full_name" name="full_name" type="text" class="validate rounded-input input-pad" required>
+              <label for="full_name">{% trans "Full Name*" %}</label>
+            </div>
+            <div class="input-field sm-mb col m6 l6 s12">
+              <input placeholder='{% trans "Email" %}' id="email" type="text" name="email" class="validate rounded-input input-pad" required>
+              <label for="email">{% trans "Email*" %}</label>
+            </div>
+          </div>
+          <div class="row no-mb">
+            <div class="input-field sm-mb col s12">
+              <textarea placeholder='{% trans "Message" %}' id="message" name="message" class="materialize-textarea special-textarea rounded-input" required></textarea>
+              <label for="message">{% trans "Message*" %}</label>
+            </div>
+          </div>
+          <div class="row no-mb center">
+            <div class="clear"></div>
+            <button class="btn waves-effect waves-light green darken-1sm-rounded"
+             type="submit" name="action">{% trans "Submit" %}
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+          <br/>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,353 @@
+{% load static %}
+{% load i18n %}
+<nav>
+  <div class="nav-wrapper indigo darken-4">
+    <a href="/" class="brand-logo left show-on-medium-and-up hide-on-small-only">{% trans 'ODEON' %} <!--<small style="font-size:10pt !important;">V2</small>--></a>
+    <a href="/" class="brand-logo left show-on-small hide-on-med-and-up">{% trans 'ODEON' %} <!--<small style="font-size:10pt !important;">V2</small>--></a>
+    <ul class="right">
+      <li class="spinner-loading">
+        <img src="{% static "images/loader.gif" %}"/>
+      </li>
+      <li class="show-on-large hide-on-med-and-down">
+        <a href="/">{% trans 'Home' %}</a>
+      </li>
+
+      <li class="show-on-large hide-on-med-and-down">
+        <a class="dropdown-trigger" href="#" data-target="dropdown-about">
+            {% trans 'About' %}
+        </a>
+      </li>
+      <li class="show-on-large hide-on-med-and-down">
+        <a href="{% url 'frontend:get_started_type' code='create' %}">{% trans 'Create Project' %}</a>
+      </li>
+      <li class="show-on-large hide-on-med-and-down">
+        <a class="dropdown-trigger" href="#" data-target="dropdown-projects">
+            {% trans 'Projects' %}
+        </a>
+      </li>
+      <li class="show-on-large hide-on-med-and-down">
+        <a class="dropdown-trigger" href="#" data-target="dropdown-datasets">
+            {% trans 'Datasets' %}
+        </a>
+      </li>
+      <li class="show-on-large hide-on-med-and-down">
+        <a href="{% url 'frontend:summary' %}">{% trans 'Summary' %}</a>
+      </li>
+      {% if user.is_authenticated %}
+      {% if user.is_superuser %}
+      <li class="show-on-large hide-on-med-and-down"><a href="/admin" target="_blank">{% trans 'Admin Backend' %}</a></li>
+      {% endif %}
+      <li class="show-on-large hide-on-med-and-down">
+        <form class="site-form" action="{% url 'frontend:logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn-flat waves-effect waves-light btn-logout">{% trans 'Logout' %} ({{user.username}})</button>
+        </form>
+      </li>
+      {% else %}
+      <li class="show-on-large hide-on-med-and-down"><a href="{% url 'frontend:login' %}">{% trans 'Login' %}</a></li>
+      <!--<li class="show-on-large hide-on-med-and-down"><a href="{% url 'frontend:register' %}">{% trans 'Register' %}</a></li>-->
+      {% endif %}
+      <li style="max-width: 50px;">
+        <a class="dropdown-trigger" href="#" data-target="dropdown-languages">
+            <i class="material-icons right">language</i>
+        </a>
+      </li>
+      <li class="show-on-med-and-down hide-on-large">
+        <a href="#" data-target="slide-out" class="sidenav-trigger" style="margin: 0 3px !important;padding: 0 10px !important;"><i class="material-icons">menu</i></a>
+      </li>
+
+    </ul>
+  </div>
+  <div class="progress se-pre-con">
+    <div class="indeterminate"></div>
+  </div>
+</nav>
+
+<ul id="slide-out" class="sidenav">
+  <li>
+    <a href="/">{% trans 'Home' %}</a>
+  </li>
+  <li>
+      <a href="/about-apps">{% trans 'About Apps' %}</a>
+  </li>
+  <li>
+      <a href="/about">{% trans 'About ODEON' %}</a>
+  </li>
+  <li>
+    <a href="{% url 'frontend:get_started_type' code='create' %}">{% trans 'Create Project' %}</a>
+  </li>
+  <li>
+    <a  href="{% url 'frontend:projects' %}">{% trans 'All Projects' %}</a>
+  </li>
+  <li>
+    <a  href="{% url 'frontend:projects' %}?type=proposed&sort=nblikes">{% trans 'Suggested Projects' %}</a>
+  </li>
+  {% if request.session.project_code %}
+  {% if user.is_authenticated %}
+  <li>
+    <a href="{% url 'frontend:get_started_type' code='update' %}">{% trans 'My Projects' %}</a>
+  </li>
+  {% endif %}
+  <li>
+    <a href="{% url 'frontend:get_started_type' code='update' %}">{% trans 'Update Project' %}</a>
+  </li>
+  <li>
+    <a href="{% url 'frontend:get_started' %}">{% trans 'Add Data to Project' %}</a>
+  </li>
+  {% else %}
+  {% if user.is_authenticated %}
+  <li>
+    <a href="{% url 'frontend:get_started_type' code='create' %}">{% trans 'My Projects' %}</a>
+  </li>
+  {% endif %}
+  {% endif %}
+  <li>
+    <a href="{% url 'frontend:datasets' %}">{% trans 'All Data' %}</a>
+  </li>
+  <li>
+    <a href="{% url 'frontend:datasets' %}?type=requested">{% trans 'Requested Data' %}</a>
+  </li>
+  <li>
+    <a href="{% url 'frontend:issues' %}">{% trans 'Data Issues' %}</a>
+  </li>
+  <li>
+    <a href="{% url 'frontend:summary' %}">{% trans 'Summary' %}</a>
+  </li>
+  {% if user.is_authenticated %}
+  {% if user.is_superuser %}
+  <li><a href="/admin" target="_blank">{% trans 'Admin Backend' %}</a></li>
+  {% endif %}
+  <li>
+    <form class="site-form" action="{% url 'frontend:logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn-flat waves-effect waves-light btn-logout" style="padding: 0 32px !important;">{% trans 'Logout' %} ({{user.username}})</button>
+    </form>
+  </li>
+  {% else %}
+  <li><a href="{% url 'frontend:login' %}">{% trans 'Login' %}</a></li>
+  <!--<li><a href="{% url 'frontend:register' %}">{% trans 'Register' %}</a></li>-->
+  {% endif %}
+</ul>
+<!--Share-->
+<div id="modalShare" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h5 id="modalheader-share">{% trans "Share" %}</h5>
+    <div id="share"><br/>
+      <form id="share-form" action="{% url 'frontend:share_project' %}" method="post">
+        {% csrf_token %}
+        <div class="input-field col s12">
+          <input placeholder='{% trans "Emails (separated by ,)" %}' id="emails" name="emails" type="text" class="validate" value="">
+          <label for="emails">{% trans "Emails (separated by ,)" %}</label>
+        </div><br/>
+        <div class="input-field col s12">
+          <input type="hidden" id="weblink" value="{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{object.get_absolute_url}}/dashboard/"/>
+          <input type="hidden" id="initweblink" value="{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{object.get_absolute_url}}/"/>
+          <textarea placeholder='{% trans "Message" %}' id="message" name="body" class="materialize-textarea" style="min-height: 100px;"></textarea>
+          <label for="message">{% trans "Message" %}</label>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+    <a href="javascript:void(0)" class="modal-share waves-effect waves-green btn blue darken-1 lower rounded">{% trans "Share" %}</a>
+  </div>
+</div>
+<!--End modal share-->
+<!--Subscribe data or project-->
+<!--<div id="modalsdp" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h5 id="modalheader-sdp">{% trans "Subscribe" %}</h5>
+    <div id="sdp"><br/>
+      <form id="sdp-form" action="{% url 'frontend:share_project' %}" method="post">
+        {% csrf_token %}
+        <input name="sdp_id" id="sdp_id" type="hidden" value=""/>
+        <input name="sdp_type" id="sdp_type" type="hidden" value=""/>
+        <div class="input-field col s12">
+          <input placeholder='{% trans "Email" %}' id="sdpemail" name="sdpemail" type="email" class="validate" value="{% if user.is_authenticated  %}{{user.email}}{% endif %}" required>
+          <label for="email">{% trans "Email" %}</label>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+    <a href="javascript:void(0)" class="modal-share waves-effect waves-green btn blue darken-1 lower rounded">{% trans "Subscribe" %}</a>
+  </div>
+</div>-->
+<!--End modal Subscribe data or project-->
+<!--Subscribe weekly report-->
+<div id="modalwr" class="modal modal-fixed-footer">
+  <form id="wr-form" action="/" method="post">
+    <div class="modal-content">
+      <h5 id="modalheader-wr">{% trans "Subscribe to a weekly report" %}</h5>
+      <div id="wr">
+        <p><i>Specify the area you want to subscribe to receive a weekly report on requested data and data issues.</i></p>
+
+          {% csrf_token %}
+          <div class="col s12">
+            <label for="email">{% trans "Email" %}</label>
+            <input placeholder='{% trans "Email" %}' id="wremail" name="wremail" type="email" class="browser-default handle-input" value="{% if user.is_authenticated  %}{{user.email}}{% endif %}" required>
+          </div>
+          <div class="col l6 m6 s12">
+            <label>{% trans "Country*" %}</label>
+            <select class="browser-default" name="wrcountry" id="wrcountry" required>
+              <option value=''>{% trans "Select the country of the data" %}</option>
+              {% for ct in request.session.countries %}
+              <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col l6 m6 s12" style="position: relative;height: 65px;">
+            <label>{% trans "State/City*" %}</label>
+            <input placeholder='{% trans "Enter the state/city of the data" %}' id="wrstate" name="wrstate" value="" type="text" class="browser-default handle-input autocomplete" required>
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+      <button class="btn waves-effect waves-green btn blue darken-1 lower rounded"
+       type="submit" name="action">{% trans "Subscribe" %}
+      </button>
+    </div>
+  </form>
+</div>
+<!--End modal Subscribe weekly report-->
+
+<!--modal for requested data-->
+<div id="modalRequested" class="modal modal-fixed-footer">
+  <form method="POST" id="requested-form" action="{% url 'frontend:requested_data' %}">
+    {% csrf_token %}
+    <input name="requested_data_pcode" id="requested_data_pcode" type="hidden" value=""/>
+  <div class="modal-content">
+    <h5 class="center">{% trans "Data Request" %}</h5>
+    <div class="row">
+      <div class="col s12">
+        <label for="description">{% trans "Contact (Name|Email)*" %}</label>
+        <input placeholder='{% trans "e.g., peter|peter@test.com" %}' id="requested_contact" name="requested_contact" type="text" class="browser-default handle-input" value="{% if user.is_authenticated  %}{{user.username}}|{{user.email}}{% endif %}" required>
+      </div>
+      <div class="col s12" style="position: relative;height: 65px;">
+        <label for="title">{% trans "Dataset Title*" %}</label>
+        <input placeholder='{% trans "Title" %}' id="requested_title" name="requested_title" type="text" class="browser-default handle-input" value="" required>
+      </div><br/>
+      <div style="clear:both;"></div>
+      <div class="col s12">
+        <label for="description">{% trans "Dataset Description*" %}</label>
+        <textarea required placeholder='{% trans "Description" %}' id="requested_description" name="requested_description" style="min-height: 100px;background-color:white;"></textarea>
+      </div>
+      <div class="col l6 m6 s12">
+        <label>{% trans "Country*" %}</label>
+        <select class="browser-default" name="requested_country" id="requested_country" required>
+          <option value=''>{% trans "Select the country of the data" %}</option>
+          {% for ct in request.session.countries %}
+          {% if ct == country %}
+          <option value='{{ct}}' selected='selected'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+          {% else %}
+          <option value='{{ct}}'>{{ct|country_translate:LANGUAGE_CODE}}</option>
+          {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col l6 m6 s12" style="position: relative;height: 65px;">
+        <label>{% trans "State/City*" %}</label>
+        <input placeholder='{% trans "Enter the state/city of the data" %}' id="requested_state" name="requested_state" value="{{project_state}}" type="text" class="browser-default handle-input autocomplete" required>
+      </div>
+    </div>
+    <!--<div class="col s12">
+      <label>{% trans "Domain*" %}</label>
+      <select class="browser-default" name="requested_theme" id="requested_theme" required>
+        <option value=''>{% trans "Select the domain of the data*" %}</option>
+        {% for key, theme in request.session.list_themes.items %}
+          <option value='{{key}}'>{{theme.name}}</option>
+        {% endfor %}
+      </select>
+    </div>-->
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn red darken-1 lower rounded">{% trans "Close" %}</a>
+    <a href="javascript:void(0)" onclick="requestData()" class="waves-effect waves-green btn blue darken-1 lower rounded">{% trans "Submit" %}</a>
+  </div>
+  </form>
+</div>
+<!--end modal requested data-->
+<!--form to search states based on country-->
+<form id="state-form" action="{% url 'frontend:get_states' %}" method="POST" style="display: none;">
+  {% csrf_token %}
+  <input type="hidden" name="sch_country" id="sch_country" value="">
+</form>
+<!--end form to search states based on country-->
+<!--form to autocomplete title-->
+<form id="autocomplete-form" action="{% url 'frontend:autocomplete_title' %}" method="POST" style="display: none;">
+  {% csrf_token %}
+  <input type="hidden" name="auto_search" id="auto_search" value="">
+  <input type="hidden" name="auto_type" id="auto_type" value="">
+</form>
+<!--end form autocomplete title-->
+<ul id="dropdown-languages" class="dropdown-content">
+  {% get_current_language as LANGUAGE_CODE %}
+  {% get_available_languages as languages %}
+  {% for lang_code, lang_name in languages %}
+    {% language lang_code %}
+      <li class="lang-item" data-code="{{ lang_code }}">
+        <span class="dropdown-item preview-item">{{ lang_name }}</span>
+      </li>
+    {% endlanguage %}
+  {% endfor %}
+  <form id="language-form" action="{% url 'frontend:set_language' %}" method="POST" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <input type="hidden" name="locale" value="{{ LANGUAGE_CODE }}"  id="id_locale">
+  </form>
+</ul>
+<ul id="dropdown-projects" class="dropdown-content">
+  <li>
+    <a class="dropdown-item preview-item proj-item" href="{% url 'frontend:projects' %}">{% trans 'All Projects' %}</a>
+  </li>
+  <li>
+    <a class="dropdown-item preview-item proj-item" href="{% url 'frontend:projects' %}?type=proposed&sort=nblikes">{% trans 'Suggested Projects' %}</a>
+  </li>
+  {% if request.session.project_code %}
+  {% if user.is_authenticated %}
+  <li>
+    <a class="dropdown-item preview-item proj-item" href="{% url 'frontend:get_started_type' code='update' %}">{% trans 'My Projects' %}</a>
+  </li>
+  {% endif %}
+  <li>
+    <a class="dropdown-item preview-item proj-item" href="{% url 'frontend:get_started_type' code='update' %}">{% trans 'Update Project' %}</a>
+  </li>
+  <li>
+    <a href="{% url 'frontend:get_started' %}">{% trans 'Add Data to Project' %}</a>
+  </li>
+  {% else %}
+  {% if user.is_authenticated %}
+  <li>
+    <a class="dropdown-item preview-item proj-item" href="{% url 'frontend:get_started_type' code='create' %}">{% trans 'My Projects' %}</a>
+  </li>
+  {% endif %}
+  {% endif %}
+</ul>
+<ul id="dropdown-datasets" class="dropdown-content">
+  <li>
+    <a class="dropdown-item preview-item proj-item" href="{% url 'frontend:datasets' %}">{% trans 'All Data' %}</a>
+  </li>
+  <li>
+    <a class="dropdown-item preview-item proj-item" href="{% url 'frontend:datasets' %}?type=requested">{% trans 'Requested Data' %}</a>
+  </li>
+  <li>
+    <a class="dropdown-item preview-item proj-item" href="{% url 'frontend:issues' %}">{% trans 'Data Issues' %}</a>
+  </li>
+</ul>
+<ul id="dropdown-about" class="dropdown-content">
+  <li>
+    <a class="dropdown-item preview-item proj-item" href="{% url 'frontend:about_apps' %}">{% trans 'About Apps' %}</a>
+  </li>
+  <li>
+    <a class="dropdown-item preview-item proj-item" href="{% url 'frontend:about' %}?type=requested">{% trans 'About ODEON' %}</a>
+  </li>
+</ul>
+<!-- handle go to specific section -->
+{% if goto %}
+<input type="hidden" name="goto" id="goto" value="{{goto}}"/>
+{% else %}
+<input type="hidden" name="goto" id="goto" value="{{request.GET.goto}}"/>
+{% endif %}
